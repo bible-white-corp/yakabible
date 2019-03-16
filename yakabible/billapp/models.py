@@ -8,4 +8,10 @@ class User(models.Model):
     password = models.BinaryField(max_length=20)
     role = models.IntegerField()
 
+class Association(models.Model):
+    name = models.CharField(max_length=64)
+    logo_path = models.CharField(max_length=64)
+    email = models.CharField(max_length=64)
+    description = models.TextField()
+
 # Create your models here.
