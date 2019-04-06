@@ -11,7 +11,7 @@ class Event(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField()
     association = models.ForeignKey(Association, on_delete=models.CASCADE)
-    manager = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    manager = models.ForeignKey(User, on_delete=models.CASCADE)
     premium = models.BooleanField()
     begin = models.DateTimeField()
     end = models.DateTimeField()
