@@ -1,23 +1,11 @@
 from django.db import models
-
-class User(models.Model):
-    firstname = models.CharField(max_length=64)
-    lastname = models.CharField(max_length=64)
-    email = models.CharField(max_length=128)
-    pseudo = models.CharField(max_length=64)
-    password = models.BinaryField(max_length=20)
-    role = models.IntegerField()
+from django.contrib.auth.models import User
 
 class Association(models.Model):
     name = models.CharField(max_length=64)
     logo_path = models.CharField(max_length=128)
     email = models.CharField(max_length=64)
     description = models.TextField()
-
-class AssociationUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    association = models.ForeignKey(Association, on_delete=models.CASCADE)
-    role = models.IntegerField()
 
 class Event(models.Model):
     title = models.CharField(max_length=128)
