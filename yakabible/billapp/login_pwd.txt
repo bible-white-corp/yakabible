@@ -1,0 +1,7 @@
+login               password
+
+Manager             manager
+Admin               admin
+President_Antre     president_antre
+Bureau_Antre        bureau_antre
+Membre_Antre        membre_antre
