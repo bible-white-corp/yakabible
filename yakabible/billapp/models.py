@@ -26,6 +26,11 @@ class Event(models.Model):
     promotion_image_path = models.CharField(max_length=128)
     validation_state = models.BooleanField()
 
+class AssociationUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    association = models.ForeignKey(Association, on_delete=models.CASCADE)
+    role = models.IntegerField()
+
 class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
