@@ -1,6 +1,13 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django.views import generic
+from django.core.paginator import Paginator
 
-def Index(request):
-    HttpResponse("OK")
+from .models import *
 
-# Create your views here.
+class IndexView(generic.TemplateView):
+    template_name = "billapp/index.html"
+
+class CreateEvView(generic.TemplateView):
+    template_name = "billapp/create_event.html"
