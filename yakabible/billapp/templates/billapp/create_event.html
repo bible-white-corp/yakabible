@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block sup_head %}
-    <link rel="stylesheet" href={% static "css/datepicker.min.css" %}>
+    <link rel="stylesheet" href={% static "billapp/css/datepicker.min.css" %}>
 {% endblock sup_head %}
 
 {% block title %}
@@ -67,11 +67,11 @@ Créer un événement
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_price_ext">Prix externes</label>
-                    <input type="number" class="form-control" id="f_price_ext" placeholder="Date" value="" required>
+                    <input type="number" step="0.01" class="form-control" id="f_price_ext" placeholder="Date" value="" required>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_price_int">Prix IONIS</label>
-                    <input type="number" class="form-control" id="f_price_int" placeholder="Date" value="" required>
+                    <input type="number" step="0.01" class="form-control" id="f_price_int" placeholder="Date" value="" required>
                 </div>
             </div>
             <button class="btn btn-primary mb-3" type="submit">Valider</button>
@@ -80,8 +80,8 @@ Créer un événement
 {% endblock content %}
 
 {% block sup_foot %}
-    <script src={% static "js/moment.min.js" %}></script>
-    <script src={% static "js/datepicker.min.js" %}></script>
+    <script src={% static "billapp/js/moment.min.js" %}></script>
+    <script src={% static "billapp/js/datepicker.min.js" %}></script>
     <script type="text/javascript">
         $(function () {
             $('.date-pick').datetimepicker({

@@ -13,7 +13,7 @@
                 locale: 'fr',
                 height: 700,
                 themeSystem: 'bootstrap',
-                events: 'https://fullcalendar.io/demo-events.json',
+                events: "{% url 'events_json' %}",
                 views: {
                     listMonth: { buttonText: 'Liste' }
                 },
