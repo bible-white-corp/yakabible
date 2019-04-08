@@ -19,25 +19,20 @@ class IndexView(generic.TemplateView):
     def post(self, request):
         return render(request, self.template_name)
 
-class CreateEvView(generic.TemplateView):
+class CreateEvView(generic.FormView):
     template_name = "billapp/create_event.html"
+    form_class = Event_Form
+    success_url = "/?valid"
 
-    def get(self, request):
-        form = Event_Form(request)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = Event_Form(request.POST)
-        if form.is_valid():
-            insert_event(User.objects.get(username='Admin'), form)
-            return HttpResponseRedirect('/?valid')
-        return render(request, self.template_name, {'form': form})
+    def form_valid(self, form):
+        insert_event(User.objects.get(username='Admin'), form)
+        return super().form_valid(form)
 
 class ConnectionView(generic.TemplateView):
     template_name = 'billapp/connection.html'
 
     def get(self, request):
-        form = Connection_Form(request.GET)
+        form = Connection_Form()
         return render(request, self.template_name, {'form': form,
                                                     'error': False})
 
