@@ -16,62 +16,58 @@ Créer un événement
             <div class="form-row mt-3">
                 <div class="col-lg-4 mb-3">
                     <label for="f_title">Titre événement</label>
-                    <input type="text" class="form-control" id="f_title" placeholder="Titre" value="" required>
+                    {{form.title}}
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label for="f_place">Lieu</label>
-                    <input type="text" class="form-control" id="f_place" placeholder="Lieu" value="" required>
+                    {{form.place}}
                 </div>
                 <div class="col-lg-4 mb-3">
                     <p>Image de promotion</p>
                     <label style="margin-top: 32px" class="custom-file-label" for="f_img">Choisir fichier...</label>
-                    <input type="file" class="custom-file-input" id="f_img">
+                    {{form.promotion_image_path}}
                 </div>
             </div>
             <div class="form-group">
                 <div class="mb-3">
                     <label for="f_desc">Description</label>
-                    <textarea class="form-control" id="f_desc" placeholder="Description événement" required></textarea>
+                    {{form.description}}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_date_start">Date (début)</label>
-                    <input type="text" class="form-control datetimepicker-input date-pick" id="f_date_start" data-toggle="datetimepicker"
-                        data-target="#f_date_start" required />
+                    {{form.begin}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_date_end">Date (fin)</label>
-                    <input type="text" class="form-control datetimepicker-input date-pick" id="f_date_end" data-toggle="datetimepicker"
-                        data-target="#f_date_end" required />
+                    {{form.end}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_insc_start">Ouverture inscriptions</label>
-                    <input type="text" class="form-control datetimepicker-input date-pick" id="f_insc_start" data-toggle="datetimepicker"
-                        data-target="#f_insc_start" required />
+                    {{form.begin_register}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_insc_end">Fermeture inscriptions</label>
-                    <input type="text" class="form-control datetimepicker-input date-pick" id="f_insc_end" data-toggle="datetimepicker"
-                        data-target="#f_insc_end" required />
+                    {{form.end_register}}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_limit_ext">Limite externes</label>
-                    <input type="number" class="form-control" id="f_limit_ext" placeholder="Date" value="" required>
+                    {{form.ext_capacity}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_limit_int">Limites IONIS</label>
-                    <input type="number" class="form-control" id="f_limit_int" placeholder="Date" value="" required>
+                    {{form.int_capacity}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_price_ext">Prix externes</label>
-                    <input type="number" step="0.01" class="form-control" id="f_price_ext" placeholder="Date" value="" required>
+                    {{form.price}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_price_int">Prix IONIS</label>
-                    <input type="number" step="0.01" class="form-control" id="f_price_int" placeholder="Date" value="" required>
+                    {{form.price_ionis}}
                 </div>
             </div>
             <button class="btn btn-primary mb-3" type="submit">Valider</button>
