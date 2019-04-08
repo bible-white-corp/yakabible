@@ -4,8 +4,9 @@ from django.urls import reverse
 from django.views import generic
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
-from .forms import Event_Form
+from .forms import *
 from .models import Event
 from .insertions import insert_event
 
@@ -16,7 +17,7 @@ class CreateEvView(generic.TemplateView):
     template_name = "billapp/create_event.html"
 
     def get(self, request):
-        form = Event_Form()
+        form = Event_Form(request)
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
@@ -24,6 +25,28 @@ class CreateEvView(generic.TemplateView):
         if form.is_valid():
             insert_event(User.objects.get(username='Admin'), form)
             return HttpResponseRedirect('/?valid')
+        return render(request, self.template_name, {'form': form})
+
+class ConnectionView(generic.TemplateView):
+    template_name = 'billapp/connection.html'
+
+    def get(self, request):
+        form = Connection_Form(request.GET)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = Connection_Form(request.POST)
+        if form.is_valid():
+            print(request.user)
+            user = authenticate(request,
+                                username = form.cleaned_data['username'],
+                                password = form.cleaned_data['password'])
+            if user is not None:
+                login(request, user)
+                print('OK')
+            else:
+                print('NOT OK')
+            print(request.user)
         return render(request, self.template_name, {'form': form})
 
 def EventsJSON(request):
