@@ -14,10 +14,13 @@ class CreateEvView(generic.TemplateView):
     template_name = "billapp/create_event.html"
 
     def get(self, request):
-        form = Event_Form(request.GET)
-        print(form)
+        form = Event_Form()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = Event_Form(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form})
 
 def EventsJSON(request):

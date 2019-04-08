@@ -29,13 +29,13 @@ class Event_Form(forms.Form):
     place = forms.CharField(label='f_place', max_length=128,
                     widget=forms.TextInput(attrs={'class': 'form-control'}))
     price_ionis = forms.FloatField(label='f_price_int',
-                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+                    widget=forms.NumberInput(attrs={'class': 'form-control', 'step':'0.01'}))
     price = forms.FloatField(label='f_price_ext',
-                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+                    widget=forms.NumberInput(attrs={'class': 'form-control', 'step':'0.01'}))
     ext_capacity = forms.IntegerField(label='f_limit_ext',
-                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+                    widget=forms.NumberInput(attrs={'class': 'form-control'}))
     int_capacity = forms.IntegerField(label='f_limit_int',
-                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+                    widget=forms.NumberInput(attrs={'class': 'form-control'}))
     promotion_image_path = forms.CharField(required=False, label='f_img',
                                            max_length=128,
                     widget=forms.TextInput(attrs={'class': 'custom-file-input'}))
