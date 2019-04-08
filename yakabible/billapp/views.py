@@ -3,9 +3,11 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.core.paginator import Paginator
-from .forms import Event_Form
+from django.contrib.auth.models import User
 
-from billapp.models import Event
+from .forms import Event_Form
+from .models import Event
+from .insertions import insert_event
 
 class IndexView(generic.TemplateView):
     template_name = "billapp/index.html"
@@ -20,6 +22,7 @@ class CreateEvView(generic.TemplateView):
     def post(self, request):
         form = Event_Form(request.POST)
         if form.is_valid():
+            insert_event(User.objects.get(username='Admin'), form)
             return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form})
 
