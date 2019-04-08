@@ -9,6 +9,9 @@ class Association(models.Model):
     def __str__(self):
         return self.name
 
+def image_path(instance, filename):
+    return 'promo_{0}/{1}'.format(instance.pk, filename)
+
 class Event(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField()
@@ -25,7 +28,7 @@ class Event(models.Model):
     ext_capacity = models.IntegerField()
     int_capacity = models.IntegerField()
     staff_capacity = models.IntegerField()
-    promotion_image_path = models.CharField(max_length=128)
+    promotion_image_path = models.ImageField(upload_to=image_path)
     validation_state = models.BooleanField()
     def __str__(self):
         return self.title

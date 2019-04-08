@@ -36,6 +36,5 @@ class Event_Form(forms.Form):
                     widget=forms.NumberInput(attrs={'class': 'form-control'}))
     int_capacity = forms.IntegerField(label='f_limit_int',
                     widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    promotion_image_path = forms.CharField(required=False, label='f_img',
-                                           max_length=128,
-                    widget=forms.TextInput(attrs={'class': 'custom-file-input'}))
+    promotion_image_path = forms.ImageField(required=False, label='f_img',
+                    widget=forms.FileInput(attrs={'class': 'custom-file-input'}))
