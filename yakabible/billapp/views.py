@@ -14,56 +14,35 @@ class IndexView(generic.TemplateView):
     template_name = "billapp/index.html"
 
     def get(self, request):
-        base = 'base_disconnected.html'
-        if request.user.is_authenticated:
-            base = 'base_connected.html'
-        return render(request, self.template_name, {'base': base})
+        return render(request, self.template_name)
 
     def post(self, request):
-        base = 'base_disconnected.html'
-        if request.user.is_authenticated:
-            base = 'base_connected.html'
-        return render(request, self.template_name, {'base': base})
+        return render(request, self.template_name)
 
 class CreateEvView(generic.TemplateView):
     template_name = "billapp/create_event.html"
 
     def get(self, request):
         form = Event_Form(request)
-        base = 'base_disconnected.html'
-        if request.user.is_authenticated:
-            base = 'base_connected.html'
-        return render(request, self.template_name, {'form': form,
-                                                    'base': base})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request):
         form = Event_Form(request.POST)
-        base = 'base_disconnected.html'
-        if request.user.is_authenticated:
-            base = 'base_connected.html'
         if form.is_valid():
             insert_event(User.objects.get(username='Admin'), form)
             return HttpResponseRedirect('/?valid')
-        return render(request, self.template_name, {'form': form,
-                                                    'base': base})
+        return render(request, self.template_name, {'form': form})
 
 class ConnectionView(generic.TemplateView):
     template_name = 'billapp/connection.html'
 
     def get(self, request):
         form = Connection_Form(request.GET)
-        base = 'base_disconnected.html'
-        if request.user.is_authenticated:
-            base = 'base_connected.html'
         return render(request, self.template_name, {'form': form,
-                                                    'error': False,
-                                                    'base': base})
+                                                    'error': False})
 
     def post(self, request):
         form = Connection_Form(request.POST)
-        base = 'base_disconnected.html'
-        if request.user.is_authenticated:
-            base = 'base_connected.html'
         if form.is_valid():
             print(request.user)
             user = authenticate(request,
@@ -74,12 +53,10 @@ class ConnectionView(generic.TemplateView):
                 return HttpResponseRedirect('/?valid')
             else:
                 return render(request, self.template_name, {'form': form,
-                                                            'error': True,
-                                                            'base': base})
+                                                            'error': True})
             print(request.user)
         return render(request, self.template_name, {'form': form,
-                                                    'error': False,
-                                                    'base': base})
+                                                    'error': False})
 
 def LogOutView(request):
     logout(request)

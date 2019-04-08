@@ -35,6 +35,11 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
 
                 <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">log-out</a>
+                    </li>
+                {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="/connection">Connexion</a>
                     </li>
@@ -44,9 +49,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Inscription</a>
                     </li>
+                {% endif %}
                     <li>
                         <form>
-                            <div class="input-group">
+                            <div class="input-group ml-3">
                                 <input type="text" class="form-control" placeholder="Search">
                                 <div class="input-group-btn">
                                     <button class="btn btn-default" type="submit">
