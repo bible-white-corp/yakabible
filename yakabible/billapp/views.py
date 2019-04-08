@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from .forms import *
 from .models import Event
-from .insertions import insert_event
+from .insertions import insert_event, insert_user
 
 class IndexView(generic.TemplateView):
     template_name = "billapp/index.html"
@@ -39,7 +39,6 @@ class ConnectionView(generic.TemplateView):
     def post(self, request):
         form = Connection_Form(request.POST)
         if form.is_valid():
-            print(request.user)
             user = authenticate(request,
                                 username = form.cleaned_data['username'],
                                 password = form.cleaned_data['password'])
@@ -49,9 +48,26 @@ class ConnectionView(generic.TemplateView):
             else:
                 return render(request, self.template_name, {'form': form,
                                                             'error': True})
-            print(request.user)
         return render(request, self.template_name, {'form': form,
                                                     'error': False})
+
+class InscriptionView(generic.TemplateView):
+    template_name = 'billapp/inscription.html'
+
+    def get(self, request):
+        form = Inscription_Form(request.GET)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = Inscription_Form(request.POST)
+        if form.is_valid():
+            if form.cleaned_data['pwd'] != form.cleaned_data['pwd_conf']:
+                return render(request, self.template_name, {'form': form,
+                                                            'error': True})
+            user = insert_user(form);
+            login(request, user)
+            return HttpResponseRedirect('/?valid')
+        return render(request, self.template_name, {'form': form})
 
 def LogOutView(request):
     logout(request)

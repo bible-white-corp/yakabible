@@ -22,3 +22,14 @@ def insert_event(user, form):
             validation_state = False
             )
     e.save()
+
+def insert_user(form):
+    u = User.objects.create_user(
+            username = form.cleaned_data['username'],
+            password = form.cleaned_data['pwd'],
+            email = form.cleaned_data['email'],
+            first_name = form.cleaned_data['firstname'],
+            last_name = form.cleaned_data['lastname']
+            )
+    u.save()
+    return u

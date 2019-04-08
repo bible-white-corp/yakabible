@@ -44,3 +44,17 @@ class Connection_Form(forms.Form):
                     widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='f_pwd',
                     widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+class Inscription_Form(forms.Form):
+    email = forms.EmailField(label='f_email',
+                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    firstname = forms.CharField(label='f_firstname',
+                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    lastname = forms.CharField(label='f_lastname',
+                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(label='f_pseudo',
+                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    pwd = forms.CharField(label='f_pwd',
+                    widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    pwd_conf = forms.CharField(label='f_pwd_conf',
+                    widget=forms.PasswordInput(attrs={'class': 'form-control'}))
