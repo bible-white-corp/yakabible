@@ -32,7 +32,8 @@ class ConnectionView(generic.TemplateView):
 
     def get(self, request):
         form = Connection_Form(request.GET)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form,
+                                                    'error': False})
 
     def post(self, request):
         form = Connection_Form(request.POST)
@@ -43,11 +44,13 @@ class ConnectionView(generic.TemplateView):
                                 password = form.cleaned_data['password'])
             if user is not None:
                 login(request, user)
-                print('OK')
+                return HttpResponseRedirect('/?valid')
             else:
-                print('NOT OK')
+                return render(request, self.template_name, {'form': form,
+                                                            'error': True})
             print(request.user)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form,
+                                                    'error': False})
 
 def EventsJSON(request):
     start = request.GET.get('start')
