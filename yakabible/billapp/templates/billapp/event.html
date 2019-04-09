@@ -27,13 +27,13 @@
                     {% if object.premium %}
                         <p><i class="fas fa-star mr-2 mt-3"></i> Evénement premium !</p>
                     {% endif %}
-                    <a href='https://www.google.com/maps/search/{{object.place}}' style="color:inherit;text-decoration:none;" target="blank"><h4><i class="fas fa-map mr-2 mt-3"></i> {{ object.place }}</h4></a>
-                    <p><i class="far fa-calendar mr-2"></i> Du <b>{{ object.begin }}</b> au <b>{{ object.end }}</b></p>
+                    <p><i class="far fa-calendar mr-2 mt-3"></i> Du <b>{{ object.begin }}</b> au <b>{{ object.end }}</b></p>
                     <p><i class="fas fa-user-plus mr-2"></i> Inscriptions du <b>{{ object.begin_register }}</b> au <b>{{ object.end_register }}</b></p>
-                    <div class="row mb-2">
+                    <div class="row">
                         <p class="col-lg-4"><i class="fas fa-sign-in-alt mr-2"></i> Internes : Prix = {{ object.price_ionis }}€ <b>|</b> Places = {{ object | get_int }}/{{ object.int_capacity }}</p>
                         <p class="col-lg-4"><i class="fas fa-sign-out-alt mr-2"></i> Externes : Prix = {{ object.price }}€ <b>|</b> Places = {{ object | get_ext}}/{{ object.ext_capacity }}</p>
                     </div>
+                    <a href='https://www.google.com/maps/search/{{object.place}}' style="color:inherit;text-decoration:none;" target="blank"><h4><i class="fas fa-map mr-2 mb-2"></i> {{ object.place }}</h4></a>
                 </div>
             </div>
             {% if object|in_the_bound %}
