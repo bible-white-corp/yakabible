@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block sup_head %}
-    <link rel="stylesheet" href={% static "billapp/css/datepicker.min.css" %}>
 {% endblock sup_head %}
 
 {% block title %}
@@ -23,20 +22,6 @@ Inscription
                     <label for="f_place">Email</label>
                     {{form.email}}
                 </div>
-            </div>
-            <div class="form-row mt-3">
-                <div class="col-lg-3 mb-1">
-                    <label for="f_place">Firstname</label>
-                    {{form.firstname}}
-                </div>
-            </div>
-            <div class="form-row mt-3">
-                <div class="col-lg-3 mb-1">
-                    <label for="f_place">Lastname</label>
-                    {{form.lastname}}
-                </div>
-            </div>
-            <div class="form-row mt-3">
                 <div class="col-lg-3 mb-1">
                     <label for="f_title">Username</label>
                     {{form.username}}
@@ -44,11 +29,19 @@ Inscription
             </div>
             <div class="form-row mt-3">
                 <div class="col-lg-3 mb-1">
-                    <label for="f_place">Password</label>
-                    {{form.pwd}}
+                    <label for="f_place">Firstname</label>
+                    {{form.firstname}}
+                </div>
+                <div class="col-lg-3 mb-1">
+                    <label for="f_place">Lastname</label>
+                    {{form.lastname}}
                 </div>
             </div>
             <div class="form-row mt-3">
+                <div class="col-lg-3 mb-1">
+                    <label for="f_place">Password</label>
+                    {{form.pwd}}
+                </div>
                 <div class="col-lg-3 mb-3">
                     <label for="f_place">Password confirmation</label>
                     {{form.pwd_conf}}
@@ -61,13 +54,4 @@ Inscription
 {% endblock content %}
 
 {% block sup_foot %}
-    <script src={% static "billapp/js/moment.min.js" %}></script>
-    <script src={% static "billapp/js/datepicker.min.js" %}></script>
-    <script type="text/javascript">
-        $(function () {
-            $('.date-pick').datetimepicker({
-                locale: 'fr'
-            });
-        });
-    </script>
 {% endblock sup_foot %}

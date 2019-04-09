@@ -64,7 +64,7 @@ class InscriptionView(generic.TemplateView):
             if form.cleaned_data['pwd'] != form.cleaned_data['pwd_conf']:
                 return render(request, self.template_name, {'form': form,
                                                             'error': True})
-            user = insert_user(form);
+            user = insert_user(form)
             login(request, user)
             return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form})
