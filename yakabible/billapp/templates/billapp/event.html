@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+{{ object.title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Evénement</h5>
+        <div class="container">
+            <h1>{{ object.title }}</h1>
+            {% if event.promotion_image_path %}
+            <div class='mt-3'>
+                <image src="{{ event.promotion_image_path.url }}" alt='promotion image' class="mb-3 img-cover d-block w-100">
+            </div>
+            {% endif %}
+            {% if object.premium %}
+            <p><i class="fas fa-star"></i> Evénement premium !</p>
+            {% endif %}
+            <p><i class="far fa-calendar"></i> Du <b>{{ object.begin }}</b> au <b>{{ object.end }}</b></p>
+            <p><i class="fas fa-user-plus"></i> Inscriptions du <b>{{ object.begin_register }}</b> au <b>{{ object.begin_register }}</b></p>
+            <h3><i class="fas fa-map"></i> {{ object.place }}</h3>
+            <div class="card">
+                <div class="card-body">{{ object.description }}</div>
+            </div>
+            <p><i class="fas fa-sign-in-alt"></i> Internes : Prix = {{ object.price_ionis }}€, places = {{ object | get_int }}/{{ object.int_capacity }}</p>
+            <p><i class="fas fa-sign-out-alt"></i> Externes : Prix = {{ object.price }}€, places = {{ object | get_ext}}/{{ object.ext_capacity }}</p>
+            {% if event.begin_register >= now and event.end_register < now %}
+            <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary" role="button" >S'inscrire</a>
+            {% else %}
+            <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary disabled" role="button" >S'inscrire</a>
+            {% endif%}
+            <p>Organisé par : {{ object.association }} ({{ object.manager }})</p>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

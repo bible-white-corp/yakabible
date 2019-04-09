@@ -13,7 +13,9 @@ Inscription
         <h5 class="card-header">Inscription</h5>
         {% if error %}
             <div class="container mt-3">
-            <p class="text-danger">Passwords are different!</p>
+                <div class="alert alert-danger" role="alert">
+                    Wrong email or passwords are different!
+                </div>
             </div>
         {% endif %}
         <form class="container" method="post">

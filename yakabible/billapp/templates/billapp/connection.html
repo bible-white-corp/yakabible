@@ -13,7 +13,9 @@ Connexion
         <h5 class="card-header">Connexion</h5>
         {% if error %}
             <div class="container mt-3">
-                <p class="text-danger">Username or password is wrong!</p>
+                <div class="alert alert-danger" role="alert">
+                    Username or password is wrong!
+                </div>
             </div>
         {% endif %}
         <form class="container" method="post">

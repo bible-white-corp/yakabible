@@ -49,7 +49,7 @@ class ConnectionView(generic.TemplateView):
                 return render(request, self.template_name, {'form': form,
                                                             'error': True})
         return render(request, self.template_name, {'form': form,
-                                                    'error': False})
+                                                    'error': True})
 
 class InscriptionView(generic.TemplateView):
     template_name = 'billapp/inscription.html'
@@ -67,11 +67,18 @@ class InscriptionView(generic.TemplateView):
             user = insert_user(form)
             login(request, user)
             return HttpResponseRedirect('/?valid')
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'error': True})
+
+class EventView(generic.DetailView):
+    template_name = 'billapp/event.html'
+    model = Event
 
 def LogOutView(request):
     logout(request)
     return HttpResponseRedirect('/?logout')
+
+def RegEventView(request, pk):
+    return HttpResponseRedirect('/?TODO')
 
 def EventsJSON(request):
     start = request.GET.get('start')
@@ -85,7 +92,7 @@ def EventsJSON(request):
             'title': obj.title,
             'start': obj.begin,
             'end': obj.end,
-            'url': '/', # url of event/obj.pk
+            'url': reverse('event', args=[obj.pk]), # url of event/obj.pk
         })
 
     return JsonResponse(json, safe=False)
