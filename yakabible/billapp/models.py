@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
 
 class Association(models.Model):
     name = models.CharField(max_length=64)
@@ -10,7 +11,7 @@ class Association(models.Model):
         return self.name
 
 def image_path(instance, filename):
-    return 'promo_{0}/{1}'.format(instance.pk, filename)
+    return 'promo/{0}_{1}'.format(get_random_string(length=32), filename)
 
 class Event(models.Model):
     title = models.CharField(max_length=128)
