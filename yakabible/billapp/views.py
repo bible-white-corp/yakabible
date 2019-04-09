@@ -5,9 +5,10 @@ from django.views import generic
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from datetime import datetime
 
 from .forms import *
-from .models import Event
+from .models import Event, Ticket
 from .insertions import insert_event, insert_user
 
 class IndexView(generic.TemplateView):
@@ -85,7 +86,11 @@ def EventsJSON(request):
     end = request.GET.get('end')
     # Fetch events from BDD
     json = []
-    events = Event.objects.all().filter(end__gte=start, begin__lte=end)
+    events = Event.objects.all()
+    if start and end:
+        events = events.filter(end__gte=start, begin__lte=end)
+    else:
+        events = events.filter(end__gte=datetime.now())
     for obj in events:
         json.append({
             'id': obj.pk,
@@ -94,5 +99,29 @@ def EventsJSON(request):
             'end': obj.end,
             'url': reverse('event', args=[obj.pk]), # url of event/obj.pk
         })
+    res = JsonResponse(json, safe=False)
+    res["Access-Control-Allow-Origin"] = "*"
+    return res
 
-    return JsonResponse(json, safe=False)
+def TicketsJSON(request):
+    event_id = request.GET.get('event')
+    # Fetch tickets from BDD
+    json = []
+    tickets = Ticket.objects.all()
+    if event_id:
+        tickets = tickets.filter(event_id=event_id)
+    else:
+        tickets = tickets.filter(event__end__gte=datetime.now())
+    for obj in tickets:
+        json.append({
+            'id': obj.pk,
+            'event': obj.event.pk,
+            'username': obj.user.username,
+            'firstname': obj.user.first_name,
+            'lastname': obj.user.last_name,
+            'email': obj.user.email,
+            'category': obj.category,
+        })
+    res = JsonResponse(json, safe=False)
+    res["Access-Control-Allow-Origin"] = "*"
+    return res

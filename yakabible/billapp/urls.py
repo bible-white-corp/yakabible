@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout/', views.LogOutView, name='log_out'),
     path('event/<int:pk>', views.EventView.as_view(), name='event'),
     path('event/<int:pk>/register', views.RegEventView, name='reg_event'),
-    path('events.json', views.EventsJSON, name='events_json')
+    path('events.json', views.EventsJSON, name='events_json'),
+    path('tickets.json', views.TicketsJSON, name='tickets_json')
 ]

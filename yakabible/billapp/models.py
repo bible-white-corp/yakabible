@@ -47,6 +47,6 @@ class Ticket(models.Model):
     category = models.BooleanField()
     state = models.IntegerField()
     def __str__(self):
-        return self.user.username + ' (' + self.event + ')'
+        return self.user.username + ' (' + self.event.title + ')'
     
 # Create your models here.
