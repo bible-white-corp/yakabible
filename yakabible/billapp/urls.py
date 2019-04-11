@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from . import views_json
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
@@ -11,6 +12,6 @@ urlpatterns = [
     path('event/<int:pk>', views.EventView.as_view(), name='event'),
     path('event/<int:pk>/register', views.RegEventView, name='reg_event'),
     path('event/<int:pk>/reg_event_success', views.RegEventSuccessView, name='reg_event_success'),
-    path('events.json', views.EventsJSON, name='events_json'),
-    path('tickets.json', views.TicketsJSON, name='tickets_json')
+    path('events.json', views_json.EventsJSON, name='events_json'),
+    path('tickets.json', views_json.TicketsJSON, name='tickets_json')
 ]
