@@ -33,3 +33,13 @@ def insert_user(form):
             )
     u.save()
     return u
+
+def insert_ticket(request, e):
+    t = Ticket(
+                user = request.user,
+                event = e,
+                category = False,
+                state = 0
+                )
+    t.save()
+    return t

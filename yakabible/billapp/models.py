@@ -48,5 +48,5 @@ class Ticket(models.Model):
     state = models.IntegerField()
     def __str__(self):
         return self.user.username + ' (' + self.event.title + ')'
-    
+
 # Create your models here.

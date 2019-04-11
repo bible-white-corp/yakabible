@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
@@ -9,7 +9,12 @@ from datetime import datetime
 
 from .forms import *
 from .models import Event, Ticket
-from .insertions import insert_event, insert_user
+from .insertions import *
+
+from reportlab.pdfgen import canvas
+
+import qrcode
+import io
 
 class IndexView(generic.TemplateView):
     template_name = "billapp/index.html"
@@ -52,8 +57,8 @@ class ConnectionView(generic.TemplateView):
         return render(request, self.template_name, {'form': form,
                                                     'error': True})
 
-class InscriptionView(generic.TemplateView):
-    template_name = 'billapp/inscription.html'
+class RegistrationView(generic.TemplateView):
+    template_name = 'billapp/registration.html'
 
     def get(self, request):
         form = Inscription_Form(request.GET)
@@ -74,12 +79,45 @@ class EventView(generic.DetailView):
     template_name = 'billapp/event.html'
     model = Event
 
+def RegEventSuccessView(request, pk):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="{}_{}.pdf"'.format(request.user, pk)
+    user = request.user
+    e = get_object_or_404(Event, pk=pk)
+    full_name = user.first_name + ' ' + user.last_name
+
+    #QRCODE -> SHA1 ?
+    q = qrcode.QRCode()
+    q.add_data(user.username + '\n')
+    q.add_data(str(pk) + '\n')
+    q.add_data(user.email + '\n')
+    img = q.make_image()
+
+    p = canvas.Canvas(response)
+    p.drawString(100, 700, 'Nom d\'utilisateur: ' + user.username)
+    p.drawString(100, 680, 'Nom: ' + full_name)
+    p.drawString(100, 660, 'Nom de l\'événement: ' + e.title)
+    p.drawInlineImage(img, 100, 200)
+    p.showPage()
+    p.save()
+    return response
+
 def LogOutView(request):
     logout(request)
     return HttpResponseRedirect('/?logout')
 
 def RegEventView(request, pk):
-    return HttpResponseRedirect('/?TODO')
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/connection')
+    # Need to check payement TODO
+    e = get_object_or_404(Event, pk=pk)
+    try:
+        tmp_t = Ticket.objects.get(user=request.user,event=e)
+    except Ticket.DoesNotExist:
+        tmp_t = None
+    if tmp_t is None:
+        t = insert_ticket(request, e)
+    return HttpResponseRedirect('/event/' + str(pk) + '/reg_event_success')
 
 def EventsJSON(request):
     start = request.GET.get('start')
