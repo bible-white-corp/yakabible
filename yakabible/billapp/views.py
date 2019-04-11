@@ -80,15 +80,18 @@ class EventView(generic.DetailView):
     model = Event
 
 def RegEventSuccessView(request, pk):
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="{}_{}.pdf"'.format(request.user, pk)
+    t = get_object_or_404(Ticket, pk=pk)
+    e = t.event
     user = request.user
-    e = get_object_or_404(Event, pk=pk)
     full_name = user.first_name + ' ' + user.last_name
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="{}_{}.pdf"'.format(request.user, e.title.replace(' ', '_'))
 
     #QRCODE -> SHA1 ?
     q = qrcode.QRCode()
     q.add_data(user.username + '\n')
+    q.add_data(str(e.pk) + '\n')
     q.add_data(str(pk) + '\n')
     q.add_data(user.email + '\n')
     img = q.make_image()
@@ -97,7 +100,8 @@ def RegEventSuccessView(request, pk):
     p.drawString(100, 700, 'Nom d\'utilisateur: ' + user.username)
     p.drawString(100, 680, 'Nom: ' + full_name)
     p.drawString(100, 660, 'Nom de l\'événement: ' + e.title)
-    p.drawInlineImage(img, 100, 200)
+    p.drawString(100, 640, 'ID: ' + str(pk))
+    p.drawInlineImage(img, 100, 160)
     p.showPage()
     p.save()
     return response
@@ -117,7 +121,9 @@ def RegEventView(request, pk):
         tmp_t = None
     if tmp_t is None:
         t = insert_ticket(request, e)
-    return HttpResponseRedirect('/event/' + str(pk) + '/reg_event_success')
+    else:
+        t = get_object_or_404(Ticket, user=request.user, event=e)
+    return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
 def EventsJSON(request):
     start = request.GET.get('start')
