@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='event',
             name='promotion_image_path',
-            field=models.ImageField(upload_to=billapp.models.image_path),
+            field=models.ImageField(upload_to=billapp.models.promo_image_path),
         ),
     ]
