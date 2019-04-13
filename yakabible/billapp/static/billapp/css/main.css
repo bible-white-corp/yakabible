@@ -2,3 +2,7 @@
     object-fit: unset;
     height: 350px;
 }
+
+.p0 {
+    padding: 0 0 0 0 !important;
+}

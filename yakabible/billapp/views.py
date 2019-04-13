@@ -62,6 +62,10 @@ class EventView(generic.DetailView):
     template_name = 'billapp/event.html'
     model = Event
 
+class AssociationView(generic.DeleteView):
+    model = Association
+    template_name = 'billapp/association.html'
+
 def RegEventSuccessView(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
     return make_pdf_response(ticket)

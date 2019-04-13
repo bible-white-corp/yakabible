@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block content %}
+<div class="card mt-3">
+    <h5 class="card-header">Association</h5>
+    <div class="container">
+        <div class="media mt-3">
+            <img height="100" src="{{ object.logo_path.url }}" class="mr-3" alt="{{ object.name }}">
+            <div class="media-body align-middle">
+                <h1 class="">{{ object.name }}</h1>
+                <a href="mailto:{{ object.email }}">{{ object.email }}</a>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">{{ object.description }}</div>
+        </div>
+        <hr>
+        <h2>Evénements :</h2>
+        <div class="list-group list-group-horizontal-lg">
+            <div class="list-group-item p0">
+                <div class="list-group">
+                    {% for ev in object.event_set.all %}
+                    <a data-toggle="collapse" href="#ev{{ ev.pk }}"
+                        class="list-group-item list-group-item-action">{{ ev.title }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="list-group-item p0">
+                {% for ev in object.event_set.all %}
+                <div class="collapse" id="ev{{ ev.pk }}">
+                    <div class="list-group list-group-horizontal-md">
+                        <div class="list-group-item">
+                            <a href="{% url 'event' pk=ev.pk %}">
+                                <h4>{{ ev.title }}</h4>
+                            </a>
+                            <p><i class="far fa-calendar mr-2 mt-3"></i>{{ ev.begin }} <i
+                                    class="fas fa-chevron-right"></i>
+                                {{ ev.end }}</p>
+                            <p><i class="fas fa-user-plus mr-2"></i>{{ ev.begin_register }} <i
+                                    class="fas fa-chevron-right"></i> {{ ev.end_register }}</p>
+                            <p><i class="fas fa-sign-in-alt mr-2"></i> Internes : Prix =
+                                {{ ev.price_ionis }}€ <b>|</b> Places =
+                                {{ ev | get_int }}/{{ ev.int_capacity }}</p>
+                            <p><i class="fas fa-sign-out-alt mr-2"></i> Externes : Prix =
+                                {{ ev.price }}€ <b>|</b> Places = {{ ev | get_ext}}/{{ ev.ext_capacity }}
+                            </p>
+                        </div>
+                        <div class="list-group-item p0">
+                            <div class="card text-center">
+                                <div class="card-header">
+                                    <ul class="nav nav-tabs card-header-tabs">
+                                        <li class="nav-item">
+                                            <a class="to_ionis nav-link active" href="#">IONIS</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="to_ext nav-link" href="#">Externes</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="to_staff nav-link" href="#">Staff</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ticket_div card-body">
+                                    {% for us in ev.ticket_set.all %}
+                                    {% if us.category %}
+                                    <span class="user staff d-none">{{ us.user.first_name }}
+                                        {{ us.user.last_name }}</span><br>
+                                    {% else %}
+                                    <span class="user ionis">{{ us.user.first_name }} {{ us.user.last_name }}</span><br>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <hr>
+        <h2>Membres :</h2>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">User #</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Rôle</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for us in object.associationuser_set.all %}
+                <tr>
+                    <th scope="row">{{ us.user.pk }}</th>
+                    <td>{{ us.user.first_name }}</td>
+                    <td>{{ us.user.last_name }}</td>
+                    <td>{{ us.user.username }}</td>
+                    <td>{{ us.user.email }}</td>
+                    <td>{{ us.role }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block sup_foot %}
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            $('.list-group > a').click(function (e) {
+                let has = $(this).hasClass('active');
+                $('.list-group > a').removeClass('active');
+                if (!has)
+                    $(this).addClass('active');
+                $('.collapse').collapse('hide');
+            });
+        });
+
+        $(".to_staff").click(function () {
+            $(".card-header-tabs").find('a').removeClass('active');
+            $(this).addClass('active');
+            $(".ticket_div > span").addClass("d-none");
+            $(".ticket_div > span.staff").removeClass("d-none");
+        });
+        $(".to_ionis").click(function () {
+            $(".card-header-tabs").find('a').removeClass('active');
+            $(this).addClass('active');
+            $(".ticket_div > span").addClass("d-none");
+            $(".ticket_div > span.ionis").removeClass("d-none");
+        });
+        $(".to_ext").click(function () {
+            $(".card-header-tabs").find('a').removeClass('active');
+            $('.to_ext').addClass('active');
+            $(".ticket_div > span").addClass("d-none");
+            $(".ticket_div > span.ext").removeClass("d-none");
+        });
+    })(jQuery)
+</script>
+{% endblock sup_foot %}
