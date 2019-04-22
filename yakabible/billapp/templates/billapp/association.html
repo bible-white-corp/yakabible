@@ -130,13 +130,13 @@
 
         $(".to_staff").click(function () {
             $(".card-header-tabs").find('a').removeClass('active');
-            $(this).addClass('active');
+            $(".to_staff").addClass('active');
             $(".ticket_div > span").addClass("d-none");
             $(".ticket_div > span.staff").removeClass("d-none");
         });
         $(".to_ionis").click(function () {
             $(".card-header-tabs").find('a').removeClass('active');
-            $(this).addClass('active');
+            $(".to_ionis").addClass('active');
             $(".ticket_div > span").addClass("d-none");
             $(".ticket_div > span.ionis").removeClass("d-none");
         });

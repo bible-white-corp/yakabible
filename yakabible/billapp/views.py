@@ -12,8 +12,13 @@ from .models import Event, Ticket
 from .insertions import *
 from .tools import *
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.ListView):
     template_name = "billapp/index.html"
+    model=Event
+
+    def get_queryset(self):
+        return super().get_queryset().filter(premium=True) # TODO : Filter only future events
+    
 
 class CreateEvView(generic.FormView):
     template_name = "billapp/create_event.html"
@@ -62,7 +67,7 @@ class EventView(generic.DetailView):
     template_name = 'billapp/event.html'
     model = Event
 
-class AssociationView(generic.DeleteView):
+class AssociationView(generic.DetailView):
     model = Association
     template_name = 'billapp/association.html'
 
@@ -76,7 +81,7 @@ def LogOutView(request):
 
 def RegEventView(request, pk):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/connection')
+        return HttpResponseRedirect(reverse('connection'))
     # Need to check payement TODO
     e = get_object_or_404(Event, pk=pk)
     try:
