@@ -1,4 +1,11 @@
+# Python
 __pycache__
-*.swp
-staticfiles/
+
+# IDE and text editors
 .idea
+*~
+*#
+*.swp
+
+# Epita CRI
+*__afs*
