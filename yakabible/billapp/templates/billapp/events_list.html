@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    Liste des prochains événement
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Liste des prochains événement</h5>
+        <div class="list-group">
+            {% for events in object_list %}
+                <div class="list-group-item list-group-item-action">
+                [{{ events.begin.date }}]
+                <a href="{% url 'event' pk=events.pk %}">
+                   {{ events.title }} </a>
+                par
+                <a href="{% url 'association' pk=events.association.pk %}">
+                    {{ events.association }}
+                </a>
+                </div>
+            {% empty %}
+                <a href="#" class="list-group-item list-group-item-action active">
+                    Aucun événement à venir.
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

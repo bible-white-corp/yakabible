@@ -106,3 +106,9 @@ def logged(request):
         'extra_data': request.user.social_auth.get(provider="epita").extra_data,
     }
     return render(request, 'billapp/logged.html', context=context)
+
+class EventsListView(generic.ListView):
+    template_name = "billapp/events_list.html"
+    model = Event
+    def get_queryset(self):
+        return super().get_queryset().filter(end__gte=datetime.now())
