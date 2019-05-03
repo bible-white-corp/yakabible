@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -97,3 +98,11 @@ def RegEventView(request, pk):
 class AssociationListView(generic.ListView):
     template_name = "billapp/association_list.html"
     model = Association
+
+@login_required
+def logged(request):
+    context = {
+        'user': request.user,
+        'extra_data': request.user.social_auth.get(provider="epita").extra_data,
+    }
+    return render(request, 'billapp/logged.html', context=context)
