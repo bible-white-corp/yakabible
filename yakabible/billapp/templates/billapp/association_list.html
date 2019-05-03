@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    Liste d'associations
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Liste d'Associations</h5>
+        <div class="list-group">
+            {% for assos in object_list %}
+                <a href="{% url 'association' pk=assos.pk %}" class="list-group-item list-group-item-action">
+                    {{ assos.name }}
+                </a>
+            {% empty %}
+                <a href="#" class="list-group-item list-group-item-action active">
+                    Aucune associations.
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

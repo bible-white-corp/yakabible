@@ -58,9 +58,9 @@ class RegistrationView(generic.TemplateView):
     def post(self, request):
         form = Inscription_Form(request.POST)
         if form.is_valid() and form.cleaned_data['pwd'] == form.cleaned_data['pwd_conf']:
-                user = insert_user(form)
-                login(request, user)
-                return HttpResponseRedirect('/?valid')
+            user = insert_user(form)
+            login(request, user)
+            return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form, 'error': True})
 
 class EventView(generic.DetailView):
@@ -94,3 +94,6 @@ def RegEventView(request, pk):
         t = get_object_or_404(Ticket, user=request.user, event=e)
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
+class AssociationListView(generic.ListView):
+    template_name = "billapp/association_list.html"
+    model = Association
