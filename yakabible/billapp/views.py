@@ -105,7 +105,9 @@ class ProfileView(generic.DetailView):
 
 def RegEventSuccessView(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
-    return make_pdf_response(ticket)
+    event = ticket.event
+    association = event.association
+    return make_pdf_response(ticket, association)
 
 def LogOutView(request):
     logout(request)

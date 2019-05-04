@@ -1,4 +1,5 @@
 import qrcode
+from PIL import Image
 
 from io import BytesIO
 from django.http import HttpResponse
@@ -16,17 +17,24 @@ def make_qrcode(ticket):
     return q.make_image()
 
 
-def make_pdf(ticket):
+def make_pdf(ticket, association):
     buffer = BytesIO()
     img = make_qrcode(ticket)
+    logo_epita = Image.open('billapp/static/billapp/img/logo-epita.png');
+    logo_association = Image.open(association.logo_path);
+
+    logo_epita = logo_epita.resize((100, 100), Image.NEAREST)
+    logo_association = logo_association.resize((100, 100), Image.NEAREST)
 
     p = canvas.Canvas(buffer)
 
-    p.drawString(100, 700, 'Nom d\'utilisateur: ' + ticket.user.username)
+    p.drawInlineImage(logo_epita, 100, 700)
+    p.drawInlineImage(logo_association, 400, 700)
+    p.drawString(100, 600, 'Nom d\'utilisateur: ' + ticket.user.username)
     full_name = ticket.user.first_name + ' ' + ticket.user.last_name
-    p.drawString(100, 680, 'Nom: ' + full_name)
-    p.drawString(100, 660, 'Nom de l\'événement: ' + ticket.event.title)
-    p.drawString(100, 640, 'ID: ' + str(ticket.pk))
+    p.drawString(100, 580, 'Nom: ' + full_name)
+    p.drawString(100, 560, 'Nom de l\'événement: ' + ticket.event.title)
+    p.drawString(100, 540, 'ID: ' + str(ticket.pk))
     p.drawInlineImage(img, 100, 160)
 
     p.showPage()
@@ -51,12 +59,12 @@ def send_pdf_mail(pdf, ticket):
     email.send()
 
 
-def make_pdf_response(ticket):
+def make_pdf_response(ticket, association):
     pdf_name = "{}_{}.pdf".format(ticket.user, ticket.event.title.replace(' ', '-'))
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=' + pdf_name
 
-    pdf = make_pdf(ticket)
+    pdf = make_pdf(ticket, association)
 
     send_pdf_mail(pdf, ticket)
 
