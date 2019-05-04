@@ -50,7 +50,7 @@ Accueil
             {% else %}
             <div class="carousel-item">
             {% endif %}
-                <img src={{ prem.promotion_image_path.url }} class="img-cover d-block w-100" alt="{{ prem.title }}"><!-- Affiche event -->
+                <a href="{% url 'event'  pk=prem.pk %}"><img src={{ prem.promotion_image_path.url }} class="img-cover d-block w-100" alt="{{ prem.title }}"></a><!-- Affiche event -->
                 <div class="carousel-caption d-none d-md-block">
                     <h5></h5> <!-- Nom event -->
                     <p></p>
