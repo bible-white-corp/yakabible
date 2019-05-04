@@ -3,6 +3,8 @@ from django.urls import path
 from . import views
 from . import views_json
 
+app_name = 'billapp'
+
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('create/', views.CreateEvView.as_view(), name='create_event'),

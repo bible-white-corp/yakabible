@@ -15,6 +15,9 @@ from .insertions import *
 from .tools import *
 
 class IndexView(generic.ListView):
+    """
+    View de la page d'accueil
+    """
     template_name = "billapp/index.html"
     model=Event
 
@@ -23,6 +26,9 @@ class IndexView(generic.ListView):
     
 
 class CreateEvView(generic.FormView):
+    """
+    View pour créer un événement
+    """
     template_name = "billapp/create_event.html"
     form_class = Event_Form
     success_url = "/?valid"
@@ -32,6 +38,9 @@ class CreateEvView(generic.FormView):
         return super().form_valid(form)
 
 class ConnectionView(generic.TemplateView):
+    """
+    View de la page de login
+    """
     template_name = 'billapp/connection.html'
 
     def get(self, request):
@@ -51,6 +60,9 @@ class ConnectionView(generic.TemplateView):
                                                     'error': True})
 
 class RegistrationView(generic.TemplateView):
+    """
+    View de la page d'inscription au site avec formulaire
+    """
     template_name = 'billapp/registration.html'
 
     def get(self, request):
@@ -66,10 +78,16 @@ class RegistrationView(generic.TemplateView):
         return render(request, self.template_name, {'form': form, 'error': True})
 
 class EventView(generic.DetailView):
+    """
+    View de la description d'un événement
+    """
     template_name = 'billapp/event.html'
     model = Event
 
 class AssociationView(generic.DetailView):
+    """
+    View de la description d'une association
+    """
     model = Association
     template_name = 'billapp/association.html'
 
@@ -78,6 +96,9 @@ def Profile_redir(request):
     return HttpResponseRedirect(reverse('profile', args=[request.user.pk]))
 
 class ProfileView(generic.DetailView):
+    """
+    View d'une page utilisateur
+    """
     model = User
     template_name = 'billapp/profile.html'
 
@@ -106,6 +127,9 @@ def RegEventView(request, pk):
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
 class AssociationListView(generic.ListView):
+    """
+    View de la liste des associaitons
+    """
     template_name = "billapp/association_list.html"
     model = Association
 
@@ -124,6 +148,9 @@ def logged(request):
     return render(request, 'billapp/logged.html', context=context)
 
 class EventsListView(generic.ListView):
+    """
+    View de la liste des événements
+    """
     template_name = "billapp/events_list.html"
     model = Event
     def get_queryset(self):

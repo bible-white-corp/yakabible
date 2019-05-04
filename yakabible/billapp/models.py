@@ -9,6 +9,9 @@ def assos_image_path(instance, filename):
     return 'assos/{0}_{1}'.format(get_random_string(length=32), filename)
 
 class Association(models.Model):
+    """
+    Model représentant une association
+    """
     name = models.CharField(max_length=64)
     logo_path = models.ImageField(upload_to=assos_image_path)
     email = models.CharField(max_length=64)
@@ -18,6 +21,9 @@ class Association(models.Model):
         return self.name
 
 class Event(models.Model):
+    """
+    Model représentant un événement
+    """
     title = models.CharField(max_length=128)
     description = models.TextField()
     association = models.ForeignKey(Association, on_delete=models.CASCADE)
@@ -40,6 +46,10 @@ class Event(models.Model):
         return self.title
 
 class AssociationUser(models.Model):
+    """
+    Model qui associe une :model:`billapp.Association` à un :model:`django.contrib.auth.models.User`.
+    Il est utilisé pour inscrire un membre à une association.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     association = models.ForeignKey(Association, on_delete=models.CASCADE)
     role = models.IntegerField()
@@ -48,6 +58,9 @@ class AssociationUser(models.Model):
         return self.user.username + ' : ' + self.association.name + ' (' + str(self.role) + ')'
 
 class Ticket(models.Model):
+    """
+    Model représentant un ticket.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     category = models.BooleanField()
