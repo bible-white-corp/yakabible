@@ -20,16 +20,30 @@ def make_qrcode(ticket):
 def make_pdf(ticket, association):
     buffer = BytesIO()
     img = make_qrcode(ticket)
-    logo_epita = Image.open('billapp/static/billapp/img/logo-epita.png');
-    logo_association = Image.open(association.logo_path);
+    logo_epita_tmp = Image.open('billapp/static/billapp/img/logo-epita.png');
+    logo_asso_tmp = Image.open(association.logo_path);
+
+    logo_epita = Image.new("RGB", logo_epita_tmp.size, (255, 255, 255))
+    if (len(logo_epita_tmp.getbands()) == 4):
+        logo_epita.paste(logo_epita_tmp, mask=logo_epita_tmp.split()[3])
+    else:
+        logo_epita.paste(logo_epita_tmp)
+
+    logo_asso = Image.new("RGB", logo_asso_tmp.size, (255, 255, 255))
+    if (len(logo_asso_tmp.getbands()) == 4):
+        logo_asso.paste(logo_asso_tmp, mask=logo_asso_tmp.split()[3])
+    else:
+        logo_asso.paste(logo_asso_tmp)
 
     logo_epita = logo_epita.resize((100, 100), Image.NEAREST)
-    logo_association = logo_association.resize((100, 100), Image.NEAREST)
+    logo_asso = logo_asso.resize((100, 100), Image.NEAREST)
 
     p = canvas.Canvas(buffer)
 
+    print(logo_asso_tmp)
+
     p.drawInlineImage(logo_epita, 100, 700)
-    p.drawInlineImage(logo_association, 400, 700)
+    p.drawInlineImage(logo_asso, 400, 700)
     p.drawString(100, 600, 'Nom d\'utilisateur: ' + ticket.user.username)
     full_name = ticket.user.first_name + ' ' + ticket.user.last_name
     p.drawString(100, 580, 'Nom: ' + full_name)
