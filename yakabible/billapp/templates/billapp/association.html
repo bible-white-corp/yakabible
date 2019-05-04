@@ -71,10 +71,10 @@
                                 <div class="ticket_div card-body">
                                     {% for us in ev.ticket_set.all %}
                                     {% if us.category %}
-                                    <span class="user staff d-none">{{ us.user.first_name }}
-                                        {{ us.user.last_name }}</span><br>
+                                    <span class="user staff d-none"><a href="{% url 'profile' pk=us.user.pk %}">{{ us.user.first_name }}
+                                        {{ us.user.last_name }}</a></span><br>
                                     {% else %}
-                                    <span class="user ionis">{{ us.user.first_name }} {{ us.user.last_name }}</span><br>
+                                    <span class="user ionis"><a href="{% url 'profile' pk=us.user.pk %}">{{ us.user.first_name }} {{ us.user.last_name }}</a></span><br>
                                     {% endif %}
                                     {% endfor %}
                                 </div>
@@ -104,7 +104,7 @@
                     <th scope="row">{{ us.user.pk }}</th>
                     <td>{{ us.user.first_name }}</td>
                     <td>{{ us.user.last_name }}</td>
-                    <td>{{ us.user.username }}</td>
+                    <td><a href="{% url 'profile' pk=us.user.pk %}">{{ us.user.username }}</a></td>
                     <td>{{ us.user.email }}</td>
                     <td>{{ us.role }}</td>
                 </tr>
