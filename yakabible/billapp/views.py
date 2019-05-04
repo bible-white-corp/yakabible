@@ -100,6 +100,7 @@ class ProfileView(generic.DetailView):
     View d'une page utilisateur
     """
     model = User
+    context_object_name = 'obj'
     template_name = 'billapp/profile.html'
 
 def RegEventSuccessView(request, pk):
