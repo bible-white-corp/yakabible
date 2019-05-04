@@ -34,8 +34,11 @@ def make_pdf(ticket, association):
     full_name = ticket.user.first_name + ' ' + ticket.user.last_name
     p.drawString(100, 580, 'Nom: ' + full_name)
     p.drawString(100, 560, 'Nom de l\'événement: ' + ticket.event.title)
-    p.drawString(100, 540, 'ID: ' + str(ticket.pk))
-    p.drawInlineImage(img, 100, 160)
+    p.drawString(100, 540, 'Date: ' +
+                 ticket.event.begin.strftime('%m/%d/%Y, %H:%M:%S'))
+    p.drawString(100, 520, 'Lieu: ' + ticket.event.place)
+    p.drawString(100, 500, 'ID: ' + str(ticket.pk))
+    p.drawInlineImage(img, 100, 60)
 
     p.showPage()
     p.save()
