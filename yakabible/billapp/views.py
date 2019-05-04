@@ -44,7 +44,7 @@ class ConnectionView(generic.TemplateView):
                                 username = form.cleaned_data['username'],
                                 password = form.cleaned_data['password'])
             if user is not None:
-                login(request, user, backend='ModelBackend')
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form,
                                                     'error': True})
@@ -60,7 +60,7 @@ class RegistrationView(generic.TemplateView):
         form = Inscription_Form(request.POST)
         if form.is_valid() and form.cleaned_data['pwd'] == form.cleaned_data['pwd_conf']:
             user = insert_user(form)
-            login(request, user, backend='ModelBackend')
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form, 'error': True})
 
