@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url('', include('social_django.urls', namespace='social')),
-    url('', include('billapp.urls', namespace="billapp")),
+    url('', include('billapp.urls')),
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
 
