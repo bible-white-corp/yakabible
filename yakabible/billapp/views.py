@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.core.paginator import Paginator
 
 from .forms import *
 from .models import Event, Ticket
@@ -72,6 +73,14 @@ class AssociationView(generic.DetailView):
     model = Association
     template_name = 'billapp/association.html'
 
+@login_required
+def Profile_redir(request):
+    return HttpResponseRedirect(reverse('profile', args=[request.user.pk]))
+
+class ProfileView(generic.DetailView):
+    model = User
+    template_name = 'billapp/profile.html'
+
 def RegEventSuccessView(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
     return make_pdf_response(ticket)
@@ -99,6 +108,12 @@ def RegEventView(request, pk):
 class AssociationListView(generic.ListView):
     template_name = "billapp/association_list.html"
     model = Association
+
+    def get_queryset(self):
+        set = super().get_queryset();
+        paginator = Paginator(set, 10)
+        page = self.request.GET.get("page")
+        return paginator.get_page(page)
 
 @login_required
 def logged(request):

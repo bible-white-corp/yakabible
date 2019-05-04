@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    Profil
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Profil</h5>
+        <div class="container">
+            <div class="media mt-3">
+                <img height="100" src="{% static 'billapp/img/profile-placeholder.jpg' %}" class="mr-3"
+                     alt="{{ object.username }}">
+                <div class="media-body align-middle">
+                    <h1 class="">{{ object.first_name }} {{ object.last_name }}</h1>
+                    <a href="mailto:{{ object.email }}">{{ object.email }}</a>
+                    <p>{{ object.username }}</p>
+                </div>
+            </div>
+            <h2>Associations :</h2>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Association #</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for el in object.associationuser_set.all %}
+                    <tr>
+                        <th scope="row">{{ el.association.pk }}</th>
+                        <td><a href="{% url 'association' pk=el.association.pk %}">{{ el.association.name }}</a></td>
+                        <td>{{ el.role }}</td>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            <h2>Tickets :</h2>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Ticket #</th>
+                    <th scope="col">Event</th>
+                    <th scope="col">Staff</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Télécharger ticket</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tick in object.ticket_set.all %}
+                    <tr>
+                        <th scope="row">{{ tick.pk }}</th>
+                        <td><a href="{% url 'event' pk=tick.event.pk %}">{{ tick.event.title }}</a></td>
+                        <td>{{ tick.category }}</td>
+                        <td>{{ tick.state }}</td>
+                        <td><a href="{% url 'reg_event_success' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}
