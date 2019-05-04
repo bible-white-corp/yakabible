@@ -14,7 +14,7 @@ Inscription
         {% if error %}
             <div class="container mt-3">
                 <div class="alert alert-danger" role="alert">
-                    Wrong email or passwords are different!
+                    Email invalide ou mots de passe différents
                 </div>
             </div>
         {% endif %}
@@ -25,27 +25,27 @@ Inscription
                     {{form.email}}
                 </div>
                 <div class="col-lg-3 mb-1">
-                    <label for="f_title">Username</label>
+                    <label for="f_title">Nom d'utilisateur</label>
                     {{form.username}}
                 </div>
             </div>
             <div class="form-row mt-3">
                 <div class="col-lg-3 mb-1">
-                    <label for="f_place">Firstname</label>
+                    <label for="f_place">Prénom</label>
                     {{form.firstname}}
                 </div>
                 <div class="col-lg-3 mb-1">
-                    <label for="f_place">Lastname</label>
+                    <label for="f_place">Nom</label>
                     {{form.lastname}}
                 </div>
             </div>
             <div class="form-row mt-3">
                 <div class="col-lg-3 mb-1">
-                    <label for="f_place">Password</label>
+                    <label for="f_place">Mot de passe</label>
                     {{form.pwd}}
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <label for="f_place">Password confirmation</label>
+                    <label for="f_place">Confirmation du mot de passe</label>
                     {{form.pwd_conf}}
                 </div>
             </div>

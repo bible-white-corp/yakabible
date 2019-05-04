@@ -51,7 +51,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Ticket #</th>
-                    <th scope="col">Event</th>
+                    <th scope="col">Événement</th>
                     <th scope="col">Staff</th>
                     <th scope="col">Etat</th>
                     <th scope="col">Télécharger ticket</th>
@@ -64,13 +64,13 @@
                         <td><a href="{% url 'event' pk=tick.event.pk %}">{{ tick.event.title }}</a></td>
                         <td>{{ tick.category }}</td>
                         <td>{% if tick.state == 0 %}
-                                Expired
+                                Expiré
                             {% elif tick.state == 1 %}
-                                Not used
+                                Pas utilisé
                             {% elif tick.state ==  2 %}
-                                Used
+                                Utilisé
                             {% else %}
-                                On brake
+                                En pause
                             {% endif %}</td>
                         <td><a href="{% url 'reg_event_success' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
                     </tr>

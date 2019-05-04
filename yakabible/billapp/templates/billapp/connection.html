@@ -14,18 +14,18 @@ Connexion
         {% if error %}
             <div class="container mt-3">
                 <div class="alert alert-danger" role="alert">
-                    Username or password is wrong!
+                    Nom d'utilisateur ou mot de passe incorrect
                 </div>
             </div>
         {% endif %}
         <form class="container" method="post">
             <div class="form mt-3">
                 <div class="col-lg-3 mb-3">
-                    <label for="f_title">Username</label>
+                    <label for="f_title">Nom d'utilisateur</label>
                     {{form.username}}
                 </div>
                 <div class="col-lg-3 mb-3">
-                    <label for="f_place">Password</label>
+                    <label for="f_place">Mot de passe</label>
                     {{form.password}}
                 </div>
             </div>

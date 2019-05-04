@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="card mt-3">
-        <h5 class="card-header">Evénement</h5>
+        <h5 class="card-header">Événement</h5>
         <div class="container">
             <h1 class="mt-2">{{ object.title }}</h1>
             {% if event.promotion_image_path %}
@@ -25,7 +25,7 @@
                 <p class="card-header">Infos</p>
                 <div class="container">
                     {% if object.premium %}
-                        <p><i class="fas fa-star mr-2 mt-3"></i> Evénement premium !</p>
+                        <p><i class="fas fa-star mr-2 mt-3"></i> Événement premium !</p>
                     {% endif %}
                     <p><i class="far fa-calendar mr-2 mt-3"></i> Du <b>{{ object.begin }}</b> au <b>{{ object.end }}</b></p>
                     <p><i class="fas fa-user-plus mr-2"></i> Inscriptions du <b>{{ object.begin_register }}</b> au <b>{{ object.end_register }}</b></p>
