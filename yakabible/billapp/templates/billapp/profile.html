@@ -35,7 +35,13 @@
                     <tr>
                         <th scope="row">{{ el.association.pk }}</th>
                         <td><a href="{% url 'association' pk=el.association.pk %}">{{ el.association.name }}</a></td>
-                        <td>{{ el.role }}</td>
+                        <td>{% if el.role == 0 %}
+                                Membre
+                            {% elif el.role == 1 %}
+                                Membre du bureau
+                            {% else %}
+                                Président
+                            {% endif %}</td>
                 {% endfor %}
                 </tbody>
             </table>
@@ -57,7 +63,15 @@
                         <th scope="row">{{ tick.pk }}</th>
                         <td><a href="{% url 'event' pk=tick.event.pk %}">{{ tick.event.title }}</a></td>
                         <td>{{ tick.category }}</td>
-                        <td>{{ tick.state }}</td>
+                        <td>{% if tick.state == 0 %}
+                                Expired
+                            {% elif tick.state == 1 %}
+                                Not used
+                            {% elif tick.state ==  2 %}
+                                Used
+                            {% else %}
+                                On brake
+                            {% endif %}</td>
                         <td><a href="{% url 'reg_event_success' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
                     </tr>
                 {% endfor %}
