@@ -47,6 +47,7 @@ def send_pdf_mail(pdf, ticket):
         [ticket.user.email]
     )
     email.attach(pdf_name, pdf)
+    # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     email.send()
 
 
