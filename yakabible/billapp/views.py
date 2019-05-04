@@ -84,6 +84,7 @@ def RegEventView(request, pk):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('connection'))
     # Need to check payement TODO
+    # Maybe confirmation mail before payement
     e = get_object_or_404(Event, pk=pk)
     try:
         tmp_t = Ticket.objects.get(user=request.user,event=e)

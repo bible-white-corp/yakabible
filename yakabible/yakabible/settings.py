@@ -138,3 +138,12 @@ SOCIAL_AUTH_EPITA_BETA = False
 
 LOGIN_URL = '/connection/'
 LOGIN_REDIRECT_URL = '/logged/'
+
+# Mail sending management
+# TODO trouver une addresse mail correcte @Thetoto
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'yakabible@gmail.com'
+EMAIL_HOST_PASSWORD = 'white>black'
