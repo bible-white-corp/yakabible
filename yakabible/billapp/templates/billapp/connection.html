@@ -10,7 +10,11 @@ Connexion
 
 {% block content %}
     <div class="card mt-3">
-        <h5 class="card-header">Connexion</h5>
+        <h5 class="card-header">Connexion
+            <a href="{% url 'social:begin' backend='epita' %}?next={{ request.GET.next }}">
+                <span class="badge badge-secondary badge-info">OpenID Connect</span>
+            </a>
+        </h5>
         {% if error %}
             <div class="container mt-3">
                 <div class="alert alert-danger" role="alert">
