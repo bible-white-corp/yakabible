@@ -55,8 +55,9 @@ def get_president(assos):
     if not user:
         return None
     return user[0].user
-@register.filter
-def get_admin_email(not_used):
+
+@register.simple_tag
+def get_admin_email():
     user = User.objects.filter(groups__name="Admin")
     if not user:
         return "NO ADMIN"

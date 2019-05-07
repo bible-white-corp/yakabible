@@ -101,9 +101,7 @@
                         Heure du server : {% now "j F Y H:i" %}
                     </p>
                     <p>
-                        {% with "lol"|get_admin_email as admin_email %}
-                            {{ admin_email }}
-                        {% endwith%}
+                        {% get_admin_email %}
                     </p>
                 </div>
                 <div class="col-6">
