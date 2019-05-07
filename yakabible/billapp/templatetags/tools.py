@@ -1,6 +1,7 @@
 from django import template
 from billapp.models import Ticket
 from datetime import datetime
+from django.templatetags.static import static
 import pytz
 
 utc = pytz.UTC
@@ -29,3 +30,11 @@ def in_the_bound(e):
     end = e.end_register.replace(tzinfo=utc)
     now = datetime.now().replace(tzinfo=utc)
     return now >= begin and now < end
+
+@register.filter
+def get_photo(user):
+    try :
+        user.social_auth.get(provider="epita")
+        return "https://photos.cri.epita.fr/" + user.username
+    except:
+        return static('billapp/img/profile-placeholder.jpg')
