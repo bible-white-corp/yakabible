@@ -7,6 +7,11 @@ from datetime import datetime
 
 from .models import Event, Ticket
 
+def get_color(obj):
+    if obj.premium:
+        return '#b23939'
+    return ''
+
 def EventsJSON(request):
     start = request.GET.get('start')
     end = request.GET.get('end')
@@ -24,6 +29,8 @@ def EventsJSON(request):
             'start': obj.begin,
             'end': obj.end,
             'url': reverse('event', args=[obj.pk]), # url of event/obj.pk
+            'description': obj.association.name,
+            'color': get_color(obj)
         })
     res = JsonResponse(json, safe=False)
     res["Access-Control-Allow-Origin"] = "*"

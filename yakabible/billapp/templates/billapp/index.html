@@ -21,7 +21,16 @@
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,listMonth'
-                }
+                },
+                eventRender: function(info) {
+                    info.el.setAttribute("data-toggle","tooltip");
+                    info.el.setAttribute("data-placement","top");
+                    info.el.setAttribute("title",info.event.extendedProps.description);
+                    return info.el;
+                },
+                eventPositioned: function(info) {
+                    jQuery(info.el).tooltip();
+                },
             });
             calendar.render();
         });
