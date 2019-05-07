@@ -9,118 +9,124 @@
 {% endblock title %}
 
 {% block content %}
+<h1 class="mt-2"> {{ object.name }} </h1>
 <div class="card mt-3">
-    <h5 class="card-header">{{ object.name }}</h5>
-    <div class="container">
-        <ul class="nav nav-tabs">
-            <li class="active mx-3"><a data-toggle="tab" href="#listevent">Liste d'événements</a></li>
-            <li class="mx-3"><a data-toggle="tab" href="#listmember">Liste des membres</a></li>
-            <li class="mx-3"><a data-toggle="tab" href="#contact">Contacts</a></li>
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="DashassoTab" role="tablist">
+            <li class="nav-item mx-3">
+                <a class="nav-link active" id="listevent-tab" data-toggle="tab" href="#listevent" role="tab">Liste d'événements</a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link" id="listuser-tab" data-toggle="tab" href="#listuser" role="tab">Liste des membres</a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role"tab">Contacts</a>
+            </li>
         </ul>
-        <div class="tab-content">
-            <div id="listevent" class="tab-pane fade in active">
-                <div class="row">
-                    <div class="col-sm">
-                        <h4 class="mt-3"> Evenements confirmés </h4>
-                        <table class="table table-condensed">
-                            <thead>
+    </div>
+    <div class="tab-content" id="DashassoTabContent">
+        <div class="tab-pane fade show active mx-2" id="listevent" role="tabpanel">
+            <div class="row">
+                <div class="col-sm">
+                    <h4 class="mt-3"> Evenements confirmés </h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th> Titre </th>
+                                <th> Responsable </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in object.event_set.all %}
+                            {% if event.validation_state %}
                                 <tr>
-                                    <th> Titre </th>
-                                    <th> Responsable </th>
+                                    <td> {{ event.title }} </td>
+                                    <td> {{ event.manager.username }} </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            {% for event in object.event_set.all %}
-                                {% if event.validation_state %}
-                                    <tr>
-                                        <td> {{ event.title }} </td>
-                                        <td> {{ event.manager.username }} </td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-sm">
-                        <h4 class="mt-3"> Evenements non confirmés </h4>
-                        <table class="table table-condensed">
-                            <thead>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm">
+                    <h4 class="mt-3"> Evenements non confirmés </h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th> Titre </th>
+                                <th> Responsable </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in object.event_set.all %}
+                            {% if not event.validation_state %}
                                 <tr>
-                                    <th> Titre </th>
-                                    <th> Responsable </th>
+                                    <td> {{ event.title }} </td>
+                                    <td> {{ event.manager.username }} </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            {% for event in object.event_set.all %}
-                                {% if not event.validation_state %}
-                                    <tr>
-                                        <td> {{ event.title }} </td>
-                                        <td> {{ event.manager.username }} </td>
-                                    </tr>
-                                {% endif %}
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div id="listmember" class="tab-pane fade">
-                <table class="table table-condensed">
-                    <thead>
+        </div>
+        <div class="tab-pane fade mx-2" id="listuser" role="tabpanel">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th> Login </th>
+                        <th> Nom </th>
+                        <th> Prénom </th>
+                        <th> Rôle </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for asso_user in object.associationuser_set.all %}
+                    <tr>
+                        <td> {{ asso_user.user.username }} </td>
+                        <td> {{ asso_user.user.last_name }} </td>
+                        <td> {{ asso_user.user.first_name }} </td>
+                        <td> {{ asso_user.role | get_role}} </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade mx-2" id="contact" role="tabpanel">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th> Rôle </th>
+                        <th> Login </th>
+                        <th> Nom </th>
+                        <th> Prénom </th>
+                        <th> Mail </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% with object|get_president as president %}
                         <tr>
-                            <th> Login </th>
-                            <th> Nom </th>
-                            <th> Prénom </th>
-                            <th> Rôle </th>
+                            <td> Président </td>
+                            <td> {{ president.username }} </td>
+                            <td> {{ president.last_name }} </td>
+                            <td> {{ president.first_name }} </td>
+                            <td> {{ president.email }} </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                    {% for asso_user in object.associationuser_set.all %}
-                        <tr>
-                            <td> {{ asso_user.user.username }} </td>
-                            <td> {{ asso_user.user.last_name }} </td>
-                            <td> {{ asso_user.user.first_name }} </td>
-                            <td> {{ asso_user.role | get_role}} </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div id="contact" class="tab-pane fade">
-                <table class="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th> Rôle </th>
-                            <th> Login </th>
-                            <th> Nom </th>
-                            <th> Prénom </th>
-                            <th> Mail </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% with object|get_president as president %}
-                            <tr>
-                                <td> Président </td>
-                                <td> {{ president.username }} </td>
-                                <td> {{ president.last_name }} </td>
-                                <td> {{ president.first_name }} </td>
-                                <td> {{ president.email }} </td>
-                            </tr>
-                        {% endwith %}
-                    {% for asso_user in object.associationuser_set.all %}
-                        {% if asso_user.role == 1 %}
-                        <tr>
-                            <td> {{ asso_user.role | get_role}} </td>
-                            <td> {{ asso_user.user.username }} </td>
-                            <td> {{ asso_user.user.last_name }} </td>
-                            <td> {{ asso_user.user.first_name }} </td>
-                            <td> {{ asso_user.user.email }} </td>
-                        </tr>
-                        {% endif %}
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    {% endwith %}
+                {% for asso_user in object.associationuser_set.all %}
+                    {% if asso_user.role == 1 %}
+                    <tr>
+                        <td> {{ asso_user.role | get_role}} </td>
+                        <td> {{ asso_user.user.username }} </td>
+                        <td> {{ asso_user.user.last_name }} </td>
+                        <td> {{ asso_user.user.first_name }} </td>
+                        <td> {{ asso_user.user.email }} </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
