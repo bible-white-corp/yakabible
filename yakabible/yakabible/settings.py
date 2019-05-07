@@ -138,7 +138,7 @@ SOCIAL_AUTH_EPITA_EXTRA_DATA = ['promo']
 SOCIAL_AUTH_EPITA_BETA = False
 
 LOGIN_URL = '/connection/'
-LOGIN_REDIRECT_URL = '/logged/'
+LOGIN_REDIRECT_URL = '/?valid'
 
 # Mail sending management
 # TODO trouver une addresse mail correcte @Thetoto

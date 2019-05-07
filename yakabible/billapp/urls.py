@@ -16,7 +16,6 @@ urlpatterns = [
     path('events.json', views_json.EventsJSON, name='events_json'),
     path('tickets.json', views_json.TicketsJSON, name='tickets_json'),
     path('assos/', views.AssociationListView.as_view(), name='assos_list'),
-    path('logged/', views.logged, name='epita_callback'),
     path('events/', views.EventsListView.as_view(), name='events_list'),
     path('profile/', views.Profile_redir, name='own_profile'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),

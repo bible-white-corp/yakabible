@@ -142,14 +142,6 @@ class AssociationListView(generic.ListView):
         page = self.request.GET.get("page")
         return paginator.get_page(page)
 
-@login_required
-def logged(request):
-    context = {
-        'user': request.user,
-        'extra_data': request.user.social_auth.get(provider="epita").extra_data,
-    }
-    return render(request, 'billapp/logged.html', context=context)
-
 class EventsListView(generic.ListView):
     """
     View de la liste des événements
