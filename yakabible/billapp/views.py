@@ -55,6 +55,8 @@ class ConnectionView(generic.TemplateView):
                                 password = form.cleaned_data['password'])
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                if (request.GET.get('next')):
+                    return HttpResponseRedirect(request.GET.get('next'))
                 return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form,
                                                     'error': True})
@@ -113,9 +115,8 @@ def LogOutView(request):
     logout(request)
     return HttpResponseRedirect('/?logout')
 
+@login_required
 def RegEventView(request, pk):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('connection'))
     # Need to check payement TODO
     # Maybe confirmation mail before payement
     e = get_object_or_404(Event, pk=pk)

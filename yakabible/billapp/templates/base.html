@@ -46,10 +46,10 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'connection' %}">Connexion</a>
+                        <a class="nav-link" href="{% url 'connection' %}?next={{ request.path }}">Connexion</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'social:begin' backend='epita' %}">OpenID Connect</a>
+                        <a class="nav-link" href="{% url 'social:begin' backend='epita' %}?next={{ request.path }}">OpenID Connect</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'registration' %}">Inscription</a>
