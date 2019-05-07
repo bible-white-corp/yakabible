@@ -2,6 +2,7 @@ from django import template
 from billapp.models import Ticket
 from datetime import datetime
 from django.templatetags.static import static
+from django.contrib.auth.models import User
 import pytz
 
 utc = pytz.UTC
@@ -50,4 +51,13 @@ def get_role(index):
 
 @register.filter
 def get_president(assos):
-    return assos.associationuser_set.get(role=2).user
+    user = assos.associationuser_set.filter(role=2)
+    if not user:
+        return None
+    return user[0].user
+@register.filter
+def get_admin_email(not_used):
+    user = User.objects.filter(groups__name="Admin")
+    if not user:
+        return "NO ADMIN"
+    return user[0].email

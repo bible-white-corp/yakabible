@@ -1,4 +1,5 @@
 {% load static %}
+{% load tools %}
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -98,6 +99,11 @@
                 <div class="col-6">
                     <p>
                         Heure du server : {% now "j F Y H:i" %}
+                    </p>
+                    <p>
+                        {% with "lol"|get_admin_email as admin_email %}
+                            {{ admin_email }}
+                        {% endwith%}
                     </p>
                 </div>
                 <div class="col-6">

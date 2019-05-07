@@ -106,13 +106,15 @@
                 </thead>
                 <tbody>
                     {% with object|get_president as president %}
-                        <tr>
-                            <td> Président </td>
-                            <td> {{ president.username }} </td>
-                            <td> {{ president.last_name }} </td>
-                            <td> {{ president.first_name }} </td>
-                            <td> {{ president.email }} </td>
-                        </tr>
+                        {% if president %}
+                            <tr>
+                                <td> Président </td>
+                                <td> {{ president.username }} </td>
+                                <td> {{ president.last_name }} </td>
+                                <td> {{ president.first_name }} </td>
+                                <td> {{ president.email }} </td>
+                            </tr>
+                        {% endif %}
                     {% endwith %}
                 {% for asso_user in object.associationuser_set.all %}
                     {% if asso_user.role == 1 %}
