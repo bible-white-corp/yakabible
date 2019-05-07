@@ -1,4 +1,7 @@
 import qrcode
+import os
+from django.conf import settings
+
 from PIL import Image
 
 from io import BytesIO
@@ -20,7 +23,7 @@ def make_qrcode(ticket):
 def make_pdf(ticket, association):
     buffer = BytesIO()
     img = make_qrcode(ticket)
-    logo_epita_tmp = Image.open('billapp/static/billapp/img/logo-epita.png');
+    logo_epita_tmp = Image.open(os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png'));
     logo_asso_tmp = Image.open(association.logo_path);
 
     logo_epita = Image.new("RGB", logo_epita_tmp.size, (255, 255, 255))
