@@ -93,6 +93,13 @@ class AssociationView(generic.DetailView):
     model = Association
     template_name = 'billapp/association.html'
 
+class DashboardAssociationView(generic.DetailView):
+    """
+    View du dashboard d'association
+    """
+    model = Association
+    template_name = 'billapp/dashboard_association.html'
+
 @login_required
 def Profile_redir(request):
     return HttpResponseRedirect(reverse('profile', args=[request.user.pk]))

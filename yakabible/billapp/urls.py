@@ -13,6 +13,7 @@ urlpatterns = [
     path('event/<int:pk>/register', views.RegEventView, name='reg_event'),
     path('event/<int:pk>/reg_event_success', views.RegEventSuccessView, name='reg_event_success'),
     path('assos/<int:pk>', views.AssociationView.as_view(), name='association'),
+    path('assos/dashboard/<int:pk>', views.DashboardAssociationView.as_view(), name='dashboard_association'),
     path('events.json', views_json.EventsJSON, name='events_json'),
     path('tickets.json', views_json.TicketsJSON, name='tickets_json'),
     path('assos/', views.AssociationListView.as_view(), name='assos_list'),

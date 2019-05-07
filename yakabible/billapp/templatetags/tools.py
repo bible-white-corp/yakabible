@@ -38,3 +38,16 @@ def get_photo(user):
         return "https://photos.cri.epita.fr/" + user.username
     except:
         return static('billapp/img/profile-placeholder.jpg')
+
+@register.filter
+def get_role(index):
+    switcher = {
+        0: "Membre",
+        1: "Membre du bureau",
+        2: "Président"
+    }
+    return switcher.get(index)
+
+@register.filter
+def get_president(assos):
+    return assos.associationuser_set.get(role=2).user
