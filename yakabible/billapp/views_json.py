@@ -1,6 +1,8 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
+from billapp.insertions import *
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
@@ -59,3 +61,9 @@ def TicketsJSON(request):
     res = JsonResponse(json, safe=False)
     res["Access-Control-Allow-Origin"] = "*"
     return res
+
+def UpdateTicket(request, pk):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    new_state = request.GET.get('new_state')
+    update_ticket(ticket, new_state)
+    return HttpResponseRedirect(reverse('event_realtime', args=[ticket.event.pk]))

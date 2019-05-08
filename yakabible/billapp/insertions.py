@@ -44,3 +44,8 @@ def insert_ticket(request, e):
                 )
     t.save()
     return t
+
+def update_ticket(ticket, new_state):
+    ticket.state = new_state
+    ticket.save()
+    return ticket

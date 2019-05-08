@@ -36,12 +36,12 @@
                     <td>{{ tick.state | get_ticket_state }}</td>
                     <td>
                         {% if tick.state == 1 %}
-                            <button type="button" class="btn btn-success">Check-in</button>
+                            <a href="{% url 'ticket_update' pk=tick.pk %}?new_state=2" role="button" class="btn btn-success">Check-in</a>
                         {% elif tick.state == 2 %}
-                            <button type="button" class="btn btn-danger">Part en pause</button>
-                            <button type="button" class="btn btn-danger">Check-out</button>
+                            <a href="{% url 'ticket_update' pk=tick.pk %}?new_state=3" role="button" class="btn btn-warning">Part en pause</a>
+                            <a href="{% url 'ticket_update' pk=tick.pk %}?new_state=0" role="button" class="btn btn-danger">Check-out</a>
                         {% elif tick.state == 3 %}
-                            <button type="button" class="btn btn-success">Revient de pause</button>
+                            <a href="{% url 'ticket_update' pk=tick.pk %}?new_state=2" role="button" class="btn btn-success">Revient de pause</a>
                         {% endif %}
                     </td>
                 </tr>
