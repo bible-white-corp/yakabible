@@ -70,4 +70,12 @@ class Ticket(models.Model):
     def __str__(self):
         return self.user.username + ' (' + self.event.title + ')'
 
+class EventStaffCapacity(models.Model):
+    """
+    Model pour stocker les places de staff disponibles pour une asso
+    """
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    association = models.ForeignKey(Association, on_delete=models.CASCADE)
+    capacity = models.IntegerField()
+
 # Create your models here.
