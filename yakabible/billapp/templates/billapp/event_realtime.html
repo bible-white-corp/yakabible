@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    Événement en cours
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Suivi évent</h5>
+        {% if not event_started %}
+            <div class="container mt-3">
+                <div class="alert alert-danger" role="alert">
+                    L'événement n'a pas commencé ou est déjà fini !
+                </div>
+            </div>
+        {% endif %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Ticket #</th>
+                <th scope="col">Prénom Nom</th>
+                <th scope="col">Status</th>
+                <th scope="col">Changement</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tick in object.ticket_set.all %}
+                <tr>
+                    <th scope="row">{{ tick.pk }}</th>
+                    <td><a href="{% url "profile" pk=tick.user.pk %}"></a>{{ tick.user.first_name }} {{ tick.user.last_name }}</td>
+                    <td>{{ tick.state | get_ticket_state }}</td>
+                    <td>
+                        {% if tick.state == 1 %}
+                            <button type="button" class="btn btn-success">Check-in</button>
+                        {% elif tick.state == 2 %}
+                            <button type="button" class="btn btn-danger">Part en pause</button>
+                            <button type="button" class="btn btn-danger">Check-out</button>
+                        {% elif tick.state == 3 %}
+                            <button type="button" class="btn btn-success">Revient de pause</button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

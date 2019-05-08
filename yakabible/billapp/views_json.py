@@ -54,6 +54,7 @@ def TicketsJSON(request):
             'lastname': obj.user.last_name,
             'email': obj.user.email,
             'category': obj.category,
+            'state': obj.state
         })
     res = JsonResponse(json, safe=False)
     res["Access-Control-Allow-Origin"] = "*"

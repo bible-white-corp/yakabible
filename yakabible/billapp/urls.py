@@ -12,6 +12,7 @@ urlpatterns = [
     path('event/<int:pk>', views.EventView.as_view(), name='event'),
     path('event/<int:pk>/register', views.RegEventView, name='reg_event'),
     path('event/<int:pk>/reg_event_success', views.RegEventSuccessView, name='reg_event_success'),
+    path('event/<int:pk>/realtime', views.EventRealtime.as_view(), name='event_realtime'),
     path('assos/<int:pk>', views.AssociationView.as_view(), name='association'),
     path('assos/dashboard/<int:pk>', views.DashboardAssociationView.as_view(), name='dashboard_association'),
     path('events.json', views_json.EventsJSON, name='events_json'),

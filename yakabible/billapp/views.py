@@ -172,3 +172,7 @@ class EventsListView(generic.ListView):
     model = Event
     def get_queryset(self):
         return super().get_queryset().filter(end__gte=datetime.now()).order_by('begin')
+
+class EventRealtime(generic.DetailView):
+    template_name = "billapp/event_realtime.html"
+    model = Event
