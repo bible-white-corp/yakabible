@@ -64,15 +64,7 @@
                         <th scope="row">{{ tick.pk }}</th>
                         <td><a href="{% url 'event' pk=tick.event.pk %}">{{ tick.event.title }}</a></td>
                         <td>{{ tick.category }}</td>
-                        <td>{% if tick.state == 0 %}
-                                Expiré
-                            {% elif tick.state == 1 %}
-                                Pas utilisé
-                            {% elif tick.state ==  2 %}
-                                Utilisé
-                            {% else %}
-                                En pause
-                            {% endif %}</td>
+                        <td>{{ tick.state | get_ticket_state }}</td>
                         <td><a href="{% url 'reg_event_success' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
                     </tr>
                 {% endfor %}

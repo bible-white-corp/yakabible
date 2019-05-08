@@ -50,6 +50,16 @@ def get_role(index):
     return switcher.get(index)
 
 @register.filter
+def get_ticket_state(index):
+    switcher = {
+        0: "Expiré",
+        1: "Pas utilisé",
+        2: "Utilisé",
+        3: "En pause"
+    }
+    return switcher.get(index)
+
+@register.filter
 def get_president(assos):
     user = assos.associationuser_set.filter(role=2)
     if not user:
@@ -62,3 +72,7 @@ def get_admin_email():
     if not user:
         return "NO ADMIN"
     return user[0].email
+
+@register.simple_tag(takes_context=True)
+def event_started(context):
+    return context['object'].begin < datetime.now() < context['object'].end
