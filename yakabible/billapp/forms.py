@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import formset_factory
+from .models import *
 
 class Event_Form(forms.Form):
     title = forms.CharField(label='f_title', max_length=128,
@@ -44,8 +45,12 @@ class Event_Form(forms.Form):
                     widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
 class Staff_Form(forms.Form):
+    l = [("","Choisir une association")]
+    for asso in Association.objects.all():
+        l.append((asso.name, asso.name));
+    CHOICES = tuple(l)
     association_name = forms.CharField(label='f_association_name', max_length=128,
-                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+                    widget=forms.Select(attrs={'class': 'form-control'}, choices=CHOICES))
     capacity = forms.IntegerField(label='f_capacity',
                widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
