@@ -34,6 +34,7 @@ class CreateEvView(generic.FormView):
     success_url = "/?valid"
 
     def form_valid(self, form):
+        print(form.cleaned_data)
         insert_event(User.objects.get(username='Admin'), form)
         return super().form_valid(form)
 
