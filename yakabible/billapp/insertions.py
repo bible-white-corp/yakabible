@@ -1,5 +1,5 @@
 from .models import *
-from .forms import Event_Form
+from .forms import Event_Form, Staff_Form, Staff_Form_Set
 
 def insert_event(user, form):
     e = Event(
@@ -23,6 +23,7 @@ def insert_event(user, form):
             show_capacity = form.cleaned_data['show_capacity']
             )
     e.save()
+    return e
 
 def insert_user(form):
     u = User.objects.create_user(
@@ -49,3 +50,14 @@ def update_ticket(ticket, new_state):
     ticket.state = new_state
     ticket.save()
     return ticket
+
+def insert_staff_capacity(formset, event):
+    for form in formset:
+        if form.cleaned_data['association_name'] == "" or form.cleaned_data['capacity'] <= 0:
+           continue
+        ev_staff_cap = EventStaffCapacity(
+                    event = event,
+                    association = Association.objects.get(name=form.cleaned_data['association_name']),
+                    capacity = form.cleaned_data['capacity']
+                    )
+        ev_staff_cap.save()

@@ -40,13 +40,15 @@ class CreateEvView(generic.View):
 
     def post(self, request):
         event_form = Event_Form(request.POST)
+
         staff_form = Staff_Form_Set(request.POST)
         if 'additems' in request.POST and  request.POST["additems"] == 'true':
             formset_dictionary_copy = request.POST.copy()
             formset_dictionary_copy['form-TOTAL_FORMS'] = int(formset_dictionary_copy['form-TOTAL_FORMS']) + 1
             staff_form = Staff_Form_Set(formset_dictionary_copy)
         elif event_form.is_valid() and staff_form.is_valid():
-            insert_event(User.objects.get(username='Admin'), event_form)
+            e = insert_event(User.objects.get(username='Admin'), event_form)
+            insert_staff_capacity(staff_form, e)
             return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'event_form': event_form,
                                                     'staff_form': staff_form})
