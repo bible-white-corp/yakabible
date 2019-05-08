@@ -41,6 +41,7 @@ class Event(models.Model):
     staff_capacity = models.IntegerField()
     promotion_image_path = models.ImageField(upload_to=promo_image_path)
     validation_state = models.BooleanField()
+    show_capacity = models.BooleanField()
 
     def __str__(self):
         return self.title
