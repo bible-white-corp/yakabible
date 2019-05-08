@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.core.paginator import Paginator
-
+from django.db import IntegrityError
 from .forms import *
 from .models import Event, Ticket
 from .insertions import *
@@ -89,10 +89,16 @@ class RegistrationView(generic.TemplateView):
 
     def post(self, request):
         form = Inscription_Form(request.POST)
+
         if form.is_valid() and form.cleaned_data['pwd'] == form.cleaned_data['pwd_conf']:
-            user = insert_user(form)
+            try:
+                user = insert_user(form)
+            except IntegrityError:
+                return render(request, self.template_name, {'form': form, 'errorAlreadyUsed': True})
+
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return HttpResponseRedirect('/?valid')
+
         return render(request, self.template_name, {'form': form, 'error': True})
 
 class EventView(generic.DetailView):

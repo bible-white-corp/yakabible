@@ -18,6 +18,13 @@ Inscription
                 </div>
             </div>
         {% endif %}
+        {% if errorAlreadyUsed %}
+            <div class="container mt-3">
+                <div class="alert alert-danger" role="alert">
+                    Ce nom d'utilisateur est déjà utilisé
+                </div>
+            </div>
+        {% endif %}
         <form class="container" method="post">
             <div class="form-row mt-3">
                 <div class="col-lg-3 mb-1">
