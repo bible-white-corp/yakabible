@@ -25,18 +25,31 @@ class IndexView(generic.ListView):
         return super().get_queryset().filter(premium=True) # TODO : Filter only future events
     
 
-class CreateEvView(generic.FormView):
+class CreateEvView(generic.View):
     """
     View pour créer un événement
     """
     template_name = "billapp/create_event.html"
-    form_class = Event_Form
     success_url = "/?valid"
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        insert_event(User.objects.get(username='Admin'), form)
-        return super().form_valid(form)
+    def get(self, request):
+        event_form = Event_Form()
+        staff_form = Staff_Form_Set()
+        return render(request, self.template_name, {'event_form': event_form,
+                                                    'staff_form': staff_form})
+
+    def post(self, request):
+        event_form = Event_Form(request.POST)
+        staff_form = Staff_Form_Set(request.POST)
+        if 'additems' in request.POST and  request.POST["additems"] == 'true':
+            formset_dictionary_copy = request.POST.copy()
+            formset_dictionary_copy['form-TOTAL_FORMS'] = int(formset_dictionary_copy['form-TOTAL_FORMS']) + 1
+            staff_form = Staff_Form_Set(formset_dictionary_copy)
+        elif event_form.is_valid() and staff_form.is_valid():
+            insert_event(User.objects.get(username='Admin'), event_form)
+            return HttpResponseRedirect('/?valid')
+        return render(request, self.template_name, {'event_form': event_form,
+                                                    'staff_form': staff_form})
 
 class ConnectionView(generic.TemplateView):
     """

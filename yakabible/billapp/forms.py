@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import formset_factory
 
 class Event_Form(forms.Form):
     title = forms.CharField(label='f_title', max_length=128,
@@ -41,6 +42,14 @@ class Event_Form(forms.Form):
     show_capacity = forms.BooleanField(label='f_show_capacity', required=False,
                     initial=False,
                     widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+
+class Staff_Form(forms.Form):
+    association_name = forms.CharField(label='f_association_name', max_length=128,
+                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    capacity = forms.IntegerField(label='f_capacity',
+               widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+Staff_Form_Set = formset_factory(Staff_Form)
 
 class Connection_Form(forms.Form):
     username = forms.CharField(label='f_pseudo',

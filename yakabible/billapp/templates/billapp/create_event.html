@@ -16,64 +16,86 @@ Créer un événement
             <div class="form-row mt-3">
                 <div class="col-lg-4 mb-3">
                     <label for="f_title">Titre événement</label>
-                    {{form.title}}
+                    {{event_form.title}}
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label for="f_place">Lieu</label>
-                    {{form.place}}
+                    {{event_form.place}}
                 </div>
                 <div class="col-lg-4 mb-3">
                     <p>Image de promotion</p>
                     <label style="margin-top: 32px" class="custom-file-label" for="f_img">Choisir fichier...</label>
-                    {{form.promotion_image_path}}
+                    {{event_form.promotion_image_path}}
                 </div>
             </div>
             <div class="form-group">
                 <div class="mb-3">
                     <label for="f_desc">Description</label>
-                    {{form.description}}
+                    {{event_form.description}}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_date_start">Date (début)</label>
-                    {{form.begin}}
+                    {{event_form.begin}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_date_end">Date (fin)</label>
-                    {{form.end}}
+                    {{event_form.end}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_insc_start">Ouverture inscriptions</label>
-                    {{form.begin_register}}
+                    {{event_form.begin_register}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_insc_end">Fermeture inscriptions</label>
-                    {{form.end_register}}
+                    {{event_form.end_register}}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_limit_ext">Limite externes</label>
-                    {{form.ext_capacity}}
+                    {{event_form.ext_capacity}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_limit_int">Limite IONIS</label>
-                    {{form.int_capacity}}
+                    {{event_form.int_capacity}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_price_ext">Prix externes</label>
-                    {{form.price}}
+                    {{event_form.price}}
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
                     <label for="f_price_int">Prix IONIS</label>
-                    {{form.price_ionis}}
+                    {{event_form.price_ionis}}
                 </div>
             </div>
             <div class="form-row form-check">
                 <div class="col-lg-3 col-md-6 mb-3">
-                    {{form.show_capacity}}
+                    {{event_form.show_capacity}}
                     <label for="f_show_capacity">Afficher les places restantes</label>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <p class="card-header">Staff</p>
+                <div class="p-3">
+                    {{ staff_form.management_form }}
+                    {% for form in staff_form %}
+                        <div class="form-row">
+                            <div class="col-lg-6 col-md-12 mb-3">
+                                <label for="f_association_name">Asso</label>
+                                {{ form.association_name }}
+                            </div>
+                            <div class="col-lg-6 col-md-12 mb-3">
+                                <label for="f_capacity">Capacité</label>
+                                {{ form.capacity }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div>
+                        <input type="hidden" values="false" name="additems" id="additems">
+                        <button class="btn btn-primary" id="additemsbutton" formnovalidate>Add</button>
+                    </div>
                 </div>
             </div>
             {% csrf_token %}
@@ -89,6 +111,13 @@ Créer un événement
         $(function () {
             $('.date-pick').datetimepicker({
                 locale: 'fr'
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#additemsbutton").on('click',function(event) {
+                $("#additems").val("true");
             });
         });
     </script>
