@@ -32,13 +32,16 @@ class CreateEvView(generic.View):
     template_name = "billapp/create_event.html"
     success_url = "/?valid"
 
-    def get(self, request):
+    def get(self, request, pk):
+        asso = get_object_or_404(Association, pk=pk)
         event_form = Event_Form()
         staff_form = Staff_Form_Set()
-        return render(request, self.template_name, {'event_form': event_form,
+        return render(request, self.template_name, {'asso': asso,
+                                                    'event_form': event_form,
                                                     'staff_form': staff_form})
 
-    def post(self, request):
+    def post(self, request, pk):
+        asso = get_object_or_404(Association, pk=pk)
         event_form = Event_Form(request.POST)
 
         staff_form = Staff_Form_Set(request.POST)
@@ -47,10 +50,12 @@ class CreateEvView(generic.View):
             formset_dictionary_copy['form-TOTAL_FORMS'] = int(formset_dictionary_copy['form-TOTAL_FORMS']) + 1
             staff_form = Staff_Form_Set(formset_dictionary_copy)
         elif event_form.is_valid() and staff_form.is_valid():
-            e = insert_event(User.objects.get(username='Admin'), event_form)
+            asso = Association.objects.get(pk=pk)
+            e = insert_event(request.user, event_form, asso)
             insert_staff_capacity(staff_form, e)
             return HttpResponseRedirect('/?valid')
-        return render(request, self.template_name, {'event_form': event_form,
+        return render(request, self.template_name, {'asso': asso,
+                                                    'event_form': event_form,
                                                     'staff_form': staff_form})
 
 class ConnectionView(generic.TemplateView):

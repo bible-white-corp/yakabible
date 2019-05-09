@@ -1,11 +1,11 @@
 from .models import *
 from .forms import Event_Form, Staff_Form, Staff_Form_Set
 
-def insert_event(user, form):
+def insert_event(user, form, asso):
     e = Event(
             title = form.cleaned_data['title'],
             description = form.cleaned_data['description'],
-            association = Association.objects.get(name='Antre'),
+            association = asso,
             manager = user,
             premium = False,
             begin = form.cleaned_data['begin'],
