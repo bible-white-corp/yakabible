@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
@@ -139,11 +139,19 @@ class ProfileView(generic.DetailView):
     context_object_name = 'obj'
     template_name = 'billapp/profile.html'
 
+@login_required
+def TicketDownload(request, pk):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    if ticket.user != request.user:
+        return HttpResponseNotFound("Ticket not found")
+    return make_pdf_response(ticket)
+
+@login_required
 def RegEventSuccessView(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
-    event = ticket.event
-    association = event.association
-    return make_pdf_response(ticket, association)
+    pdf = make_pdf(ticket)
+    send_pdf_mail(ticket, pdf)
+    return make_pdf_response(ticket, pdf)
 
 def LogOutView(request):
     logout(request)

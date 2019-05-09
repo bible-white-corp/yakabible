@@ -65,7 +65,7 @@
                         <td><a href="{% url 'event' pk=tick.event.pk %}">{{ tick.event.title }}</a></td>
                         <td>{{ tick.category }}</td>
                         <td>{{ tick.state | get_ticket_state }}</td>
-                        <td><a href="{% url 'reg_event_success' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
+                        <td><a href="{% url 'ticket' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

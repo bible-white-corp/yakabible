@@ -20,7 +20,8 @@ def make_qrcode(ticket):
     return q.make_image()
 
 
-def make_pdf(ticket, association):
+def make_pdf(ticket):
+    association = ticket.event.association
     buffer = BytesIO()
     img = make_qrcode(ticket)
     logo_epita_tmp = Image.open(os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png'));
@@ -64,10 +65,13 @@ def make_pdf(ticket, association):
     buffer.close()
     return pdf
 
-def send_pdf_mail(pdf, ticket):
+def send_pdf_mail(ticket, pdf=None):
+    if pdf is None:
+        pdf = make_pdf(ticket)
+
     pdf_name = "{}_{}.pdf".format(ticket.user, ticket.event.title.replace(' ', '-'))
 
-# TODO plus joli mail
+    # TODO plus joli mail
     email = EmailMessage(
         'Billetterie EPITA: ' + ticket.event.title,
         ticket.user.username + ', voici votre place pour l\'événement ' + ticket.event.title,
@@ -79,14 +83,13 @@ def send_pdf_mail(pdf, ticket):
     email.send()
 
 
-def make_pdf_response(ticket, association):
+def make_pdf_response(ticket, pdf=None):
+    if pdf is None:
+        pdf = make_pdf(ticket)
+
     pdf_name = "{}_{}.pdf".format(ticket.user, ticket.event.title.replace(' ', '-'))
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=' + pdf_name
-
-    pdf = make_pdf(ticket, association)
-
-    send_pdf_mail(pdf, ticket)
 
     response.write(pdf)
     return response
