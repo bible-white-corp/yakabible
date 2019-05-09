@@ -27,14 +27,14 @@
         <div class="list-group list-group-horizontal-lg">
             <div class="list-group-item p0">
                 <div class="list-group">
-                    {% for ev in object.event_set.all %}
+                    {% for ev in object.event_set.all|visible_events %}
                     <a data-toggle="collapse" href="#ev{{ ev.pk }}"
                         class="list-group-item list-group-item-action">{{ ev.title }}</a>
                     {% endfor %}
                 </div>
             </div>
             <div class="list-group-item p0">
-                {% for ev in object.event_set.all %}
+                {% for ev in object.event_set.all|visible_events %}
                 <div class="collapse" id="ev{{ ev.pk }}">
                     <div class="list-group list-group-horizontal-md">
                         <div class="list-group-item">

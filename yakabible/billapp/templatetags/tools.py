@@ -76,3 +76,18 @@ def get_admin_email():
 @register.simple_tag(takes_context=True)
 def event_started(context):
     return context['object'].begin < datetime.now() < context['object'].end
+
+@register.filter
+def visible_events(e):
+    return e.filter(validation_state=True).filter(end__gte=datetime.now())
+
+@register.filter
+def is_not_validated(e):
+    return not e.validation_state
+
+@register.filter
+def unprepared(e, user):
+    if user == e.manager:
+        return True
+    return user.is_staff or user.is_superuser
+

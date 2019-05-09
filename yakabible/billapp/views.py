@@ -22,7 +22,9 @@ class IndexView(generic.ListView):
     model=Event
 
     def get_queryset(self):
-        return super().get_queryset().filter(premium=True) # TODO : Filter only future events
+        return super().get_queryset().filter(premium=True)\
+            .filter(validation_state=True)\
+            .filter(end__gte=datetime.now())
     
 
 class CreateEvView(generic.View):
@@ -192,7 +194,10 @@ class EventsListView(generic.ListView):
     template_name = "billapp/events_list.html"
     model = Event
     def get_queryset(self):
-        return super().get_queryset().filter(end__gte=datetime.now()).order_by('begin')
+        return super().get_queryset()\
+            .filter(end__gte=datetime.now())\
+            .order_by('begin')\
+            .filter(validation_state=True)
 
 class EventRealtime(generic.DetailView):
     template_name = "billapp/event_realtime.html"

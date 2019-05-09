@@ -9,6 +9,11 @@
 {% endblock title %}
 
 {% block content %}
+    {% if object|is_not_validated and user != object.manager and not user.is_superuser and not user.is_staff%}
+
+        Oops, vous ne pouvez pas acceder a cette page pour le moment.
+        <!-- #TODO faire une jolie page de refus-->
+    {% else %}
     <div class="card mt-3">
         <h5 class="card-header">Événement</h5>
         <div class="container">
@@ -52,6 +57,7 @@
             <p>Organisé par : <a href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
         </div>
     </div>
+    {% endif %}
 {% endblock content %}
 
 {% block sup_foot %}
