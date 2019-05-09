@@ -81,13 +81,17 @@ def event_started(context):
 def visible_events(e):
     return e.filter(validation_state=True).filter(end__gte=datetime.now())
 
-@register.filter
-def is_not_validated(e):
-    return not e.validation_state
-
-@register.filter
-def unprepared(e, user):
-    if user == e.manager:
+@register.simple_tag
+def unprepared(e, u):
+    if e.validation_state:
+        return False
+    if u.is_anonymous:
         return True
-    return user.is_staff or user.is_superuser
-
+    if u == e.manager or u.is_staff or u.is_superuser:
+        return False
+    status = e.association.associationuser_set.filter(user=u).filter(association=e.association)
+    if not status:
+        return True
+    if status[0].role == 1 or status.role[0] == 2:
+        return False
+    return True

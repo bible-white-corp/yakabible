@@ -9,11 +9,16 @@
 {% endblock title %}
 
 {% block content %}
-    {% if object|is_not_validated and user != object.manager and not user.is_superuser and not user.is_staff%}
-
+    {% unprepared event user as accessible %}
+    {% if accessible %}
         Oops, vous ne pouvez pas acceder a cette page pour le moment.
         <!-- #TODO faire une jolie page de refus-->
     {% else %}
+        {% if not event.validation_state %}
+            <div class="alert-danger container-fluid">
+            Cet événement n'a pas encore été validé !
+            </div>
+        {% endif %}
     <div class="card mt-3">
         <h5 class="card-header">Événement</h5>
         <div class="container">
@@ -57,6 +62,11 @@
             <p>Organisé par : <a href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
         </div>
     </div>
+        {% if not event.validation_state %}
+            <div class="alert-danger container-fluid">
+            Cet événement n'a pas encore été validé !
+            </div>
+        {% endif %}
     {% endif %}
 {% endblock content %}
 
