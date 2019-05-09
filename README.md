@@ -5,7 +5,7 @@ python yakabible/manage.py runserver [IP:PORT]
 ```
 Launch tests :
 ```
-python yakabible/manage.py test
+pytest yakabible/
 ```
 Technical doc :
 ```
