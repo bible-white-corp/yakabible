@@ -118,3 +118,7 @@ def is_Rapproval_failure(query):
     if query.get('Rapproval') == 'failure':
         return True
     return False
+
+@register.filter
+def get_number_of_member(asso):
+    return asso.associationuser_set.count()

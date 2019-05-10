@@ -44,6 +44,17 @@ class Event_Form(forms.Form):
                     initial=False,
                     widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
+class Asso_Form(forms.Form):
+    name = forms.CharField(label='f_name', max_length=64,
+                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    logo_path = forms.ImageField(required=False, label='f_img',
+                    widget=forms.FileInput(attrs={'class': 'custom-file-input'}))
+    email = forms.EmailField(label='f_email', max_length=64,
+                    widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description = forms.CharField(label='f_desc',
+                    widget=forms.Textarea(attrs={'class': 'form-control',
+                                                  'rows': 5}))
+
 class Staff_Form(forms.Form):
     l = [("","Choisir une association")]
     for asso in Association.objects.all():

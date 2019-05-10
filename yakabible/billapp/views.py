@@ -129,6 +129,30 @@ class DashboardAssociationView(generic.DetailView):
     model = Association
     template_name = 'billapp/dashboard_association.html'
 
+class DashboardRespoView(generic.TemplateView):
+    """
+    View du dashboard du responsable des associations
+    """
+    template_name = 'billapp/dashboard_respo.html'
+
+    def get(self, request):
+        asso_form = Asso_Form()
+        all_events = Event.objects.all()
+        all_assos = Association.objects.all()
+        return render(request, self.template_name, {'Form': asso_form,
+                                                    'Events': all_events,
+                                                    'Assos': all_assos})
+
+    def post(self, request):
+        asso_form = Asso_Form(request.POST)
+        all_events = Event.objects.all()
+        all_assos = Association.objects.all()
+        if (asso_form.is_valid()):
+            pass
+        return render(request, self.template_name, {'Form': asso_form,
+                                                    'Events': all_events,
+                                                    'Assos': all_assos})
+
 @login_required
 def Profile_redir(request):
     return HttpResponseRedirect(reverse('profile', args=[request.user.pk]))

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+{{ object.name }}
+{% endblock title %}
+
+{% block content %}
+<h1 class="mt-2"> Dashboard Responsable des Associations </h1>
+<div class="card mt-3">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="DashassoTab" role="tablist">
+            <li class="nav-item mx-3">
+                <a class="nav-link active" id="listevent-tab" data-toggle="tab" href="#listevent" role="tab">Liste des événements</a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link" id="listassos-tab" data-toggle="tab" href="#listassos" role="tab">Liste des associations</a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link" id="createasso-tab" data-toggle="tab" href="#createasso" role="tab">Créer une association</a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content" id="DashassoTabContent">
+        <div class="tab-pane fade show active mx-2" id="listevent" role="tabpanel">
+            <div class="row">
+                <div class="col-sm">
+                    <h4 class="mt-3"> Evenements confirmés </h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th> Titre </th>
+                                <th> Responsable </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in Events %}
+                            {% if event.validation_state == 3%}
+                                <tr>
+                                    <td> {{ event.title }} </td>
+                                    <td> {{ event.manager.username }} </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm">
+                    <h4 class="mt-3"> Evenements non confirmés </h4>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th> Titre </th>
+                                <th> Responsable </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for event in Events %}
+                            {% if not event.validation_state == 3%}
+                                <tr>
+                                    <td> {{ event.title }} </td>
+                                    <td> {{ event.manager.username }} </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade mx-2" id="listassos" role="tabpanel">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th> Nom </th>
+                        <th> Président </th>
+                        <th> Nombre de membre </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for asso in Assos %}
+                    <tr>
+                        <td> {{ asso.name }} </td>
+                        <td> {{ asso | get_president }} </td>
+                        <td> {{ asso | get_number_of_member }} </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade mx-2" id="createasso" role"tabpanel">
+            <div class="mb-2">
+                <form enctype='multipart/form-data' class='container' method="post">
+                    <div class="form-row">
+                        <div class="col-lg-6">
+                            <label for="f_name">Nom</label>
+                            {{ Form.name}}
+                        </div>
+                        <div class="col-lg-6">
+                            <p>Logo</p>
+                            <label style="margin-top: 32px" class="custom-file-label" for="f_img">Logo</label>
+                            {{ Form.logo_path }}
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="f_email">Email</label>
+                        {{ Form.email}}
+                    </div>
+                    <div class="form-group">
+                        <label for="f_desc">Description</label>
+                        {{ Form.description }}
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-primary" type="submit">Créer un évènement</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

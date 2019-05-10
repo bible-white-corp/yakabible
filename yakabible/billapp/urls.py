@@ -24,4 +24,5 @@ urlpatterns = [
     path('events/', views.EventsListView.as_view(), name='events_list'),
     path('profile/', views.Profile_redir, name='own_profile'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
+    path('respos/dashboard', views.DashboardRespoView.as_view(), name='dashboard_respo'),
 ]
