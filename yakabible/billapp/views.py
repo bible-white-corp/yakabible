@@ -141,7 +141,9 @@ class DashboardRespoView(generic.TemplateView):
         all_assos = Association.objects.all()
         return render(request, self.template_name, {'Form': asso_form,
                                                     'Events': all_events,
-                                                    'Assos': all_assos})
+                                                    'Assos': all_assos,
+                                                    'f_active': "active",
+                                                    'show_f_active': "show active"})
 
     def post(self, request):
         asso_form = Asso_Form(request.POST, request.FILES)
@@ -152,7 +154,9 @@ class DashboardRespoView(generic.TemplateView):
             return self.get(request)
         return render(request, self.template_name, {'Form': asso_form,
                                                     'Events': all_events,
-                                                    'Assos': all_assos})
+                                                    'Assos': all_assos,
+                                                    't_active': "active",
+                                                    'show_t_active': "show active"})
 
 @login_required
 def Profile_redir(request):
