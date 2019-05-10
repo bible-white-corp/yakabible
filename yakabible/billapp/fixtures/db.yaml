@@ -1,0 +1,489 @@
+- model: billapp.association
+  pk: 1
+  fields: {name: Antre, logo_path: assos/dhRHLsfMSsiUWcRo4Poh4H8dQM1a248j_antre.JPG,
+    email: antre@epita.fr, description: NOPE}
+- model: billapp.association
+  pk: 2
+  fields: {name: Epitanime, logo_path: assos/TZNrWhS1CEJamadWVbg5r92HIauXBmvJ_epitanime.png,
+    email: epitanime@epita.fr, description: "c b1 l\xE9 anim"}
+- model: billapp.association
+  pk: 3
+  fields: {name: YAKA, logo_path: assos/uPzKHvzDoNs7GEx5VO2pKJTRY7DDSkUl_xAAtzmwSdhlX7nwV0vpBEHsyRjsuYRNk_maxresdefault.jpg,
+    email: YAKA@email.me, description: Yet Another Kind of Assistant}
+- model: billapp.association
+  pk: 4
+  fields: {name: EPTV, logo_path: assos/o8pHbbEyFrH9rN5VFFO3RPivs04P6omg_EPTV.jpg,
+    email: eptv@epita.fr, description: EPTV filme des trucs}
+- model: billapp.association
+  pk: 5
+  fields: {name: EpiMac, logo_path: assos/twGKsPZyFuTFcOsjR8L0gkHdI8YS8zEc_EpiMac.png,
+    email: mac@epita.fr, description: aPple thINk DiFFFFrent}
+- model: billapp.association
+  pk: 6
+  fields: {name: Episport, logo_path: assos/b1TLbysOLPQd5KE80MSM3j5CyizgdxJJ_Episport.png,
+    email: sport@epita.fr, description: "On fait du sport\r\nC'est bien le sport pour
+      rester en forme\r\n\r\nAllez a ForestHill"}
+- model: billapp.association
+  pk: 7
+  fields: {name: Prologin, logo_path: assos/gMvRz32t5iJ4H9W4Yfiq4iL9WoAIy4kR_Prologin.jpg,
+    email: prologin@epita.fr, description: Tout le monde en parle mais je sais toujours
+      pas ce qu'ils font}
+- model: billapp.association
+  pk: 8
+  fields: {name: LATEB, logo_path: assos/7DcGLxJb8CxKWkUuVKO7zXQZ016giSnK_LATEB.jpg,
+    email: lateb@bierre.epita.fr, description: Lateb et la bierre}
+- model: billapp.association
+  pk: 9
+  fields: {name: Epichess, logo_path: assos/w8c6MIL9X5ONWOvUIw6TE2RZqWmYfYg5_Epichess.jpg,
+    email: chess@project.yaka.fr, description: Le projet Chess arrive bientot !!}
+- model: billapp.association
+  pk: 10
+  fields: {name: Epistar, logo_path: assos/0UGjdimbviDciBHTNjW2Vi0QZ3Xp0tcD_EpiStar.png,
+    email: star@star.fr, description: "Regardons les \xE9toiles ensemble"}
+- model: billapp.association
+  pk: 11
+  fields: {name: Epioeno, logo_path: assos/AKIshNyKznlBgxrS3ugQdmqC49w7F8bQ_Epioeno.JPG,
+    email: epi@epi.fr, description: Les amateurs de vin se retrouvent autour d'un
+      verre...}
+- model: billapp.association
+  pk: 12
+  fields: {name: Epirev, logo_path: assos/lNrKOSdRpsQEXIMgpjADxBiFXfHpqiuH_Epirev.JPG,
+    email: revpas@epita.fr, description: "Epirev te fait r\xEAver."}
+
+- model: contenttypes.contenttype
+  pk: 1
+  fields: {app_label: billapp, model: association}
+- model: contenttypes.contenttype
+  pk: 2
+  fields: {app_label: billapp, model: associationuser}
+- model: contenttypes.contenttype
+  pk: 3
+  fields: {app_label: billapp, model: event}
+- model: contenttypes.contenttype
+  pk: 4
+  fields: {app_label: billapp, model: ticket}
+- model: contenttypes.contenttype
+  pk: 5
+  fields: {app_label: admin, model: logentry}
+- model: contenttypes.contenttype
+  pk: 6
+  fields: {app_label: auth, model: permission}
+- model: contenttypes.contenttype
+  pk: 7
+  fields: {app_label: auth, model: group}
+- model: contenttypes.contenttype
+  pk: 8
+  fields: {app_label: auth, model: user}
+- model: contenttypes.contenttype
+  pk: 9
+  fields: {app_label: contenttypes, model: contenttype}
+- model: contenttypes.contenttype
+  pk: 10
+  fields: {app_label: sessions, model: session}
+- model: contenttypes.contenttype
+  pk: 11
+  fields: {app_label: social_django, model: association}
+- model: contenttypes.contenttype
+  pk: 12
+  fields: {app_label: social_django, model: code}
+- model: contenttypes.contenttype
+  pk: 13
+  fields: {app_label: social_django, model: nonce}
+- model: contenttypes.contenttype
+  pk: 14
+  fields: {app_label: social_django, model: usersocialauth}
+- model: contenttypes.contenttype
+  pk: 15
+  fields: {app_label: social_django, model: partial}
+- model: contenttypes.contenttype
+  pk: 16
+  fields: {app_label: billapp, model: eventstaffcapacity}
+
+- model: auth.permission
+  pk: 1
+  fields: {name: Can add association, content_type: 1, codename: add_association}
+- model: auth.permission
+  pk: 2
+  fields: {name: Can change association, content_type: 1, codename: change_association}
+- model: auth.permission
+  pk: 3
+  fields: {name: Can delete association, content_type: 1, codename: delete_association}
+- model: auth.permission
+  pk: 4
+  fields: {name: Can view association, content_type: 1, codename: view_association}
+- model: auth.permission
+  pk: 5
+  fields: {name: Can add association user, content_type: 2, codename: add_associationuser}
+- model: auth.permission
+  pk: 6
+  fields: {name: Can change association user, content_type: 2, codename: change_associationuser}
+- model: auth.permission
+  pk: 7
+  fields: {name: Can delete association user, content_type: 2, codename: delete_associationuser}
+- model: auth.permission
+  pk: 8
+  fields: {name: Can view association user, content_type: 2, codename: view_associationuser}
+- model: auth.permission
+  pk: 9
+  fields: {name: Can add event, content_type: 3, codename: add_event}
+- model: auth.permission
+  pk: 10
+  fields: {name: Can change event, content_type: 3, codename: change_event}
+- model: auth.permission
+  pk: 11
+  fields: {name: Can delete event, content_type: 3, codename: delete_event}
+- model: auth.permission
+  pk: 12
+  fields: {name: Can view event, content_type: 3, codename: view_event}
+- model: auth.permission
+  pk: 13
+  fields: {name: Can add ticket, content_type: 4, codename: add_ticket}
+- model: auth.permission
+  pk: 14
+  fields: {name: Can change ticket, content_type: 4, codename: change_ticket}
+- model: auth.permission
+  pk: 15
+  fields: {name: Can delete ticket, content_type: 4, codename: delete_ticket}
+- model: auth.permission
+  pk: 16
+  fields: {name: Can view ticket, content_type: 4, codename: view_ticket}
+- model: auth.permission
+  pk: 17
+  fields: {name: Can add log entry, content_type: 5, codename: add_logentry}
+- model: auth.permission
+  pk: 18
+  fields: {name: Can change log entry, content_type: 5, codename: change_logentry}
+- model: auth.permission
+  pk: 19
+  fields: {name: Can delete log entry, content_type: 5, codename: delete_logentry}
+- model: auth.permission
+  pk: 20
+  fields: {name: Can view log entry, content_type: 5, codename: view_logentry}
+- model: auth.permission
+  pk: 21
+  fields: {name: Can add permission, content_type: 6, codename: add_permission}
+- model: auth.permission
+  pk: 22
+  fields: {name: Can change permission, content_type: 6, codename: change_permission}
+- model: auth.permission
+  pk: 23
+  fields: {name: Can delete permission, content_type: 6, codename: delete_permission}
+- model: auth.permission
+  pk: 24
+  fields: {name: Can view permission, content_type: 6, codename: view_permission}
+- model: auth.permission
+  pk: 25
+  fields: {name: Can add group, content_type: 7, codename: add_group}
+- model: auth.permission
+  pk: 26
+  fields: {name: Can change group, content_type: 7, codename: change_group}
+- model: auth.permission
+  pk: 27
+  fields: {name: Can delete group, content_type: 7, codename: delete_group}
+- model: auth.permission
+  pk: 28
+  fields: {name: Can view group, content_type: 7, codename: view_group}
+- model: auth.permission
+  pk: 29
+  fields: {name: Can add user, content_type: 8, codename: add_user}
+- model: auth.permission
+  pk: 30
+  fields: {name: Can change user, content_type: 8, codename: change_user}
+- model: auth.permission
+  pk: 31
+  fields: {name: Can delete user, content_type: 8, codename: delete_user}
+- model: auth.permission
+  pk: 32
+  fields: {name: Can view user, content_type: 8, codename: view_user}
+- model: auth.permission
+  pk: 33
+  fields: {name: Can add content type, content_type: 9, codename: add_contenttype}
+- model: auth.permission
+  pk: 34
+  fields: {name: Can change content type, content_type: 9, codename: change_contenttype}
+- model: auth.permission
+  pk: 35
+  fields: {name: Can delete content type, content_type: 9, codename: delete_contenttype}
+- model: auth.permission
+  pk: 36
+  fields: {name: Can view content type, content_type: 9, codename: view_contenttype}
+- model: auth.permission
+  pk: 37
+  fields: {name: Can add session, content_type: 10, codename: add_session}
+- model: auth.permission
+  pk: 38
+  fields: {name: Can change session, content_type: 10, codename: change_session}
+- model: auth.permission
+  pk: 39
+  fields: {name: Can delete session, content_type: 10, codename: delete_session}
+- model: auth.permission
+  pk: 40
+  fields: {name: Can view session, content_type: 10, codename: view_session}
+- model: auth.permission
+  pk: 41
+  fields: {name: Can add association, content_type: 11, codename: add_association}
+- model: auth.permission
+  pk: 42
+  fields: {name: Can change association, content_type: 11, codename: change_association}
+- model: auth.permission
+  pk: 43
+  fields: {name: Can delete association, content_type: 11, codename: delete_association}
+- model: auth.permission
+  pk: 44
+  fields: {name: Can view association, content_type: 11, codename: view_association}
+- model: auth.permission
+  pk: 45
+  fields: {name: Can add code, content_type: 12, codename: add_code}
+- model: auth.permission
+  pk: 46
+  fields: {name: Can change code, content_type: 12, codename: change_code}
+- model: auth.permission
+  pk: 47
+  fields: {name: Can delete code, content_type: 12, codename: delete_code}
+- model: auth.permission
+  pk: 48
+  fields: {name: Can view code, content_type: 12, codename: view_code}
+- model: auth.permission
+  pk: 49
+  fields: {name: Can add nonce, content_type: 13, codename: add_nonce}
+- model: auth.permission
+  pk: 50
+  fields: {name: Can change nonce, content_type: 13, codename: change_nonce}
+- model: auth.permission
+  pk: 51
+  fields: {name: Can delete nonce, content_type: 13, codename: delete_nonce}
+- model: auth.permission
+  pk: 52
+  fields: {name: Can view nonce, content_type: 13, codename: view_nonce}
+- model: auth.permission
+  pk: 53
+  fields: {name: Can add user social auth, content_type: 14, codename: add_usersocialauth}
+- model: auth.permission
+  pk: 54
+  fields: {name: Can change user social auth, content_type: 14, codename: change_usersocialauth}
+- model: auth.permission
+  pk: 55
+  fields: {name: Can delete user social auth, content_type: 14, codename: delete_usersocialauth}
+- model: auth.permission
+  pk: 56
+  fields: {name: Can view user social auth, content_type: 14, codename: view_usersocialauth}
+- model: auth.permission
+  pk: 57
+  fields: {name: Can add partial, content_type: 15, codename: add_partial}
+- model: auth.permission
+  pk: 58
+  fields: {name: Can change partial, content_type: 15, codename: change_partial}
+- model: auth.permission
+  pk: 59
+  fields: {name: Can delete partial, content_type: 15, codename: delete_partial}
+- model: auth.permission
+  pk: 60
+  fields: {name: Can view partial, content_type: 15, codename: view_partial}
+- model: auth.permission
+  pk: 61
+  fields: {name: Can add event staff capacity, content_type: 16, codename: add_eventstaffcapacity}
+- model: auth.permission
+  pk: 62
+  fields: {name: Can change event staff capacity, content_type: 16, codename: change_eventstaffcapacity}
+- model: auth.permission
+  pk: 63
+  fields: {name: Can delete event staff capacity, content_type: 16, codename: delete_eventstaffcapacity}
+- model: auth.permission
+  pk: 64
+  fields: {name: Can view event staff capacity, content_type: 16, codename: view_eventstaffcapacity}
+
+- model: auth.group
+  pk: 2
+  fields:
+    name: Admin
+    permissions: [17, 18, 19, 20, 25, 26, 27, 28, 21, 22, 23, 24, 29, 30, 31, 32,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 33, 34, 35, 36, 37, 38,
+      39, 40]
+- model: auth.group
+  pk: 3
+  fields:
+    name: Manager
+    permissions: [28, 21, 22, 23, 24, 29, 30, 31, 32, 1, 2, 3, 4, 9, 10, 11, 12]
+- model: auth.group
+  pk: 4
+  fields:
+    name: Student
+    permissions: []
+- model: auth.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$180000$lfygFPgT5NW5$V5Ufc+HSgUzjAuE+vaVptokWko0vqhkaPiIz1ZEXqkM=
+    last_login: null
+    is_superuser: false
+    username: Manager
+    first_name: Sarah
+    last_name: Bensalem
+    email: S.B@manager.fr
+    is_staff: true
+    is_active: true
+    date_joined: 2019-04-06 16:56:13+00:00
+    groups: [3]
+    user_permissions: []
+- model: auth.user
+  pk: 2
+  fields:
+    password: pbkdf2_sha256$150000$mYXlW45SaDJ6$fyWheFXC0yFtxSPMz0tDuKL3Xng9Jn429XRz1x7bIxk=
+    last_login: 2019-05-10 08:30:31.260736+00:00
+    is_superuser: true
+    username: Admin
+    first_name: admin
+    last_name: fake
+    email: admin@fake.fr
+    is_staff: true
+    is_active: true
+    date_joined: 2019-04-06 15:40:38+00:00
+    groups: [2]
+    user_permissions: []
+- model: auth.user
+  pk: 3
+  fields:
+    password: pbkdf2_sha256$180000$vm48cw7uKHVE$KBSEIkMfWiVMXFC6ggTha/WiTAcRP9La439qn6bqVYA=
+    last_login: null
+    is_superuser: false
+    username: President_Antre
+    first_name: Louis
+    last_name: Sel
+    email: President@antre.fr
+    is_staff: false
+    is_active: true
+    date_joined: 2019-04-06 16:10:06+00:00
+    groups: [4]
+    user_permissions: []
+- model: auth.user
+  pk: 4
+  fields:
+    password: pbkdf2_sha256$180000$drtpl2nAX99M$YNOIfnbSMnS2Cl750AUZyS0LO6ceotcMl7adBcqJg5A=
+    last_login: null
+    is_superuser: false
+    username: Bureau_Antre
+    first_name: Bureau
+    last_name: Antre
+    email: bureau@antre.fr
+    is_staff: false
+    is_active: true
+    date_joined: 2019-04-06 16:49:38+00:00
+    groups: [4]
+    user_permissions: []
+- model: auth.user
+  pk: 5
+  fields:
+    password: pbkdf2_sha256$180000$M2b698v6t6JO$70OW47O5ZS3lBN7bJBmgaqrVW8Uunyx4fAC3+dHrMys=
+    last_login: 2019-04-11 12:08:52.072430+00:00
+    is_superuser: false
+    username: Membre_Antre
+    first_name: Pas
+    last_name: Thomas
+    email: membre@antre.fr
+    is_staff: false
+    is_active: true
+    date_joined: 2019-04-06 16:50:23+00:00
+    groups: [4]
+    user_permissions: []
+- model: auth.user
+  pk: 6
+  fields:
+    password: '!LExv1BeOtqTYXcfg8bPAP3yWdgzTvGQVwivS29kQ'
+    last_login: 2019-05-09 10:00:33.213641+00:00
+    is_superuser: false
+    username: thomas.lupin
+    first_name: Thomas
+    last_name: Lupin
+    email: thomas.lupin@epita.fr
+    is_staff: false
+    is_active: true
+    date_joined: 2019-05-07 20:10:40.608624+00:00
+    groups: []
+    user_permissions: []
+
+- model: billapp.ticket
+  pk: 2
+  fields: {user: 2, event: 3, category: false, state: 1}
+- model: billapp.ticket
+  pk: 3
+  fields: {user: 4, event: 5, category: false, state: 0}
+- model: billapp.ticket
+  pk: 4
+  fields: {user: 2, event: 5, category: false, state: 0}
+- model: billapp.ticket
+  pk: 5
+  fields: {user: 1, event: 3, category: false, state: 1}
+- model: billapp.ticket
+  pk: 6
+  fields: {user: 5, event: 2, category: false, state: 1}
+- model: billapp.ticket
+  pk: 7
+  fields: {user: 2, event: 2, category: false, state: 1}
+- model: billapp.ticket
+  pk: 8
+  fields: {user: 5, event: 5, category: false, state: 0}
+- model: billapp.ticket
+  pk: 9
+  fields: {user: 5, event: 3, category: false, state: 0}
+- model: billapp.ticket
+  pk: 10
+  fields: {user: 6, event: 5, category: false, state: 0}
+- model: billapp.ticket
+  pk: 11
+  fields: {user: 6, event: 7, category: false, state: 0}
+
+- model: billapp.associationuser
+  pk: 1
+  fields: {user: 3, association: 1, role: 2}
+- model: billapp.associationuser
+  pk: 2
+  fields: {user: 4, association: 1, role: 1}
+- model: billapp.associationuser
+  pk: 3
+  fields: {user: 5, association: 1, role: 0}
+
+- model: billapp.event
+  pk: 2
+  fields: {title: Antre-Jeux, description: Lol salut, association: 1, manager: 3,
+    premium: true, begin: ! '2019-04-10 16:24:14+00:00', end: ! '2019-04-12 16:24:17+00:00',
+    begin_register: ! '2019-04-07 16:24:23+00:00', end_register: ! '2019-04-09 16:25:36+00:00',
+    place: KB, price_ionis: 2.5, price: 3.0, ext_capacity: 10, int_capacity: 10, staff_capacity: 10,
+    promotion_image_path: promo_2/antre.jpg, validation_state: 0, request_for_approuval: false,
+    show_capacity: false}
+- model: billapp.event
+  pk: 3
+  fields: {title: Five Minutes Dungeon, description: Entre deux exams, association: 1,
+    manager: 2, premium: false, begin: ! '2019-05-09 19:00:00+00:00', end: ! '2019-05-10
+      19:05:00+00:00', begin_register: ! '2019-05-04 14:40:00+00:00', end_register: ! '2019-05-06
+      19:00:00+00:00', place: KB, price_ionis: 2.0, price: 5.0, ext_capacity: 2, int_capacity: 5,
+    staff_capacity: 0, promotion_image_path: promo/FTKzUA2qvQruun0uskJuXqCKdnXFsICn_56590de2b9b48d478252dac7fdf7cd55_original.jpg,
+    validation_state: 0, request_for_approuval: false, show_capacity: false}
+- model: billapp.event
+  pk: 5
+  fields: {title: Convention Epitanime, description: "La convention Epitanime (anciennement
+      \"convention de l'animation \xE0 l'EPITA\" ou \"Japan Expo 2000\") est une convention
+      sur la Japanimation. Elle se d\xE9roule tous les ans vers la fin du mois de
+      mai dans les locaux du campus IONIS au Kremlin-Bic\xEAtre. Cette convention
+      est organis\xE9e par l'association Epitanime. \r\nWikipedia lol", association: 2,
+    manager: 2, premium: true, begin: ! '2019-05-10 16:00:00+00:00', end: ! '2019-05-12
+      23:59:59+00:00', begin_register: ! '2019-05-01 00:00:00+00:00', end_register: ! '2019-05-10
+      18:00:00+00:00', place: "14 - 16 rue Voltaire, Le Kremlin-Bic\xEAtre", price_ionis: 0.0,
+    price: 5.0, ext_capacity: 100, int_capacity: 200, staff_capacity: 100, promotion_image_path: promo/Zmtd7qc0rS5FBIPkdnmVCryMumHcq1fL_161230_epitanime2017.jpg,
+    validation_state: 0, request_for_approuval: false, show_capacity: false}
+- model: billapp.event
+  pk: 6
+  fields: {title: Coaching, description: Toute la BWC est conviee a une seance de
+      coaching yaka*, association: 3, manager: 1, premium: false, begin: ! '2019-05-04
+      18:45:00+00:00', end: ! '2019-05-04 19:15:00+00:00', begin_register: ! '2019-05-03
+      22:19:15+00:00', end_register: ! '2019-05-04 00:00:00+00:00', place: Kremlin
+      Bicetre, price_ionis: -1.0, price: 0.0, ext_capacity: 0, int_capacity: 4, staff_capacity: 1,
+    promotion_image_path: promo/1ZzCe2NwCZzDDdu8h8qs3QGZQHNxKh4y_uPzKHvzDoNs7GEx5VO2pKJTRY7DDSkUl_xAAtzmwSdhlX7nwV_GVOAFUi.jpg,
+    validation_state: 1, request_for_approuval: false, show_capacity: false}
+- model: billapp.event
+  pk: 7
+  fields: {title: "D\xE9gustation de bi\xE8re", description: "Venez boire des bi\xE8res
+      dans l'under !", association: 8, manager: 2, premium: false, begin: ! '2019-05-23
+      06:00:00+00:00', end: ! '2019-05-23 18:00:00+00:00', begin_register: ! '2019-05-04
+      11:34:33+00:00', end_register: ! '2019-05-23 11:34:33+00:00', place: Epita Kremelin
+      Bicetre (Under), price_ionis: 0.0, price: 1.0, ext_capacity: 0, int_capacity: 10,
+    staff_capacity: 5, promotion_image_path: promo/rGndBoiFsNvWg2PRoviODaylofw6ZvLH_logotxt.png,
+    validation_state: 0, request_for_approuval: false, show_capacity: false}

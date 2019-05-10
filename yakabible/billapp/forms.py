@@ -56,12 +56,7 @@ class Asso_Form(forms.Form):
                                                   'rows': 5}))
 
 class Staff_Form(forms.Form):
-    l = [("","Choisir une association")]
-    for asso in Association.objects.all():
-        l.append((asso.name, asso.name));
-    CHOICES = tuple(l)
-    association_name = forms.CharField(label='f_association_name', max_length=128,
-                    widget=forms.Select(attrs={'class': 'form-control'}, choices=CHOICES))
+    association_name = forms.ModelChoiceField(label='f_association_name', widget=forms.Select(attrs={'class': 'form-control'}), queryset=Association.objects.all(), required=False, help_text="Company")
     capacity = forms.IntegerField(label='f_capacity',
                widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
