@@ -173,7 +173,7 @@ def ask_approval(request, pk):
         e.save()
         return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=success')
     else:
-        return redirect(request.path_info.split('/ask_for_approval')[0] + '/?Rapproval=failure')
+        return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=failure')
 
 @login_required
 def RegEventView(request, pk):

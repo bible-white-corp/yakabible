@@ -83,9 +83,10 @@ def send_pdf_mail(ticket, pdf=None):
     email.send()
 
 def send_approval_mail(ev, adm):
-    prez = ev.association.associationuser_set.filter(role=2)[0].user.email
+    prez = ev.association.associationuser_set.filter(role=2)
     if not prez:
         return False
+    prez = prez[0].user.email
 
     email = EmailMessage(
         '[APPROBATION][' + ev.association.name + '] Requete d\'approbation: ' + ev.title,
