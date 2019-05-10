@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                         {% for event in object.event_set.all %}
-                            {% if event.validation_state %}
+                            {% if event.validation_state == 3%}
                                 <tr>
                                     <td> {{ event.title }} </td>
                                     <td> {{ event.manager.username }} </td>
@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                         {% for event in object.event_set.all %}
-                            {% if not event.validation_state %}
+                            {% if not event.validation_state == 3%}
                                 <tr>
                                     <td> {{ event.title }} </td>
                                     <td> {{ event.manager.username }} </td>

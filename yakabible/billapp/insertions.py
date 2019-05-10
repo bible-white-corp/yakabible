@@ -19,7 +19,7 @@ def insert_event(user, form, asso):
             int_capacity = form.cleaned_data['int_capacity'],
             staff_capacity = 0,
             promotion_image_path = form.cleaned_data['promotion_image_path'],
-            validation_state = False,
+            validation_state = 'Need authorization',
             show_capacity = form.cleaned_data['show_capacity']
             )
     e.save()

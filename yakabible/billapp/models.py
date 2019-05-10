@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
+from enum import Enum
 
 def promo_image_path(instance, filename):
     return 'promo/{0}_{1}'.format(get_random_string(length=32), filename)
@@ -24,6 +25,7 @@ class Event(models.Model):
     """
     Model représentant un événement
     """
+
     title = models.CharField(max_length=128)
     description = models.TextField()
     association = models.ForeignKey(Association, on_delete=models.CASCADE)
@@ -40,7 +42,13 @@ class Event(models.Model):
     int_capacity = models.IntegerField()
     staff_capacity = models.IntegerField()
     promotion_image_path = models.ImageField(upload_to=promo_image_path)
-    validation_state = models.BooleanField()
+    validation_state = models.SmallIntegerField(choices=(
+        (1, 'Need authorization'),
+        (2, 'Approved by the association'),
+        (3, 'Approuved by EPITA'),
+        (4, 'Authorized')
+    ))
+
     show_capacity = models.BooleanField()
 
     def __str__(self):

@@ -19,7 +19,7 @@ def EventsJSON(request):
     end = request.GET.get('end')
     # Fetch events from BDD
     json = []
-    events = Event.objects.all().filter(validation_state=True)
+    events = Event.objects.all().filter(validation_state=3)
     if start and end:
         events = events.filter(end__gte=start, begin__lte=end)
     else:

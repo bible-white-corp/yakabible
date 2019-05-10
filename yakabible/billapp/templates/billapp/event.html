@@ -14,7 +14,7 @@
         Oops, vous ne pouvez pas acceder a cette page pour le moment.
         <!-- #TODO faire une jolie page de refus-->
     {% else %}
-        {% if not event.validation_state %}
+        {% if not event.validation_state == 3 %}
             <div class="alert-danger container-fluid">
             Cet événement n'a pas encore été validé !
             </div>
@@ -62,7 +62,7 @@
             <p>Organisé par : <a href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
         </div>
     </div>
-        {% if not event.validation_state %}
+        {% if not event.validation_state == 3%}
             <div class="alert-danger container-fluid">
             Cet événement n'a pas encore été validé !
             </div>
