@@ -14,10 +14,24 @@
         Oops, vous ne pouvez pas acceder a cette page pour le moment.
         <!-- #TODO faire une jolie page de refus-->
     {% else %}
-        {% if not event.validation_state == 3 %}
-            <div class="alert-danger container-fluid">
-            Cet événement n'a pas encore été validé !
-            </div>
+        {% if "Rapproval" in request.GET%}
+            {% if request.GET|is_Rapproval_success %}
+                <div class="alert-success container-fluid">
+                    La requête a été envoyée avec succès !
+                </div>
+
+            {% elif request.GET|is_Rapproval_failure %}
+                <div class="alert-danger container-fluid">
+                    La requête n'a pas pu être envoyée, re-essayez plus tard ou contactez un administrateur système!
+                </div>
+            {% endif %}
+        {% else %}
+            {% if not event.validation_state == 3 %}
+                <div class="alert-warning container-fluid">
+                Cet événement n'a pas encore été validé !
+                {{ request.GET }}
+                </div>
+            {% endif %}
         {% endif %}
     <div class="card mt-3">
         <h5 class="card-header">Événement</h5>
@@ -63,7 +77,7 @@
         </div>
     </div>
         {% if not event.validation_state == 3 %}
-            <div class="alert-danger container-fluid">
+            <div class="alert-warning container-fluid">
             Cet événement n'a pas encore été validé !
             </div>
 
@@ -72,10 +86,10 @@
                 <div class="container">
                     {% can_rfa event user as requestable %}
                     {% if requestable %}
-                            {% if not event.request_for_approval %}
+                            {% if not event.request_for_approuval %}
                                 <a href="{% url 'ask_approval' pk=object.pk %}" class="mb-3 btn btn-primary" role="button" >Demande d'approbation</a>
                             {% else %}
-                                <a href="{% url 'ask_approuval' pk=object.pk %}" class="mb-3 btn btn-secondary disabled" role="button" >Approbation en cours</a>
+                                <a class="mb-3 btn btn-secondary disabled" role="button" >Approbation en cours</a>
                             {% endif %}
                     {% endif %}
                 </div>

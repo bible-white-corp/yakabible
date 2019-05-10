@@ -106,3 +106,15 @@ def can_rfa(e, u):
     if status[0].role == 1 or status.role[0] == 2:
         return True
     return False
+
+@register.filter
+def is_Rapproval_success(query):
+    if query.get('Rapproval') == 'success':
+        return True
+    return False
+
+@register.filter
+def is_Rapproval_failure(query):
+    if query.get('Rapproval') == 'failure':
+        return True
+    return False

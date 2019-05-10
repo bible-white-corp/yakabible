@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.core.paginator import Paginator
@@ -161,8 +161,19 @@ def LogOutView(request):
 
 @login_required
 def ask_approval(request, pk):
-    # send_approval_mail(ev)
-
+    e = get_object_or_404(Event, pk=pk)
+    adm = User.objects.filter(groups__name="Manager")
+    if not adm:
+        adm = User.objects.filter(groups__name="Admin")
+    if not adm:
+        return HttpResponseRedirect('/?failure')
+    res = send_approval_mail(e, adm[0])
+    if res:
+        e.request_for_approuval = True
+        e.save()
+        return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=success')
+    else:
+        return redirect(request.path_info.split('/ask_for_approval')[0] + '/?Rapproval=failure')
 
 @login_required
 def RegEventView(request, pk):
