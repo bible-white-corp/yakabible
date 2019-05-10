@@ -7,6 +7,8 @@ from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.contrib import messages
+from django.contrib.messages import get_messages
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from .forms import *
@@ -136,9 +138,17 @@ class DashboardRespoView(generic.TemplateView):
     template_name = 'billapp/dashboard_respo.html'
 
     def get(self, request):
+        storage = get_messages(request)
         asso_form = Asso_Form()
         all_events = Event.objects.all()
         all_assos = Association.objects.all()
+        for m in storage:
+            if 'deleted' == str(m):
+                return render(request, self.template_name, {'Form': asso_form,
+                                                            'Events': all_events,
+                                                            'Assos': all_assos,
+                                                            's_active': "active",
+                                                            'show_s_active': "show active"})
         return render(request, self.template_name, {'Form': asso_form,
                                                     'Events': all_events,
                                                     'Assos': all_assos,
@@ -231,6 +241,7 @@ def DeleteAssociation(request, pk):
     """
     association = Association.objects.get(pk=pk)
     association.delete()
+    messages.success(request, 'deleted')
     return HttpResponseRedirect(reverse('dashboard_respo'))
 
 class AssociationListView(generic.ListView):
