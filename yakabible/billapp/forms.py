@@ -47,7 +47,7 @@ class Event_Form(forms.Form):
 class Asso_Form(forms.Form):
     name = forms.CharField(label='f_name', max_length=64,
                     widget=forms.TextInput(attrs={'class': 'form-control'}))
-    logo_path = forms.ImageField(required=False, label='f_img',
+    logo_path = forms.ImageField(label='f_img',
                     widget=forms.FileInput(attrs={'class': 'custom-file-input'}))
     email = forms.EmailField(label='f_email', max_length=64,
                     widget=forms.TextInput(attrs={'class': 'form-control'}))

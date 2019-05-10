@@ -37,6 +37,15 @@ def insert_user(form):
     u.save()
     return u
 
+def insert_association(form):
+    a = Association(
+            name = form.cleaned_data['name'],
+            logo_path = form.cleaned_data['logo_path'],
+            email = form.cleaned_data['email'],
+            description = form.cleaned_data['description']
+        )
+    a.save()
+
 def insert_ticket(request, e):
     t = Ticket(
                 user = request.user,

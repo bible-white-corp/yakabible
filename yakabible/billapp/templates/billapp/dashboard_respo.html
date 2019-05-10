@@ -114,7 +114,8 @@
                         {{ Form.description }}
                     </div>
                     <div class="mt-3">
-                        <button class="btn btn-primary" type="submit">Créer un évènement</button>
+                        {% csrf_token %}
+                        <button class="btn btn-primary" type="submit">Créer une association</button>
                     </div>
                 </form>
             </div>

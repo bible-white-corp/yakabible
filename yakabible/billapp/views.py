@@ -44,7 +44,7 @@ class CreateEvView(generic.View):
 
     def post(self, request, pk):
         asso = get_object_or_404(Association, pk=pk)
-        event_form = Event_Form(request.POST)
+        event_form = Event_Form(request.POST, request.FILES)
 
         staff_form = Staff_Form_Set(request.POST)
         if 'additems' in request.POST and  request.POST["additems"] == 'true':
@@ -144,11 +144,12 @@ class DashboardRespoView(generic.TemplateView):
                                                     'Assos': all_assos})
 
     def post(self, request):
-        asso_form = Asso_Form(request.POST)
+        asso_form = Asso_Form(request.POST, request.FILES)
         all_events = Event.objects.all()
         all_assos = Association.objects.all()
         if (asso_form.is_valid()):
-            pass
+            insert_association(asso_form)
+            return self.get(request)
         return render(request, self.template_name, {'Form': asso_form,
                                                     'Events': all_events,
                                                     'Assos': all_assos})
