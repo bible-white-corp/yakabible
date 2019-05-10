@@ -160,6 +160,11 @@ def LogOutView(request):
     return HttpResponseRedirect('/?logout')
 
 @login_required
+def ask_approval(request, pk):
+    # send_approval_mail(ev)
+
+
+@login_required
 def RegEventView(request, pk):
     # Need to check payement TODO
     # Maybe confirmation mail before payement

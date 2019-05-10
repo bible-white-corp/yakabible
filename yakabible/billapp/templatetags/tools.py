@@ -95,3 +95,14 @@ def unprepared(e, u):
     if status[0].role == 1 or status.role[0] == 2:
         return False
     return True
+
+@register.simple_tag
+def can_rfa(e, u):
+    if u == e.manager:
+        return True
+    status = e.association.associationuser_set.filter(user=u).filter(association=e.association)
+    if not status:
+        return False
+    if status[0].role == 1 or status.role[0] == 2:
+        return True
+    return False

@@ -82,6 +82,21 @@ def send_pdf_mail(ticket, pdf=None):
     # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     email.send()
 
+def send_approval_mail(ev):
+    prez = ev.association.associationuser_set.filter(role=2)[0].email
+    adm = User.objects.filter(groups__name="Admin")[0]
+    if not adm:
+        User.objects.filter(groups__name="Admin")[0]
+    else:
+    email = EmailMessage(
+        '[APPROBATION][' + ev.association + '] Requete d\'approbation: ' + ev.title,
+        'L\'evenement ' + ev.title + 'est en attente d\'approbation, vous pouvez le verifier a'
+                                     'http://www.yakabible.thetoto.fr/event/' + ev.pk,
+        'yakabible@gmail.com',
+        [adm.email, prez.email, ev.manager.email]
+    )
+    # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
+    email.send()
 
 def make_pdf_response(ticket, pdf=None):
     if pdf is None:

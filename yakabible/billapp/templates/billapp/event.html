@@ -62,9 +62,23 @@
             <p>Organisé par : <a href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
         </div>
     </div>
-        {% if not event.validation_state == 3%}
+        {% if not event.validation_state == 3 %}
             <div class="alert-danger container-fluid">
             Cet événement n'a pas encore été validé !
+            </div>
+
+            <div class="card mt-3">
+                <h5 class="card-header">Gestion de la validation</h5>
+                <div class="container">
+                    {% can_rfa event user as requestable %}
+                    {% if requestable %}
+                            {% if not event.request_for_approval %}
+                                <a href="{% url 'ask_approval' pk=object.pk %}" class="mb-3 btn btn-primary" role="button" >Demande d'approbation</a>
+                            {% else %}
+                                <a href="{% url 'ask_approuval' pk=object.pk %}" class="mb-3 btn btn-secondary disabled" role="button" >Approbation en cours</a>
+                            {% endif %}
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
     {% endif %}
