@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    Liste des prochains événements
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Liste des événements à valider</h5>
+        <div class="list-group">
+            {% for events in object_list %}
+                {% events_to_approve user events as ev_ok%}
+                {% if ev_ok %}
+                    <div class="list-group-item list-group-item-action">
+                        [{{ events|validation_step }}] [{{ events.begin.date }}]
+                        <a href="{% url 'event' pk=events.pk %}">
+                           {{ events.title }} </a>
+                        par
+                        <a href="{% url 'association' pk=events.association.pk %}">
+                            {{ events.association }}
+                        </a>
+                    </div>
+                {% endif %}
+            {% empty %}
+                <a href="#" class="list-group-item list-group-item-action active">
+                    Vous n'avez aucun évènement à valider.
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

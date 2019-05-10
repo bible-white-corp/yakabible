@@ -188,6 +188,9 @@ def LogOutView(request):
     logout(request)
     return HttpResponseRedirect('/?logout')
 
+###
+#   Try to send email to resp and president + set boolean request at true if success
+###
 @login_required
 def ask_approval(request, pk):
     e = get_object_or_404(Event, pk=pk)
@@ -243,6 +246,19 @@ class EventsListView(generic.ListView):
             .filter(end__gte=datetime.now())\
             .order_by('begin')\
             .filter(validation_state=4)
+
+class ApprovingListView(generic.ListView):
+    """
+    View de la liste des événements en attente d'approbation
+    """
+    template_name = "billapp/approving_events_list.html"
+    model = Event
+    def get_queryset(self):
+        return super().get_queryset()\
+            .filter(end__gte=datetime.now())\
+            .order_by('begin')\
+            .filter(validation_state__lte=4)\
+            .filter(request_for_approuval=True)
 
 class EventRealtime(generic.DetailView):
     template_name = "billapp/event_realtime.html"

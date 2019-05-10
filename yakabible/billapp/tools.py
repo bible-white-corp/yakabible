@@ -82,6 +82,9 @@ def send_pdf_mail(ticket, pdf=None):
     # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     email.send()
 
+###
+#   Send mail to resp and president (if found) asking them to approve the event
+###
 def send_approval_mail(ev, adm):
     prez = ev.association.associationuser_set.filter(role=2)
     if not prez:

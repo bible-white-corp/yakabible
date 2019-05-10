@@ -9,6 +9,7 @@ urlpatterns = [
     path('connection/', views.ConnectionView.as_view(), name='connection'),
     path('registration/', views.RegistrationView.as_view(), name='registration'),
     path('logout/', views.LogOutView, name='log_out'),
+    path('to_approve/', views.ApprovingListView.as_view(), name='approving'),
     path('event/<int:pk>', views.EventView.as_view(), name='event'),
     path('event/<int:pk>/register', views.RegEventView, name='reg_event'),
     path('event/<int:pk>/reg_event_success', views.RegEventSuccessView, name='reg_event_success'),
@@ -25,4 +26,3 @@ urlpatterns = [
     path('profile/', views.Profile_redir, name='own_profile'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
     path('respos/dashboard', views.DashboardRespoView.as_view(), name='dashboard_respo'),
-]

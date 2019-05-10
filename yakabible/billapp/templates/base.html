@@ -89,6 +89,15 @@
             </ul>
         </div>
     </nav>
+    {% has_to_validate user as hastaf %}
+    {% if hastaf %}
+        <div class="mt-3 alert alert-warning alert-dismissible fade show text-center" role="alert">
+          Vous avez des <a href="{% url 'approving' %}" class="alert-link">événements à valider</a>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    {% endif %}
     <main role="main" class="container">
         {% block content %}
         {% endblock content %}
@@ -108,7 +117,7 @@
                     <p>Développeurs :</p>
                     <ul>
                         <li>Thomas Lupin</li>
-                        <li>Louis Holleville</li>
+                        <li>Louis  Holleville</li>
                         <li>Arthur Busuttil</li>
                         <li>Géraud Magne</li>
                     </ul>

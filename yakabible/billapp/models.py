@@ -47,7 +47,7 @@ class Event(models.Model):
         (2, 'Approved by the association'),
         (3, 'Approuved by EPITA'),
         (4, 'Authorized')
-    ))
+    ), default=1)
     request_for_approuval = models.BooleanField(default=False)#TODO faute d'orthographe, si on a le temps...
 
     show_capacity = models.BooleanField()

@@ -1,5 +1,6 @@
 from django import template
 from billapp.models import Ticket
+from billapp.models import Event
 from datetime import datetime
 from django.templatetags.static import static
 from django.contrib.auth.models import User
@@ -81,6 +82,7 @@ def event_started(context):
 def visible_events(e):
     return e.filter(validation_state=4).filter(end__gte=datetime.now())
 
+#used in event to know if the user is authorized to see the unapproved event
 @register.simple_tag
 def unprepared(e, u):
     if e.validation_state == 4:
@@ -92,10 +94,11 @@ def unprepared(e, u):
     status = e.association.associationuser_set.filter(user=u).filter(association=e.association)
     if not status:
         return True
-    if status[0].role == 1 or status.role[0] == 2:
+    if status[0].role == 1 or status[0].role == 2:
         return False
     return True
 
+#used in event.html to know if the user can ask for the approval of the event
 @register.simple_tag
 def can_rfa(e, u):
     if u == e.manager:
@@ -103,16 +106,18 @@ def can_rfa(e, u):
     status = e.association.associationuser_set.filter(user=u).filter(association=e.association)
     if not status:
         return False
-    if status[0].role == 1 or status.role[0] == 2:
+    if status[0].role == 1 or status[0].role == 2:
         return True
     return False
 
+#used in event.html after a request to check if success
 @register.filter
 def is_Rapproval_success(query):
     if query.get('Rapproval') == 'success':
         return True
     return False
 
+#used in event.html after a request to check if failure
 @register.filter
 def is_Rapproval_failure(query):
     if query.get('Rapproval') == 'failure':
@@ -122,3 +127,46 @@ def is_Rapproval_failure(query):
 @register.filter
 def get_number_of_member(asso):
     return asso.associationuser_set.count()
+
+#used in approving_events_list.html to know if an unvalidated event is visible by the user
+@register.simple_tag
+def events_to_approve(u, e):
+    if u.is_anonymous:
+        return False
+    if u.is_superuser or u.is_staff:
+        return True
+    status = e.association.associationuser_set.filter(user=u).filter(association=e.association)
+    if not status:
+        return False
+    if status[0].role == 2:
+        return True
+    return False
+
+#used in approving_events_list.html to return the current validation status
+@register.filter
+def validation_step(event):
+    status = event.validation_state
+    if status == 2:
+        return 'ADM'
+    if status == 3:
+        return 'ASSOS'
+    if status == 4:
+        return 'AUTHORIZED'
+    return 'AUCUNE APPROBATION'
+
+#used in base.html to know if the alert on validation is needed
+@register.simple_tag
+def has_to_validate(u):
+    if not u.is_authenticated:
+        return False
+    events = Event.objects.filter(validation_state__lte=4).filter(request_for_approuval=True)
+    if not events:
+        return False
+    if u.is_superuser or u.is_staff:
+            return True
+    for ev in events:
+        status = ev.association.associationuser_set.filter(user=u).filter(association=ev.association)
+        if status:
+            if status[0].role == 2:
+                return True
+    return False
