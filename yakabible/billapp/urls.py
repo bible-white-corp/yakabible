@@ -18,6 +18,7 @@ urlpatterns = [
     path('ticket/<int:pk>', views.TicketDownload, name='ticket'),
     path('ticket/<int:pk>/update', views_json.UpdateTicket, name='ticket_update'),
     path('assos/<int:pk>', views.AssociationView.as_view(), name='association'),
+    path('assos/<int:pk>/delete', views.DeleteAssociation, name='del_asso'),
     path('assos/<int:pk>/dashboard', views.DashboardAssociationView.as_view(), name='dashboard_association'),
     path('events.json', views_json.EventsJSON, name='events_json'),
     path('tickets.json', views_json.TicketsJSON, name='tickets_json'),

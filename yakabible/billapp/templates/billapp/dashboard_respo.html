@@ -78,6 +78,7 @@
                         <th> Nom </th>
                         <th> Président </th>
                         <th> Nombre de membre </th>
+                        <th> Supprimer </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -86,6 +87,7 @@
                         <td> {{ asso.name }} </td>
                         <td> {{ asso | get_president }} </td>
                         <td> {{ asso | get_number_of_member }} </td>
+                        <td> <a href="{% url 'del_asso' pk=asso.pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -123,6 +125,5 @@
     </div>
 </div>
 {% endblock content %}
-
 {% block sup_foot %}
 {% endblock sup_foot %}

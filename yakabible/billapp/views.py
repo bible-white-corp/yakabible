@@ -149,6 +149,8 @@ class DashboardRespoView(generic.TemplateView):
         asso_form = Asso_Form(request.POST, request.FILES)
         all_events = Event.objects.all()
         all_assos = Association.objects.all()
+        if 'delete_asso' in request.POST:
+            pass
         if (asso_form.is_valid()):
             insert_association(asso_form)
             return self.get(request)
@@ -221,6 +223,15 @@ def RegEventView(request, pk):
     else:
         t = get_object_or_404(Ticket, user=request.user, event=e)
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
+
+def DeleteAssociation(request, pk):
+    """
+    View to delete an association
+    You should acces it from respo dashboard
+    """
+    association = Association.objects.get(pk=pk)
+    association.delete()
+    return HttpResponseRedirect(reverse('dashboard_respo'))
 
 class AssociationListView(generic.ListView):
     """
