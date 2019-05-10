@@ -79,11 +79,11 @@ def event_started(context):
 
 @register.filter
 def visible_events(e):
-    return e.filter(validation_state=3).filter(end__gte=datetime.now())
+    return e.filter(validation_state=4).filter(end__gte=datetime.now())
 
 @register.simple_tag
 def unprepared(e, u):
-    if e.validation_state == 3:
+    if e.validation_state == 4:
         return False
     if u.is_anonymous:
         return True

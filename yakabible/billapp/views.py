@@ -23,7 +23,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(premium=True)\
-            .filter(validation_state=3)\
+            .filter(validation_state=4)\
             .filter(end__gte=datetime.now())
     
 
@@ -213,7 +213,7 @@ class EventsListView(generic.ListView):
         return super().get_queryset()\
             .filter(end__gte=datetime.now())\
             .order_by('begin')\
-            .filter(validation_state=3)
+            .filter(validation_state=4)
 
 class EventRealtime(generic.DetailView):
     template_name = "billapp/event_realtime.html"

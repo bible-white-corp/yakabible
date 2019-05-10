@@ -26,7 +26,7 @@
                 </div>
             {% endif %}
         {% else %}
-            {% if not event.validation_state == 3 %}
+            {% if not event.validation_state == 4 %}
                 <div class="alert-warning container-fluid">
                 Cet événement n'a pas encore été validé !
                 {{ request.GET }}
@@ -68,7 +68,7 @@
                     <a href='https://www.google.com/maps/search/{{object.place}}' style="color:inherit;text-decoration:none;" target="blank"><h4><i class="fas fa-map mr-2 mb-2"></i> {{ object.place }}</h4></a>
                 </div>
             </div>
-            {% if object|in_the_bound and object.validation_state == 3%}
+            {% if object|in_the_bound and object.validation_state == 4%}
                 <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary" role="button" >S'inscrire</a>
             {% else %}
                 <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-secondary disabled" role="button" >Inscriptions closes</a>
@@ -76,7 +76,7 @@
             <p>Organisé par : <a href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
         </div>
     </div>
-        {% if not event.validation_state == 3 %}
+        {% if not event.validation_state == 4 %}
             <div class="alert-warning container-fluid">
             Cet événement n'a pas encore été validé !
             </div>
