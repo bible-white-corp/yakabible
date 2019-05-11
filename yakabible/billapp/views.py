@@ -181,16 +181,10 @@ class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
         all_assos = Association.objects.all()
         for m in storage:
             if 'deleted' == str(m):
-                return render(request, self.template_name, {'Form': asso_form,
-                                                            'Events': all_events,
-                                                            'Assos': all_assos,
-                                                            's_active': "active",
-                                                            'show_s_active': "show active"})
+                return HttpResponseRedirect(reverse('dashboard_respo') + "#listassos")
         return render(request, self.template_name, {'Form': asso_form,
                                                     'Events': all_events,
-                                                    'Assos': all_assos,
-                                                    'f_active': "active",
-                                                    'show_f_active': "show active"})
+                                                    'Assos': all_assos})
 
     def post(self, request):
         asso_form = Asso_Form(request.POST, request.FILES)
@@ -201,11 +195,7 @@ class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
         if (asso_form.is_valid()):
             insert_association(asso_form)
             return self.get(request)
-        return render(request, self.template_name, {'Form': asso_form,
-                                                    'Events': all_events,
-                                                    'Assos': all_assos,
-                                                    't_active': "active",
-                                                    'show_t_active': "show active"})
+        return HttpResponseRedirect(reverse('dashboard_respo') + "#createasso")
 
 @login_required
 def Profile_redir(request):
