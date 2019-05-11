@@ -17,6 +17,8 @@ urlpatterns = [
     path('event/<int:pk>/realtime', views.EventRealtime.as_view(), name='event_realtime'),
     path('event/<int:pk>/ask_for_approval', views.ask_approval, name='ask_approval'),
     path('event/to_approve/', views.ApprovingListView.as_view(), name='approving'),
+    path('event/validating/', views.ask_validation, name='validating'),
+    path('event/refusing/', views.ask_refuse, name='refusing'),
 
     path('ticket/<int:pk>', views.TicketDownload, name='ticket'),
     path('ticket/<int:pk>/update', views_json.UpdateTicket, name='ticket_update'),

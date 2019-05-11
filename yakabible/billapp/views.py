@@ -212,6 +212,7 @@ def ask_approval(request, pk):
     """
     Try to send email to resp and president + set boolean request at true if success
     """
+    #TODO ajouter securite pour empecher l'access a cette fonction si utilisateur log + url direct
     e = get_object_or_404(Event, pk=pk)
     adm = User.objects.filter(groups__name="Manager")
     if not adm:
@@ -344,3 +345,40 @@ def payment_process(request, pk):
 
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, "payment/process.html", {'form':form})
+
+@login_required
+def ask_validation(request, pk):
+    e = get_object_or_404(Event, pk=pk)
+
+    if e.validation_state == 4:
+        return HttpResponseRedirect('/?eventAlreadyValidated')
+    status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
+    if (not status or status[0].role != 2) or not (request.user.is_superuser or request.user.is_staff):
+        return HttpResponseRedirect('/?unauthorized')
+    if (request.user.is_superuser or request.user.is_staff) and e.validation_state == 3:
+        return HttpResponseRedirect('/?authorizationAlreadyGiven')
+    if status and status[0].role == 2 and e.validation_state == 2:
+        return HttpResponseRedirect('/?authorizationAlreadyGiven')
+
+    adm = User.objects.filter(groups__name="Manager")
+    if not adm:
+        adm = User.objects.filter(groups__name="Admin")
+
+    if e.validation_state == 1:
+        if status:
+            e.validation_state = 2
+        else:
+            e.validation_state = 3
+    else:
+        e.validation_state = 4
+    e.save()
+
+    res = True
+
+    if e.validation_state == 4:
+        res = send_validation_mail(e, adm)
+        if not res:
+            return redirect(request.path_info.split('/validating')[0] + '?Mailing=failure')
+        return redirect(request.path_info.split('/validating')[0] + '?Mailing=success')
+
+    return redirect(request.path_info.split('/validating')[0] + '?Validation=success')
