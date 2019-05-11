@@ -274,9 +274,9 @@ def can_validate(u, ev):
     used in event.html to know if user has already validate an event
     """
     if u.is_superuser or u.is_staff:
-        if ev.validation_state == 2:
+        if ev.validation_state != 3:
             return True
     else:
-        if ev.validation_state == 3:
+        if ev.validation_state != 2:
             return True
     return False

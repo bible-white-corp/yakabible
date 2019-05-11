@@ -126,11 +126,11 @@
                     {% if approvable %}
                         {% can_validate user event as validatable %}
                         {% if validatable %}
-                            <a href="{% url 'ask_validation' pk=object.pk %}" class="mb-3 btn btn-success" role="button" >Validation</a>
+                            <a href="{% url 'validating' pk=object.pk %}" class="mb-3 btn btn-success" role="button" >Validation</a>
                         {% else %}
                                 <a class="mb-3 btn btn-secondary disabled" role="button" >Validation pris en compte</a>
                         {% endif %}
-                        <a href="{% url 'ask_refusing' pk=object.pk %}" class="mb-3 btn btn-danger" role="button" >Invalidation</a>
+                        <a href="{% url 'refusing' pk=object.pk %}" class="mb-3 btn btn-danger" role="button" >Invalidation</a>
                     {% endif %}
 
                 </div>
