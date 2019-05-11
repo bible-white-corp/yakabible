@@ -86,6 +86,7 @@
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>Rôle</th>
+                        <th>Éditer</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -95,6 +96,23 @@
                             <td>{{ asso_user.user.last_name }}</td>
                             <td>{{ asso_user.user.first_name }}</td>
                             <td>{{ asso_user.role | get_role }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-info dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <span class="ml-2">Changer de rôle :</span>
+                                        <a class="dropdown-item" href="{% url 'update_user_assos' pk=asso_user.association.pk %}?user={{ asso_user.pk }}&new_role=2">Président</a>
+                                        <a class="dropdown-item" href="{% url 'update_user_assos' pk=asso_user.association.pk %}?user={{ asso_user.pk }}&new_role=1">Membre du bureau</a>
+                                        <a class="dropdown-item" href="{% url 'update_user_assos' pk=asso_user.association.pk %}?user={{ asso_user.pk }}&new_role=0">Membre simple</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{% url 'update_user_assos' pk=object.pk %}?user={{ asso_user.pk }}&new_role=delete">Supprimer</a>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -183,14 +201,14 @@
                     "lastname": "{{ user.last_name }}"
                 };
                 res.push({label: item, value: item});
-            {% endfor %}
+            {% endfor %}&
 
             var awesomplete = new Awesomplete(input, {
                 list: res,
                 item: item_func,
                 filter: function (text, input) {
                     var full = text.value.firstname + " " + text.value.lastname;
-                    return text.value.login.includes(input) || full.includes(input) ;
+                    return text.value.login.includes(input) || full.includes(input);
                 }
             });
 

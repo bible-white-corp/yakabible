@@ -167,6 +167,20 @@ def AddUserAssosView(request, pk):
     return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
 
 
+def UpdateUserAssosView(request, pk):
+    assos = get_object_or_404(Association, pk=pk)
+    user_assos = get_object_or_404(AssociationUser, pk=request.GET.get('user'))
+    if assos.pk is not user_assos.association.pk:
+        return HttpResponseNotFound("Weird request")
+    new_role = request.GET.get('new_role')
+    if new_role == "delete":
+        user_assos.delete()
+    else:
+        user_assos.role = int(new_role)
+        user_assos.save()
+    return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
+
+
 class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
     """
     View du dashboard du responsable des associations
