@@ -290,9 +290,9 @@ class ApprovingListView(generic.ListView):
     model = Event
     def get_queryset(self):
         return super().get_queryset()\
-            .filter(end__gte=datetime.now())\
+            .filter(begin__gte=datetime.now())\
             .order_by('begin')\
-            .filter(validation_state__lte=4)\
+            .filter(validation_state__lte=3)\
             .filter(request_for_approuval=True)
 
 class EventRealtime(generic.DetailView):

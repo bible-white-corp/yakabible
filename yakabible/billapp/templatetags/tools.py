@@ -191,14 +191,21 @@ def has_to_validate(u):
     """
     if not u.is_authenticated:
         return False
-    events = Event.objects.filter(validation_state__lte=4).filter(request_for_approuval=True)
-    if not events:
+    events = Event.objects\
+        .filter(begin__gte=datetime.now())\
+        .filter(validation_state__lte=3)\
+        .filter(request_for_approuval=True)
+
+    if not events or events.count() == 0:
         return False
+
     if u.is_superuser or u.is_staff:
             return True
+
     for ev in events:
         status = ev.association.associationuser_set.filter(user=u).filter(association=ev.association)
         if status:
             if status[0].role == 2:
                 return True
+
     return False
