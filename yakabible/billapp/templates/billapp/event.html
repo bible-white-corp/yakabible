@@ -14,7 +14,7 @@
         Oops, vous ne pouvez pas acceder a cette page pour le moment.
         <!-- #TODO faire une jolie page de refus-->
     {% else %}
-        {% if "Rapproval" in request.GET%}
+        {% if "Rapproval" in request.GET %}
             {% if request.GET|is_Rapproval_success %}
                 <div class="alert-success container-fluid">
                     La requête a été envoyée avec succès !
@@ -25,6 +25,36 @@
                     La requête n'a pas pu être envoyée, re-essayez plus tard ou contactez un administrateur système!
                 </div>
             {% endif %}
+        {% elif "Mailing" in request.GET %}
+            {% if request.GET|is_Mailing_success %}
+                <div class="alert-success container-fluid">
+                    L'événement est confirmé, un mail a été envoyé.
+                </div>
+            {% elif request.GET|is_Mailing_failure %}
+                <div class="alert-warning container-fluid">
+                    L'événement est confirmé, néanmoins, l'envoi d'un mail a échoué.
+                </div>
+            {% endif %}
+        {% elif "Validation" in request.GET %}
+            {% if request.GET|is_Validation_success %}
+                <div class="alert-success container-fluid">
+                    Votre confirmation a été pris en compte.
+                </div>
+            {% else %}
+                <div class="alert-warning container-fluid">
+                    Votre confirmation a été pris en compte mais une erreur est survenue, contactez un administrateur.
+                </div>
+            {% endif %}
+        {% elif "deny" in request.GET %}
+            {% if request.GET|is_refusing_success %}
+                <div class="alert-success container-fluid">
+                    L'événement est refusé, un mail a été envoyé.
+                </div>
+            {% elif request.GET|is_refusing_failure %}
+                <div class="alert-warning container-fluid">
+                    L'événement est refusé, néanmoins, l'envoi d'un mail a échoué.
+                </div>
+            {% endif %}
         {% else %}
             {% if not event.validation_state == 4 %}
                 <div class="alert-warning container-fluid">
@@ -32,6 +62,7 @@
                 </div>
             {% endif %}
         {% endif %}
+
     <div class="card mt-3">
         <h5 class="card-header">Événement</h5>
         <div class="container">
@@ -91,6 +122,17 @@
                                 <a class="mb-3 btn btn-secondary disabled" role="button" >Approbation en cours</a>
                             {% endif %}
                     {% endif %}
+                    {% can_approve user event as approvable %}
+                    {% if approvable %}
+                        {% can_validate user event as validatable %}
+                        {% if validatable %}
+                            <a href="{% url 'validating' pk=object.pk %}" class="mb-3 btn btn-success" role="button" >Validation</a>
+                        {% else %}
+                                <a class="mb-3 btn btn-secondary disabled" role="button" >Validation pris en compte</a>
+                        {% endif %}
+                        <a href="{% url 'refusing' pk=object.pk %}" class="mb-3 btn btn-danger" role="button" >Invalidation</a>
+                    {% endif %}
+
                 </div>
             </div>
         {% endif %}

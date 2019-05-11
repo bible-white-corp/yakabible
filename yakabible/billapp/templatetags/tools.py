@@ -96,7 +96,7 @@ def visible_events(e):
 @register.simple_tag
 def unprepared(e, u):
     """
-    Used in event to know if the user is authorized to see the unapproved event
+    Used in event.html to know if the user is authorized to see the unapproved event
     """
     if e.validation_state == 4:
         return False
@@ -146,6 +146,50 @@ def is_Rapproval_failure(query):
         return True
     return False
 
+@register.filter
+def is_Mailing_success(query):
+    """
+    used in event.html after a validation to check if mailing succeeded
+    """
+    if query.get('Mailing') == 'success':
+        return True
+    return False
+
+@register.filter
+def is_Validation_success(query):
+    """
+    used in event.html after a validation to check if success
+    """
+    if query.get('Validation') == 'success':
+        return True
+    return False
+
+@register.filter
+def is_Mailing_failure(query):
+    """
+    used in event.html after a validation to check if mailing failed
+    """
+    if query.get('Mailing') == 'failure':
+        return True
+    return False
+
+@register.filter
+def is_refusing_success(query):
+    """
+    used in event.html after a refusing to check if mailing succeeded
+    """
+    if query.get('deny') == 'success':
+        return True
+    return False
+
+@register.filter
+def is_refusing_failure(query):
+    """
+    used in event.html after a refusing to check if mailing failed
+    """
+    if query.get('deny') == 'failure':
+        return True
+    return False
 
 @register.filter
 def get_number_of_member(asso):
@@ -208,4 +252,31 @@ def has_to_validate(u):
             if status[0].role == 2:
                 return True
 
+    return False
+
+@register.simple_tag
+def can_approve(u, ev):
+    """
+    used in event.html to know if user can validate or refuse an event
+    """
+    if not u.is_authenticated or not ev.request_for_approuval:
+        return False
+    if u.is_superuser or u.is_staff:
+        return True
+    status = ev.association.associationuser_set.filter(user=u).filter(association=ev.association)
+    if status and status[0].role == 2:
+        return True
+    return False
+
+@register.simple_tag
+def can_validate(u, ev):
+    """
+    used in event.html to know if user has already validate an event
+    """
+    if u.is_superuser or u.is_staff:
+        if ev.validation_state != 3:
+            return True
+    else:
+        if ev.validation_state != 2:
+            return True
     return False
