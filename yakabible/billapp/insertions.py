@@ -46,9 +46,9 @@ def insert_association(form):
         )
     a.save()
 
-def insert_ticket(request, e):
+def insert_ticket(user, e):
     t = Ticket(
-                user = request.user,
+                user = user,
                 event = e,
                 category = False,
                 state = 0

@@ -1,3 +1,4 @@
+import re
 import qrcode
 import os
 from django.conf import settings
@@ -79,7 +80,7 @@ def send_pdf_mail(ticket, pdf=None):
         [ticket.user.email]
     )
     email.attach(pdf_name, pdf)
-    # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
+    # TODO à la fin, mettre email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     email.send()
 
 ###
@@ -110,3 +111,7 @@ def make_pdf_response(ticket, pdf=None):
 
     response.write(pdf)
     return response
+
+
+def is_ionis(user):
+    return re.match(r".*\.epita\.*", user.email)

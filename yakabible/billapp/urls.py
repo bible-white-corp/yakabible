@@ -1,5 +1,5 @@
-from django.urls import path
-
+from django.urls import path, include
+from django.conf.urls import url
 from . import views
 from . import views_json
 
@@ -27,4 +27,8 @@ urlpatterns = [
     path('profile/', views.Profile_redir, name='own_profile'),
     path('profile/<int:pk>', views.ProfileView.as_view(), name='profile'),
     path('respos/dashboard', views.DashboardRespoView.as_view(), name='dashboard_respo'),
-    ]
+    path('paypal/', include('paypal.standard.ipn.urls')),
+    path('payment/<int:pk>/process', views.payment_process, name='paymentProcess'),
+    path('payment/done', views.payment_done, name='paymentDone'),
+    path('payment/canceled', views.payment_canceled, name='paymentCanceled')
+]

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'django.contrib.admindocs',
+    'paypal.standard.ipn',
+
 ]
 
 MIDDLEWARE = [
@@ -148,3 +150,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yakabible@gmail.com'
 EMAIL_HOST_PASSWORD = 'white>black'
+
+# Paypal settings
+PAYPAL_RECEIVER_EMAIL = 'yakabible@gmail.com'
+PAYPAL_TEST = True  # TODO changer à False before la release

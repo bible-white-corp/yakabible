@@ -16,6 +16,13 @@ from .models import Event, Ticket
 from .insertions import *
 from .tools import *
 
+from decimal import Decimal
+from django.conf import settings
+from paypal.standard.forms import PayPalPaymentsForm
+
+from django.views.decorators.csrf import csrf_exempt
+
+
 class IndexView(generic.ListView):
     """
     View de la page d'accueil
@@ -221,15 +228,21 @@ def ask_approval(request, pk):
 
 @login_required
 def RegEventView(request, pk):
-    # Need to check payement TODO
-    # Maybe confirmation mail before payement
     e = get_object_or_404(Event, pk=pk)
     try:
         tmp_t = Ticket.objects.get(user=request.user,event=e)
     except Ticket.DoesNotExist:
         tmp_t = None
     if tmp_t is None:
-        t = insert_ticket(request, e)
+
+        price = e.price
+        if is_ionis(request.user):
+            price = e.price_ionis
+
+        if price > 0.00:
+            return redirect(reverse('paymentProcess', args=[pk]))  # payment
+
+        t = insert_ticket(request.user, e)
     else:
         t = get_object_or_404(Ticket, user=request.user, event=e)
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
@@ -252,8 +265,8 @@ class AssociationListView(generic.ListView):
     model = Association
 
     def get_queryset(self):
-        set = super().get_queryset();
-        paginator = Paginator(set, 10)
+        qset = super().get_queryset()
+        paginator = Paginator(qset, 10)
         page = self.request.GET.get("page")
         return paginator.get_page(page)
 
@@ -285,3 +298,50 @@ class ApprovingListView(generic.ListView):
 class EventRealtime(generic.DetailView):
     template_name = "billapp/event_realtime.html"
     model = Event
+
+@csrf_exempt
+def payment_done(request):
+    """
+    View de redirection Paypal, quand le paiemenet a été effectué
+    """
+    return render(request, 'payment/done.html')
+
+@csrf_exempt
+def payment_canceled(request):
+    """
+    View de redirection Paypal, quand le paiemenet a échoué
+    """
+    return render(request, 'payment/canceled.html')
+
+def payment_process(request, pk):
+    """
+    View qui génère la page du bouton Paypal "Buy now"
+    avec un formulaire contenant toutes les informations
+    nécessaires à Paypal pour effectuer le paiement et
+    rediriger vers notre site
+    """
+
+    e = get_object_or_404(Event, pk=pk)
+    price = e.price
+    if is_ionis(request.user):
+        price = e.price_ionis
+
+    user = request.user.first_name + " " + request.user.last_name
+    user_id = str(request.user.id)
+    eventname = e.title
+    eventpk = e.pk
+
+    paypal_dict = {
+        "business": "yakabible@gmail.com",
+        "amount" : str(price),
+        "item_name": user + " : " + eventname,
+        "invoice": user_id + "/" +  str(eventpk),
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri(reverse('paymentDone')),
+        "cancel_return": request.build_absolute_uri(reverse('paymentCanceled')),
+        "currency_code": "EUR",
+    }
+
+
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return render(request, "payment/process.html", {'form':form})
