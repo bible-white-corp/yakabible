@@ -67,7 +67,7 @@ def insert_staff_capacity(formset, event):
            continue
         ev_staff_cap = EventStaffCapacity(
                     event = event,
-                    association = Association.objects.get(pk=form.cleaned_data['association_name']),
+                    association = form.cleaned_data['association_name'],
                     capacity = form.cleaned_data['capacity']
                     )
         ev_staff_cap.save()

@@ -28,7 +28,7 @@ class IndexView(generic.ListView):
     View de la page d'accueil
     """
     template_name = "billapp/index.html"
-    model=Event
+    model = Event
 
     def get_queryset(self):
         return super().get_queryset().filter(premium=True)\
