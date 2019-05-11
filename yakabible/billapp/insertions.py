@@ -71,3 +71,9 @@ def insert_staff_capacity(formset, event):
                     capacity = form.cleaned_data['capacity']
                     )
         ev_staff_cap.save()
+
+
+def insert_user_assos(assos, user):
+    new = AssociationUser(user=user, association=assos, role=0)
+    new.save()
+    return new

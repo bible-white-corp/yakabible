@@ -150,6 +150,22 @@ class DashboardAssociationView(generic.DetailView):
     model = Association
     template_name = 'billapp/dashboard_association.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_adduser'] = AddUserAssosFrom()
+        context['users'] = User.objects.all()
+        return context
+
+
+def AddUserAssosView(request, pk):
+    assos = get_object_or_404(Association, pk=pk)
+    adduser = AddUserAssosFrom(request.POST)
+    if not adduser.is_valid():
+        return HttpResponseNotFound("Invalid request")
+    user = get_object_or_404(User, username=adduser.cleaned_data['input'])
+    insert_user_assos(assos, user)
+    return redirect('dashboard_association', pk=pk)
+
 class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
     """
     View du dashboard du responsable des associations
