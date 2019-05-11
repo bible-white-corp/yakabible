@@ -25,12 +25,6 @@
                     La requête n'a pas pu être envoyée, re-essayez plus tard ou contactez un administrateur système!
                 </div>
             {% endif %}
-        {% else %}
-            {% if not event.validation_state == 4 %}
-                <div class="alert-warning container-fluid">
-                Cet événement n'a pas encore été validé !
-                </div>
-            {% endif %}
         {% elif "Mailing" in request.GET %}
             {% if request.GET|is_Mailing_success %}
                 <div class="alert-success container-fluid">
@@ -50,7 +44,23 @@
                 <div class="alert-warning container-fluid">
                     Votre confirmation a été pris en compte mais une erreur est survenue, contactez un administrateur.
                 </div>
-                {% endif %}
+            {% endif %}
+        {% elif "deny" in request.GET %}
+            {% if request.GET|is_refusing_success %}
+                <div class="alert-success container-fluid">
+                    L'événement est refusé, un mail a été envoyé.
+                </div>
+            {% elif request.GET|is_refusing_failure %}
+                <div class="alert-warning container-fluid">
+                    L'événement est refusé, néanmoins, l'envoi d'un mail a échoué.
+                </div>
+            {% endif %}
+        {% else %}
+            {% if not event.validation_state == 4 %}
+                <div class="alert-warning container-fluid">
+                Cet événement n'a pas encore été validé !
+                </div>
+            {% endif %}
         {% endif %}
 
     <div class="card mt-3">
@@ -112,7 +122,7 @@
                                 <a class="mb-3 btn btn-secondary disabled" role="button" >Approbation en cours</a>
                             {% endif %}
                     {% endif %}
-                    {% can_approuve user event as approvable %}
+                    {% can_approve user event as approvable %}
                     {% if approvable %}
                         {% can_validate user event as validatable %}
                         {% if validatable %}

@@ -348,6 +348,9 @@ def payment_process(request, pk):
 
 @login_required
 def ask_validation(request, pk):
+    """
+    Verifie les autorisations et la cas possible, valide un evenement et envoie un mail au responsable + president
+    """
     e = get_object_or_404(Event, pk=pk)
 
     if e.validation_state == 4:
@@ -373,12 +376,34 @@ def ask_validation(request, pk):
         e.validation_state = 4
     e.save()
 
-    res = True
-
     if e.validation_state == 4:
-        res = send_validation_mail(e, adm)
-        if not res:
+        if not send_validation_mail(e, adm):
             return redirect(request.path_info.split('/validating')[0] + '?Mailing=failure')
         return redirect(request.path_info.split('/validating')[0] + '?Mailing=success')
 
     return redirect(request.path_info.split('/validating')[0] + '?Validation=success')
+
+@login_required
+def ask_refusing(request, pk):
+    """
+    Verifie les autorisations et la cas possible, refuse un evenement et envoie un mail au responsable + president
+    """
+    e = get_object_or_404(Event, pk=pk)
+
+    if e.validation_state == 4:
+        return HttpResponseRedirect('/?eventAlreadyValidated')
+    status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
+    if (not status or status[0].role != 2) or not (request.user.is_superuser or request.user.is_staff):
+        return HttpResponseRedirect('/?unauthorized')
+
+    adm = User.objects.filter(groups__name="Manager")
+    if not adm:
+        adm = User.objects.filter(groups__name="Admin")
+
+    e.validation_state = 1
+    e.request_for_approuval = False
+    e.save()
+
+    if not send_refusing_mail(e, adm, status.count() != 0):
+        return redirect(request.path_info.split('/refusing')[0] + '?deny=failure')
+    return redirect(request.path_info.split('/refusing')[0] + '?deny=success')

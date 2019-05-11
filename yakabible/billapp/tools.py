@@ -122,6 +122,25 @@ def send_validation_mail(ev, adm):
     # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     return email.send() == 1
 
+def send_refusing_mail(ev, adm, is_prez):
+    """
+    Send mail to resp and president (if found) asking them to approve the event
+    """
+    prez = ev.association.associationuser_set.filter(role=2)
+    if not prez or not adm:
+        return False
+    prez = prez[0].user.email
+    adm = adm[0].email
+
+    email = EmailMessage(
+        '[VALIDATION][' + ev.association.name + '] Evénement refusé: ' + ev.title,
+        'L\'événement ' + ev.title + ' a été refusé par ' + 'l\'association.' if is_prez else 'l\'administration.',
+        'yakabible@gmail.com',
+        [adm, prez, ev.manager.email]
+    )
+    # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
+    return email.send() == 1
+
 def make_pdf_response(ticket, pdf=None):
     if pdf is None:
         pdf = make_pdf(ticket)

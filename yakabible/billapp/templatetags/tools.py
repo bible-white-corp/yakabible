@@ -174,6 +174,24 @@ def is_Mailing_failure(query):
     return False
 
 @register.filter
+def is_refusing_success(query):
+    """
+    used in event.html after a refusing to check if mailing succeeded
+    """
+    if query.get('deny') == 'success':
+        return True
+    return False
+
+@register.filter
+def is_refusing_failure(query):
+    """
+    used in event.html after a refusing to check if mailing failed
+    """
+    if query.get('deny') == 'failure':
+        return True
+    return False
+
+@register.filter
 def get_number_of_member(asso):
     return asso.associationuser_set.count()
 
