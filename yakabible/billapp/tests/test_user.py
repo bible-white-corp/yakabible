@@ -6,6 +6,8 @@ from billapp.forms import *
 # Create your tests here.
 
 class UserTestCase(TestCase):
+    fixtures = "db.yaml"
+
     def test_user_form(self):
         form = Inscription_Form(data={
             'email': "invalidemail.fr",

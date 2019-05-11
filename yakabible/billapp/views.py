@@ -207,11 +207,11 @@ def LogOutView(request):
     logout(request)
     return HttpResponseRedirect('/?logout')
 
-###
-#   Try to send email to resp and president + set boolean request at true if success
-###
 @login_required
 def ask_approval(request, pk):
+    """
+    Try to send email to resp and president + set boolean request at true if success
+    """
     e = get_object_or_404(Event, pk=pk)
     adm = User.objects.filter(groups__name="Manager")
     if not adm:
@@ -341,7 +341,6 @@ def payment_process(request, pk):
         "cancel_return": request.build_absolute_uri(reverse('paymentCanceled')),
         "currency_code": "EUR",
     }
-
 
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, "payment/process.html", {'form':form})

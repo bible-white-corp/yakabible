@@ -43,7 +43,6 @@ def valid_ipn_handler(sender, **kwargs):
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
 
-
 @receiver(invalid_ipn_received)
 def do_not_show_me_the_money(sender, **kwargs):
     print("\nERROR: IPN signal was treated as invalid by django-paypal:" +
