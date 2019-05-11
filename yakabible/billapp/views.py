@@ -164,7 +164,8 @@ def AddUserAssosView(request, pk):
         return HttpResponseNotFound("Invalid request")
     user = get_object_or_404(User, username=adduser.cleaned_data['input'])
     insert_user_assos(assos, user)
-    return redirect('dashboard_association', pk=pk)
+    return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
+
 
 class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
     """
