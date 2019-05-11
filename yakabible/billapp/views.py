@@ -145,6 +145,10 @@ class DashboardRespoView(generic.TemplateView):
     template_name = 'billapp/dashboard_respo.html'
 
     def get(self, request):
+        user_groups = [ g.name for g in request.user.groups.all()]
+        print(user_groups)
+        if "Manager" not in user_groups and "Admin" not in user_groups:
+            return HttpResponseNotFound()
         storage = get_messages(request)
         asso_form = Asso_Form()
         all_events = Event.objects.all()
