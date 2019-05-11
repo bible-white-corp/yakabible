@@ -11,7 +11,6 @@ from reportlab.pdfgen import canvas
 
 from django.core.mail import EmailMessage
 
-
 def make_qrcode(ticket):
     q = qrcode.QRCode()
     q.add_data(ticket.user.username + '\n')

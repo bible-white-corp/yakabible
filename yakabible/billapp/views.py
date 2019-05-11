@@ -6,6 +6,7 @@ from django.views import generic
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from braces.views import GroupRequiredMixin
 from datetime import datetime
 from django.contrib import messages
 from django.contrib.messages import get_messages
@@ -21,7 +22,19 @@ from django.conf import settings
 from paypal.standard.forms import PayPalPaymentsForm
 
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import user_passes_test
 
+def group_required(*group_names):
+    """
+    Decorateur pour vérifier l'apartenance à l'un des groupes donnés
+    en paramètre.
+    """
+    def in_groups(u):
+        print(u)
+        if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:
+            return True
+        return False
+    return user_passes_test(in_groups)
 
 class IndexView(generic.ListView):
     """
@@ -34,7 +47,6 @@ class IndexView(generic.ListView):
         return super().get_queryset().filter(premium=True)\
             .filter(validation_state=4)\
             .filter(end__gte=datetime.now())
-    
 
 class CreateEvView(generic.View):
     """
@@ -138,17 +150,14 @@ class DashboardAssociationView(generic.DetailView):
     model = Association
     template_name = 'billapp/dashboard_association.html'
 
-class DashboardRespoView(generic.TemplateView):
+class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
     """
     View du dashboard du responsable des associations
     """
+    group_required = [u'Manager', u'Admin']
     template_name = 'billapp/dashboard_respo.html'
 
     def get(self, request):
-        user_groups = [ g.name for g in request.user.groups.all()]
-        print(user_groups)
-        if "Manager" not in user_groups and "Admin" not in user_groups:
-            return HttpResponseNotFound()
         storage = get_messages(request)
         asso_form = Asso_Form()
         all_events = Event.objects.all()
@@ -251,6 +260,7 @@ def RegEventView(request, pk):
         t = get_object_or_404(Ticket, user=request.user, event=e)
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
+@group_required('manager', 'Admin')
 def DeleteAssociation(request, pk):
     """
     View to delete an association
