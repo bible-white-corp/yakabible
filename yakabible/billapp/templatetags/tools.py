@@ -1,6 +1,5 @@
 from django import template
-from billapp.models import Ticket
-from billapp.models import Event
+from billapp.models import *
 from datetime import datetime
 from django.templatetags.static import static
 from django.contrib.auth.models import User
@@ -91,6 +90,11 @@ def event_started(context):
 @register.filter
 def visible_events(e):
     return e.filter(validation_state=4).filter(end__gte=datetime.now())
+
+
+@register.simple_tag
+def user_in_assos(user, assos):
+    return assos.associationuser_set.filter(user__pk=user.pk)
 
 
 @register.simple_tag

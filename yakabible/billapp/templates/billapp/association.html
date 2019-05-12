@@ -11,9 +11,12 @@
 {% block content %}
 <div class="card mt-3">
     <h5 class="card-header">Association
+        {% user_in_assos request.user object as user_in_asso %}
+        {% if user_in_asso %}
         <a href="{% url 'dashboard_association' pk=object.pk %}">
             <span class="badge badge-secondary badge-info">Dashboard</span>
         </a>
+        {% endif %}
     </h5>
     <div class="container">
         <div class="media mt-3">

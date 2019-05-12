@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views import generic
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import authenticate, login, logout
 from braces.views import GroupRequiredMixin
 from datetime import datetime
@@ -16,25 +17,12 @@ from .forms import *
 from .models import Event, Ticket
 from .insertions import *
 from .tools import *
+from .decorators import *
 
 from decimal import Decimal
 from django.conf import settings
 from paypal.standard.forms import PayPalPaymentsForm
 
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import user_passes_test
-
-def group_required(*group_names):
-    """
-    Decorateur pour vérifier l'apartenance à l'un des groupes donnés
-    en paramètre.
-    """
-    def in_groups(u):
-        print(u)
-        if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:
-            return True
-        return False
-    return user_passes_test(in_groups)
 
 class IndexView(generic.ListView):
     """
@@ -143,12 +131,16 @@ class AssociationView(generic.DetailView):
     model = Association
     template_name = 'billapp/association.html'
 
-class DashboardAssociationView(generic.DetailView):
+
+class DashboardAssociationView(UserPassesTestMixin, generic.DetailView):
     """
     View du dashboard d'association
     """
     model = Association
     template_name = 'billapp/dashboard_association.html'
+
+    def test_func(self):
+        return user_in_assos(self.request.user, Association.objects.get(pk=self.kwargs['pk']))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
