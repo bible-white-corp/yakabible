@@ -115,6 +115,22 @@ def user_in_assos_super(user, assos):
 
 
 @register.simple_tag
+def asso_is_president(user, asso):
+    return asso.associationuser_set.filter(user__pk=user.pk, role__gt=2)
+
+
+@register.simple_tag
+def can_delete(user, asso, dest_user):
+    """
+    Return True if user can delete dest_user in asso
+    """
+    asso_user = asso.associationuser_set.get(user__pk=user.pk)
+    if asso_user.role == 2 or user_is_manager_or_admin(user):
+        return True
+    return asso_user.role > 0 and dest_user.role <= 0
+
+
+@register.simple_tag
 def unprepared(e, u):
     """
     Used in event.html to know if the user is authorized to see the unapproved event
