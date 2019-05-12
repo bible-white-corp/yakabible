@@ -122,7 +122,7 @@ def send_validation_mail(ev, adm):
     # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     return email.send() == 1
 
-def send_refusing_mail(ev, adm, is_prez):
+def send_refusing_mail(ev, adm, is_prez, description):
     """
     Send mail to resp and president (if found) asking them to approve the event
     """
@@ -134,7 +134,8 @@ def send_refusing_mail(ev, adm, is_prez):
 
     email = EmailMessage(
         '[VALIDATION][' + ev.association.name + '] Evénement refusé: ' + ev.title,
-        'L\'événement ' + ev.title + ' a été refusé par ' + 'l\'association.' if is_prez else 'l\'administration.',
+        'L\'événement ' + ev.title + ' a été refusé par ' + ('l\'association' if is_prez else 'l\'administration') +
+        ((' pour la raison suivante:\n\n' + description + '\n') if len(description) != 0 else '.'),
         'yakabible@gmail.com',
         [adm, prez, ev.manager.email]
     )

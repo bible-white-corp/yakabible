@@ -390,6 +390,9 @@ def ask_refusing(request, pk):
     """
     e = get_object_or_404(Event, pk=pk)
 
+    if request.method != "POST":
+        return HttpResponseRedirect('/?illegalmethod')
+
     if e.validation_state == 4:
         return HttpResponseRedirect('/?eventAlreadyValidated')
     status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
@@ -400,10 +403,16 @@ def ask_refusing(request, pk):
     if not adm:
         adm = User.objects.filter(groups__name="Admin")
 
+    refus_form = Refusing_Form(request.POST)
+    if not refus_form.is_valid():
+        return redirect('?form_error')
+
+    description = refus_form.cleaned_data['description']
+
     e.validation_state = 1
     e.request_for_approuval = False
     e.save()
 
-    if not send_refusing_mail(e, adm, status.count() != 0):
+    if not send_refusing_mail(e, adm, status.count() != 0, description):
         return redirect(request.path_info.split('/refusing')[0] + '?deny=failure')
     return redirect(request.path_info.split('/refusing')[0] + '?deny=success')

@@ -130,7 +130,11 @@
                         {% else %}
                                 <a class="mb-3 btn btn-secondary disabled" role="button" >Validation pris en compte</a>
                         {% endif %}
-                        <a href="{% url 'refusing' pk=object.pk %}" class="mb-3 btn btn-danger" role="button" >Invalidation</a>
+                        <form action="{% url 'refusing' pk=object.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" id="reason" placeholder="Ajouter une raison au refus...">
+                            <button type="submit" class="btn btn-danger">Invalidation</button>
+                        </form>
                     {% endif %}
 
                 </div>
