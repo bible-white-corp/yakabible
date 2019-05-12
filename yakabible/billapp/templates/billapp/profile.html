@@ -46,6 +46,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% if object == request.user %}
             <hr>
             <h2>Tickets :</h2>
             <table class="table table-sm">
@@ -70,6 +71,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
