@@ -14,7 +14,7 @@
         <h5 class="card-header">Profil</h5>
         <div class="container">
             <div class="media mt-3">
-                <img height="100" src="{{ request.user | get_photo }}" class="mr-3"
+                <img height="100" src="{{ object | get_photo }}" class="mr-3"
                      alt="{{ object.username }}">
                 <div class="media-body align-middle">
                     <h1 class="">{{ object.first_name }} {{ object.last_name }}</h1>
