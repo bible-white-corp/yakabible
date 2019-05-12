@@ -8,9 +8,26 @@ from django.contrib.auth.decorators import user_passes_test
 
 
 def in_asso_required(function):
+    """
+    Décorateur de view qui renvoie 403 si l'utilisateur n'est pas dans l'assos
+    """
     def wrap(obj, *args, **kwargs):
         asso = Association.objects.get(pk=kwargs['pk'])
         if user_in_assos(obj.request.user, asso):
+            return function(obj, *args, **kwargs)
+        else:
+            raise Http404("Not in asso")
+
+    return wrap
+
+
+def in_asso_super_required(function):
+    """
+    Décorateur de view qui renvoie 403 si l'utilisateur n'est pas au minimum membre de bureau
+    """
+    def wrap(obj, *args, **kwargs):
+        asso = Association.objects.get(pk=kwargs['pk'])
+        if user_in_assos_super(obj.request.user, asso):
             return function(obj, *args, **kwargs)
         else:
             raise Http404("Not in asso")

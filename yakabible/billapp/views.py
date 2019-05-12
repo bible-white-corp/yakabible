@@ -149,7 +149,11 @@ class DashboardAssociationView(UserPassesTestMixin, generic.DetailView):
         return context
 
 
+@in_asso_super_required
 def AddUserAssosView(request, pk):
+    """
+    View pour ajouter un user a l'asso
+    """
     assos = get_object_or_404(Association, pk=pk)
     adduser = AddUserAssosFrom(request.POST)
     if not adduser.is_valid():
@@ -159,7 +163,11 @@ def AddUserAssosView(request, pk):
     return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
 
 
+@in_asso_super_required
 def UpdateUserAssosView(request, pk):
+    """
+    View pour changer le role ou supprimer un user d'une asso
+    """
     assos = get_object_or_404(Association, pk=pk)
     user_assos = get_object_or_404(AssociationUser, pk=request.GET.get('user'))
     if assos.pk is not user_assos.association.pk:

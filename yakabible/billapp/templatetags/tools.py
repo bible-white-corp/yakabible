@@ -92,9 +92,26 @@ def visible_events(e):
     return e.filter(validation_state=4).filter(end__gte=datetime.now())
 
 
+@register.filter
+def user_is_manager_or_admin(user):
+    return User.objects.filter(groups__name="Admin", pk=user.pk)\
+           or User.objects.filter(groups__name="manager", pk=user.pk)
+
+
 @register.simple_tag
 def user_in_assos(user, assos):
-    return assos.associationuser_set.filter(user__pk=user.pk)
+    """
+    Filtre si l'utilisateur est dans l'assos (ou admin/manager)
+    """
+    return assos.associationuser_set.filter(user__pk=user.pk) or user_is_manager_or_admin(user)
+
+
+@register.simple_tag
+def user_in_assos_super(user, assos):
+    """
+    Filtre si l'utilisateur est au minimum membre de bureau
+    """
+    return assos.associationuser_set.filter(user__pk=user.pk, role__gt=0) or user_is_manager_or_admin(user)
 
 
 @register.simple_tag
