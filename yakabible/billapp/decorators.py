@@ -13,7 +13,7 @@ def in_asso_required(function):
     """
     def wrap(obj, *args, **kwargs):
         asso = Association.objects.get(pk=kwargs['pk'])
-        if user_in_assos(obj.request.user, asso):
+        if user_in_assos(obj.user, asso):
             return function(obj, *args, **kwargs)
         else:
             raise Http404("Not in asso")
@@ -27,7 +27,7 @@ def in_asso_super_required(function):
     """
     def wrap(obj, *args, **kwargs):
         asso = Association.objects.get(pk=kwargs['pk'])
-        if user_in_assos_super(obj.request.user, asso):
+        if user_in_assos_super(obj.user, asso):
             return function(obj, *args, **kwargs)
         else:
             raise Http404("Not in asso")

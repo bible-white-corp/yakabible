@@ -32,9 +32,10 @@ class IndexView(generic.ListView):
     model = Event
 
     def get_queryset(self):
-        return super().get_queryset().filter(premium=True)\
-            .filter(validation_state=4)\
+        return super().get_queryset().filter(premium=True) \
+            .filter(validation_state=4) \
             .filter(end__gte=datetime.now())
+
 
 class CreateEvView(generic.View):
     """
@@ -56,7 +57,7 @@ class CreateEvView(generic.View):
         event_form = Event_Form(request.POST, request.FILES)
 
         staff_form = Staff_Form_Set(request.POST)
-        if 'additems' in request.POST and  request.POST["additems"] == 'true':
+        if 'additems' in request.POST and request.POST["additems"] == 'true':
             formset_dictionary_copy = request.POST.copy()
             formset_dictionary_copy['form-TOTAL_FORMS'] = int(formset_dictionary_copy['form-TOTAL_FORMS']) + 1
             staff_form = Staff_Form_Set(formset_dictionary_copy)
@@ -68,6 +69,7 @@ class CreateEvView(generic.View):
         return render(request, self.template_name, {'asso': asso,
                                                     'event_form': event_form,
                                                     'staff_form': staff_form})
+
 
 class ConnectionView(generic.TemplateView):
     """
@@ -83,8 +85,8 @@ class ConnectionView(generic.TemplateView):
         form = Connection_Form(request.POST)
         if form.is_valid():
             user = authenticate(request,
-                                username = form.cleaned_data['username'],
-                                password = form.cleaned_data['password'])
+                                username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password'])
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 if (request.GET.get('next')):
@@ -92,6 +94,7 @@ class ConnectionView(generic.TemplateView):
                 return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form,
                                                     'error': True})
+
 
 class RegistrationView(generic.TemplateView):
     """
@@ -117,12 +120,14 @@ class RegistrationView(generic.TemplateView):
 
         return render(request, self.template_name, {'form': form, 'error': True})
 
+
 class EventView(generic.DetailView):
     """
     View de la description d'un événement
     """
     template_name = 'billapp/event.html'
     model = Event
+
 
 class AssociationView(generic.DetailView):
     """
@@ -170,9 +175,12 @@ def UpdateUserAssosView(request, pk):
     """
     assos = get_object_or_404(Association, pk=pk)
     user_assos = get_object_or_404(AssociationUser, pk=request.GET.get('user'))
-    if assos.pk is not user_assos.association.pk:
-        return HttpResponseNotFound("Weird request")
     new_role = request.GET.get('new_role')
+    if assos.pk is not user_assos.association.pk \
+            or (can_delete(request.user, assos, user_assos) is False and new_role == "delete") \
+            or user_is_manager_or_admin(request.user) \
+            or (new_role != "2" and asso_is_president(request.user, assos)):
+        raise Http404("Invalid request")
     if new_role == "delete":
         user_assos.delete()
     else:
@@ -211,9 +219,11 @@ class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
             return self.get(request)
         return HttpResponseRedirect(reverse('dashboard_respo') + "#createasso")
 
+
 @login_required
 def Profile_redir(request):
     return HttpResponseRedirect(reverse('profile', args=[request.user.pk]))
+
 
 class ProfileView(generic.DetailView):
     """
@@ -223,12 +233,14 @@ class ProfileView(generic.DetailView):
     context_object_name = 'obj'
     template_name = 'billapp/profile.html'
 
+
 @login_required
 def TicketDownload(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
     if ticket.user != request.user:
         return HttpResponseNotFound("Ticket not found")
     return make_pdf_response(ticket)
+
 
 @login_required
 def RegEventSuccessView(request, pk):
@@ -237,16 +249,18 @@ def RegEventSuccessView(request, pk):
     send_pdf_mail(ticket, pdf)
     return make_pdf_response(ticket, pdf)
 
+
 def LogOutView(request):
     logout(request)
     return HttpResponseRedirect('/?logout')
+
 
 @login_required
 def ask_approval(request, pk):
     """
     Try to send email to resp and president + set boolean request at true if success
     """
-    #TODO ajouter securite pour empecher l'access a cette fonction si utilisateur log + url direct
+    # TODO ajouter securite pour empecher l'access a cette fonction si utilisateur log + url direct
     e = get_object_or_404(Event, pk=pk)
     adm = User.objects.filter(groups__name="Manager")
     if not adm:
@@ -261,11 +275,12 @@ def ask_approval(request, pk):
     else:
         return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=failure')
 
+
 @login_required
 def RegEventView(request, pk):
     e = get_object_or_404(Event, pk=pk)
     try:
-        tmp_t = Ticket.objects.get(user=request.user,event=e)
+        tmp_t = Ticket.objects.get(user=request.user, event=e)
     except Ticket.DoesNotExist:
         tmp_t = None
     if tmp_t is None:
@@ -282,6 +297,7 @@ def RegEventView(request, pk):
         t = get_object_or_404(Ticket, user=request.user, event=e)
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
+
 @group_required('manager', 'Admin')
 def DeleteAssociation(request, pk):
     """
@@ -292,6 +308,7 @@ def DeleteAssociation(request, pk):
     association.delete()
     messages.success(request, 'deleted')
     return HttpResponseRedirect(reverse('dashboard_respo'))
+
 
 class AssociationListView(generic.ListView):
     """
@@ -306,17 +323,20 @@ class AssociationListView(generic.ListView):
         page = self.request.GET.get("page")
         return paginator.get_page(page)
 
+
 class EventsListView(generic.ListView):
     """
     View de la liste des événements
     """
     template_name = "billapp/events_list.html"
     model = Event
+
     def get_queryset(self):
-        return super().get_queryset()\
-            .filter(end__gte=datetime.now())\
-            .order_by('begin')\
+        return super().get_queryset() \
+            .filter(end__gte=datetime.now()) \
+            .order_by('begin') \
             .filter(validation_state=4)
+
 
 class ApprovingListView(generic.ListView):
     """
@@ -324,16 +344,19 @@ class ApprovingListView(generic.ListView):
     """
     template_name = "billapp/approving_events_list.html"
     model = Event
+
     def get_queryset(self):
-        return super().get_queryset()\
-            .filter(begin__gte=datetime.now())\
-            .order_by('begin')\
-            .filter(validation_state__lte=3)\
+        return super().get_queryset() \
+            .filter(begin__gte=datetime.now()) \
+            .order_by('begin') \
+            .filter(validation_state__lte=3) \
             .filter(request_for_approuval=True)
+
 
 class EventRealtime(generic.DetailView):
     template_name = "billapp/event_realtime.html"
     model = Event
+
 
 @csrf_exempt
 def payment_done(request):
@@ -342,12 +365,14 @@ def payment_done(request):
     """
     return render(request, 'payment/done.html')
 
+
 @csrf_exempt
 def payment_canceled(request):
     """
     View de redirection Paypal, quand le paiemenet a échoué
     """
     return render(request, 'payment/canceled.html')
+
 
 def payment_process(request, pk):
     """
@@ -369,9 +394,9 @@ def payment_process(request, pk):
 
     paypal_dict = {
         "business": "yakabible@gmail.com",
-        "amount" : str(price),
+        "amount": str(price),
         "item_name": user + " : " + eventname,
-        "invoice": user_id + "/" +  str(eventpk),
+        "invoice": user_id + "/" + str(eventpk),
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return": request.build_absolute_uri(reverse('paymentDone')),
         "cancel_return": request.build_absolute_uri(reverse('paymentCanceled')),
@@ -379,7 +404,8 @@ def payment_process(request, pk):
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, "payment/process.html", {'form':form})
+    return render(request, "payment/process.html", {'form': form})
+
 
 @login_required
 def ask_validation(request, pk):
@@ -417,6 +443,7 @@ def ask_validation(request, pk):
         return redirect(request.path_info.split('/validating')[0] + '?Mailing=success')
 
     return redirect(request.path_info.split('/validating')[0] + '?Validation=success')
+
 
 @login_required
 def ask_refusing(request, pk):

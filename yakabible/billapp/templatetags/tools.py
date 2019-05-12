@@ -116,7 +116,7 @@ def user_in_assos_super(user, assos):
 
 @register.simple_tag
 def asso_is_president(user, asso):
-    return asso.associationuser_set.filter(user__pk=user.pk, role__gt=2)
+    return asso.associationuser_set.filter(user__pk=user.pk, role=2)
 
 
 @register.simple_tag
