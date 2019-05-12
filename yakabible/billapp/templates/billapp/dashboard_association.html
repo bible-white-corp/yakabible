@@ -43,8 +43,8 @@
                             {% for event in object.event_set.all %}
                                 {% if event.validation_state == 4 %}
                                     <tr>
-                                        <td>{{ event.title }}</td>
-                                        <td>{{ event.manager.username }}</td>
+                                        <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
+                                        <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
@@ -64,8 +64,8 @@
                             {% for event in object.event_set.all %}
                                 {% if not event.validation_state == 4 %}
                                     <tr>
-                                        <td>{{ event.title }}</td>
-                                        <td>{{ event.manager.username }}</td>
+                                        <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
+                                        <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}
@@ -92,7 +92,7 @@
                     <tbody>
                     {% for asso_user in object.associationuser_set.all %}
                         <tr>
-                            <td>{{ asso_user.user.username }}</td>
+                            <td><a href="{% url 'profile' pk=asso_user.user.pk %}">{{ asso_user.user.username }}</a></td>
                             <td>{{ asso_user.user.last_name }}</td>
                             <td>{{ asso_user.user.first_name }}</td>
                             <td>{{ asso_user.role | get_role }}</td>
@@ -144,7 +144,7 @@
                         {% if president %}
                             <tr>
                                 <td>Président</td>
-                                <td>{{ president.username }}</td>
+                                <td><a href="{% url 'profile' pk=president.pk %}">{{ president.username }}</a></td>
                                 <td>{{ president.last_name }}</td>
                                 <td>{{ president.first_name }}</td>
                                 <td>{{ president.email }}</td>
@@ -155,7 +155,7 @@
                         {% if asso_user.role == 1 %}
                             <tr>
                                 <td>{{ asso_user.role | get_role }}</td>
-                                <td>{{ asso_user.user.username }}</td>
+                                <td><a href="{% url 'profile' pk=asso_user.user.pk %}">{{ asso_user.user.username }}</a></td>
                                 <td>{{ asso_user.user.last_name }}</td>
                                 <td>{{ asso_user.user.first_name }}</td>
                                 <td>{{ asso_user.user.email }}</td>
