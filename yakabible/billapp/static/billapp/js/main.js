@@ -30,20 +30,6 @@
         });
     });
 
-    $("table").each(function (i) {
-        var table = this;
-        $(this).attr("data-search", "input" + i);
-        $(this).before("<input id=\"input" + i + "\" type=\"text\" placeholder=\"Search..\">");
-
-        $("#input" + i).on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            var header = $(table).find('tr')[0];
-            console.log(header);
-            $(table).find("tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-            $(header).show();
-        });
-    });
+    $("table").DataTable();
 
 })(jQuery);
