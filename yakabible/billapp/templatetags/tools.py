@@ -124,8 +124,10 @@ def can_delete(user, asso, dest_user):
     """
     Return True if user can delete dest_user in asso
     """
+    if user_is_manager_or_admin(user):
+        return True
     asso_user = asso.associationuser_set.get(user__pk=user.pk)
-    if asso_user.role == 2 or user_is_manager_or_admin(user):
+    if asso_user.role == 2:
         return True
     return asso_user.role > 0 and dest_user.role <= 0
 

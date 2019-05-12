@@ -118,7 +118,7 @@
                                         {% if request.user|user_is_manager_or_admin %}
                                         <a class="dropdown-item" href="{% url 'update_user_assos' pk=asso_user.association.pk %}?user={{ asso_user.pk }}&new_role=2">Président</a>
                                         {% endif %}
-                                        {% if president %}
+                                        {% if president or request.user|user_is_manager_or_admin %}
                                         <a class="dropdown-item" href="{% url 'update_user_assos' pk=asso_user.association.pk %}?user={{ asso_user.pk }}&new_role=1">Membre du bureau</a>
                                         <a class="dropdown-item" href="{% url 'update_user_assos' pk=asso_user.association.pk %}?user={{ asso_user.pk }}&new_role=0">Membre simple</a>
                                         {% endif %}
