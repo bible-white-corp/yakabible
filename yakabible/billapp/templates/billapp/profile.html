@@ -64,7 +64,7 @@
                     <tr>
                         <th scope="row">{{ tick.pk }}</th>
                         <td><a href="{% url 'event' pk=tick.event.pk %}">{{ tick.event.title }}</a></td>
-                        <td>{{ tick.category }}</td>
+                        <td>{{ tick.category | true_false_to_fr }}</td>
                         <td>{{ tick.state | get_ticket_state }}</td>
                         <td><a href="{% url 'ticket' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
                     </tr>

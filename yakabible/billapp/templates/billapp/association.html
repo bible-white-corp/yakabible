@@ -113,7 +113,7 @@
                     <td>{{ us.user.last_name }}</td>
                     <td><a href="{% url 'profile' pk=us.user.pk %}">{{ us.user.username }}</a></td>
                     <td>{{ us.user.email }}</td>
-                    <td>{{ us.role }}</td>
+                    <td>{{ us.role|get_role }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
