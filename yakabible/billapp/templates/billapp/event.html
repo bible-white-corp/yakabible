@@ -132,7 +132,7 @@
                         {% endif %}
                         <form action="{% url 'refusing' pk=object.pk %}" method="post">
                             {% csrf_token %}
-                            <input type="text" class="form-control" id="reason" placeholder="Ajouter une raison au refus...">
+                            <input id="description" type="text" class="form-control"  placeholder="Ajouter une raison au refus..." maxlength="200">
                             <button type="submit" class="btn btn-danger">Invalidation</button>
                         </form>
                     {% endif %}

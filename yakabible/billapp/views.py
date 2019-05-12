@@ -396,7 +396,7 @@ def ask_refusing(request, pk):
     if e.validation_state == 4:
         return HttpResponseRedirect('/?eventAlreadyValidated')
     status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
-    if (not status or status[0].role != 2) or not (request.user.is_superuser or request.user.is_staff):
+    if not (status and status[0].role == 2) and not (request.user.is_superuser or request.user.is_staff):
         return HttpResponseRedirect('/?unauthorized')
 
     adm = User.objects.filter(groups__name="Manager")
@@ -405,7 +405,7 @@ def ask_refusing(request, pk):
 
     refus_form = Refusing_Form(request.POST)
     if not refus_form.is_valid():
-        return redirect('?form_error')
+        return redirect('/?form_error')
 
     description = refus_form.cleaned_data['description']
 

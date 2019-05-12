@@ -83,6 +83,4 @@ class Inscription_Form(forms.Form):
                     widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 class Refusing_Form(forms.Form):
-    description = forms.CharField(label='reason',
-                                  widget=forms.Textarea(attrs={'class': 'form-control',
-                                                  'rows': 5}))
+    description = forms.CharField(label='description')
