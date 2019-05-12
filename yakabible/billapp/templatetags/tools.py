@@ -67,6 +67,7 @@ def get_ticket_state(index):
 
 
 @register.filter
+@register.simple_tag
 def get_president(assos):
     user = assos.associationuser_set.filter(role=2)
     if not user:

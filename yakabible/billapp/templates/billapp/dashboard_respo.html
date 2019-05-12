@@ -40,8 +40,8 @@
                         {% for event in Events %}
                             {% if event.validation_state == 3%}
                                 <tr>
-                                    <td> {{ event.title }} </td>
-                                    <td> {{ event.manager.username }} </td>
+                                    <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
+                                    <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
                                 </tr>
                             {% endif %}
                         {% endfor %}
@@ -61,8 +61,8 @@
                         {% for event in Events %}
                             {% if not event.validation_state == 3%}
                                 <tr>
-                                    <td> {{ event.title }} </td>
-                                    <td> {{ event.manager.username }} </td>
+                                    <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
+                                    <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
                                 </tr>
                             {% endif %}
                         {% endfor %}
@@ -84,8 +84,13 @@
                 <tbody>
                 {% for asso in Assos %}
                     <tr>
-                        <td> {{ asso.name }} </td>
-                        <td> {{ asso | get_president }} </td>
+                        <td><a href="{% url 'association' pk=asso.pk %}">{{ asso.name }}</a></td>
+                        {% get_president asso as president %}
+                        {% if president %}
+                        <td><a href="{% url 'profile' pk=president.pk %}">{{ president }}</a></td>
+                        {% else %}
+                        <td>Pas de président</td>
+                        {% endif %}
                         <td> {{ asso | get_number_of_member }} </td>
                         <td> <a href="{% url 'del_asso' pk=asso.pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
                     </tr>
