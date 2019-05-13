@@ -127,7 +127,7 @@
                 <div class="container">
                     {% can_rfa event user as requestable %}
                     {% if requestable %}
-                        {% if not event.request_for_approuval %}
+                        {% if not event.request_for_approval %}
                             <a href="{% url 'ask_approval' pk=object.pk %}" class="mt-3 mb-3 btn btn-primary"
                                role="button">Demande
                                 d'approbation</a>

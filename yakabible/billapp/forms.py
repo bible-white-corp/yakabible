@@ -49,24 +49,28 @@ class Event_Form(forms.Form):
                                        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
 
     def clean(self):
-        begin = self.cleaned_data["begin"]
-        end = self.cleaned_data["end"]
+        cleaned_data = super().clean()
+        begin1 = cleaned_data["begin"]
+        end1 =  cleaned_data["end"]
 
-        if begin < end:
-            self.add_error("begin", "An event cannot start before its end!")
+        if begin1 >= end1:
+            self.add_error("begin", forms.ValidationError("An event cannot start before its end!"))
 
-        if begin < datetime.datetime.now():
-            self.add_error("begin", "An event cannot be planned in the past!")
+        if begin1 < datetime.datetime.now():
+            self.add_error("begin", forms.ValidationError("An event cannot be planned in the past!"))
 
-        begin = self.cleaned_data["begin_register"]
-        end = self.cleaned_data["end_register"]
+        begin2 = self.cleaned_data["begin_register"]
+        end2 = self.cleaned_data["end_register"]
 
-        if begin < end:
-            self.add_error("begin_register", "The registration cannot start before its end!")
+        if begin2 > end2:
+            self.add_error("begin_register", forms.ValidationError("The registration cannot start before its end!"))
 
-        if begin < datetime.datetime.now():
-            self.add_error("begin", "The registration cannot be start in the past!")
-        return self.cleaned_data
+        if begin2 < datetime.datetime.now():
+            self.add_error("begin", forms.ValidationError("The registration cannot be start in the past!"))
+
+        if begin2 > begin1:
+            self.add_error("begin2", forms.ValidationError("The registration cannot be planned after the begin "
+                                                           "of an event!"))
 
 
 

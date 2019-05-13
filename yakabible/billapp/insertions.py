@@ -20,7 +20,7 @@ def insert_event(user, form, asso):
             staff_capacity = 0,
             promotion_image_path = form.cleaned_data['promotion_image_path'],
             validation_state = 1,
-            request_for_approuval=False,
+            request_for_approval=False,
             show_capacity = form.cleaned_data['show_capacity']
             )
     e.save()
