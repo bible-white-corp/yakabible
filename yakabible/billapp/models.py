@@ -13,21 +13,21 @@ class Association(models.Model):
     """
     Model représentant une association
     """
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, unique=True)
     logo_path = models.ImageField(upload_to=assos_image_path)
-    email = models.CharField(max_length=64)
-    description = models.TextField()
+    email = models.CharField(max_length=64, unique=True)
+    description = models.TextField(max_length=2000)
 
     def __str__(self):
         return self.name
 
 class Event(models.Model):
     """
-    Model représentant un événement
+    Model représentant un événement00
     """
 
     title = models.CharField(max_length=128)
-    description = models.TextField()
+    description = models.TextField(max_length=2000)
     association = models.ForeignKey(Association, on_delete=models.CASCADE)
     manager = models.ForeignKey(User, on_delete=models.CASCADE)
     premium = models.BooleanField()
@@ -36,19 +36,19 @@ class Event(models.Model):
     begin_register = models.DateTimeField()
     end_register = models.DateTimeField()
     place = models.CharField(max_length=128)
-    price_ionis = models.FloatField()
-    price = models.FloatField()
-    ext_capacity = models.IntegerField()
-    int_capacity = models.IntegerField()
-    staff_capacity = models.IntegerField()
-    promotion_image_path = models.ImageField(upload_to=promo_image_path)
+    price_ionis = models.DecimalField(decimal_places=2, max_digits=5)
+    price = models.DecimalField(decimal_places=2, max_digits=5)
+    ext_capacity = models.SmallIntegerField()
+    int_capacity = models.SmallIntegerField()
+    staff_capacity = models.SmallIntegerField()
+    promotion_image_path = models.ImageField(upload_to=promo_image_path, blank=True)
     validation_state = models.SmallIntegerField(choices=(
         (1, 'Need authorization'),
         (2, 'Approved by the association'),
         (3, 'Approved by EPITA'),
         (4, 'Authorized')
     ), default=1)
-    request_for_approuval = models.BooleanField(default=False)#TODO faute d'orthographe, si on a le temps...
+    request_for_approval = models.BooleanField(default=False)
 
     show_capacity = models.BooleanField()
 

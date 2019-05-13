@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formset_factory
 from .models import *
-
+import datetime
 
 class Event_Form(forms.Form):
     title = forms.CharField(label='f_title', max_length=128,
@@ -33,19 +33,42 @@ class Event_Form(forms.Form):
                                                   'data-target': '#id_end_register'}))
     place = forms.CharField(label='f_place', max_length=128,
                             widget=forms.TextInput(attrs={'class': 'form-control'}))
-    price_ionis = forms.FloatField(label='f_price_int',
+    price_ionis = forms.IntegerField(label='f_price_int',
                                    widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}))
     price = forms.FloatField(label='f_price_ext',
                              widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}))
-    ext_capacity = forms.IntegerField(label='f_limit_ext',
+    ext_capacity = forms.IntegerField(label='f_limit_ext', min_value=0,
                                       widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    int_capacity = forms.IntegerField(label='f_limit_int',
+    int_capacity = forms.IntegerField(label='f_limit_int', min_value=0,
                                       widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    promotion_image_path = forms.ImageField(required=False, label='f_img',
-                                            widget=forms.FileInput(attrs={'class': 'custom-file-input'}))
+    promotion_image_path = forms.ImageField(label='f_img',
+                                            widget=forms.FileInput(attrs={'class': 'custom-file-input',
+                                                                          'Required': 'False'}))
     show_capacity = forms.BooleanField(label='f_show_capacity', required=False,
                                        initial=False,
                                        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+
+    def clean(self):
+        begin = self.cleaned_data["begin"]
+        end = self.cleaned_data["end"]
+
+        if begin < end:
+            self.add_error("begin", "An event cannot start before its end!")
+
+        if begin < datetime.datetime.now():
+            self.add_error("begin", "An event cannot be planned in the past!")
+
+        begin = self.cleaned_data["begin_register"]
+        end = self.cleaned_data["end_register"]
+
+        if begin < end:
+            self.add_error("begin_register", "The registration cannot start before its end!")
+
+        if begin < datetime.datetime.now():
+            self.add_error("begin", "The registration cannot be start in the past!")
+        return self.cleaned_data
+
+
 
 
 class Asso_Form(forms.Form):

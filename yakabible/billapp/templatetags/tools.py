@@ -291,7 +291,7 @@ def has_taff(u):
     events = Event.objects \
         .filter(begin__gte=datetime.now()) \
         .filter(validation_state__lte=3) \
-        .filter(request_for_approuval=True)
+        .filter(request_for_approval=True)
 
     if not events or events.count() == 0:
         return False
@@ -316,7 +316,7 @@ def has_to_validate(u):
     events = Event.objects \
         .filter(begin__gte=datetime.now()) \
         .filter(validation_state__lte=3) \
-        .filter(request_for_approuval=True)
+        .filter(request_for_approval=True)
     is_adm = user_is_manager_or_admin(u)
 
     for ev in events:
@@ -335,7 +335,7 @@ def can_approve(u, ev):
     """
     used in event.html to know if user can validate or refuse an event
     """
-    if not u.is_authenticated or not ev.request_for_approuval:
+    if not u.is_authenticated or not ev.request_for_approval:
         return False
     if user_is_manager_or_admin(u):
         return True

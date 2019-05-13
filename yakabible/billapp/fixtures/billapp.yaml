@@ -46,7 +46,7 @@
     premium: true, begin: ! '2019-04-10 16:24:14+00:00', end: ! '2019-04-12 16:24:17+00:00',
     begin_register: ! '2019-04-07 16:24:23+00:00', end_register: ! '2019-04-09 16:25:36+00:00',
     place: KB, price_ionis: 2.5, price: 3.0, ext_capacity: 10, int_capacity: 10, staff_capacity: 10,
-    promotion_image_path: promo_2/antre.jpg, validation_state: 1, request_for_approuval: true,
+    promotion_image_path: promo_2/antre.jpg, validation_state: 1, request_for_approval: true,
     show_capacity: false}
 - model: billapp.event
   pk: 3
@@ -55,7 +55,7 @@
       19:05:00+00:00', begin_register: ! '2019-05-04 14:40:00+00:00', end_register: ! '2019-05-06
       19:00:00+00:00', place: KB, price_ionis: 2.0, price: 5.0, ext_capacity: 2, int_capacity: 5,
     staff_capacity: 0, promotion_image_path: promo/FTKzUA2qvQruun0uskJuXqCKdnXFsICn_56590de2b9b48d478252dac7fdf7cd55_original.jpg,
-    validation_state: 1, request_for_approuval: true, show_capacity: false}
+    validation_state: 1, request_for_approval: true, show_capacity: false}
 - model: billapp.event
   pk: 5
   fields: {title: Convention Epitanime, description: "La convention Epitanime (anciennement
@@ -67,7 +67,7 @@
       23:59:59+00:00', begin_register: ! '2019-05-01 00:00:00+00:00', end_register: ! '2019-05-10
       18:00:00+00:00', place: "14 - 16 rue Voltaire, Le Kremlin-Bic\xEAtre", price_ionis: 0.0,
     price: 5.0, ext_capacity: 100, int_capacity: 200, staff_capacity: 100, promotion_image_path: promo/Zmtd7qc0rS5FBIPkdnmVCryMumHcq1fL_161230_epitanime2017.jpg,
-    validation_state: 4, request_for_approuval: true, show_capacity: false}
+    validation_state: 4, request_for_approval: true, show_capacity: false}
 - model: billapp.event
   pk: 6
   fields: {title: Coaching, description: Toute la BWC est conviee a une seance de
@@ -76,7 +76,7 @@
       22:19:15+00:00', end_register: ! '2019-05-04 00:00:00+00:00', place: Kremlin
       Bicetre, price_ionis: -1.0, price: 0.0, ext_capacity: 0, int_capacity: 4, staff_capacity: 1,
     promotion_image_path: promo/1ZzCe2NwCZzDDdu8h8qs3QGZQHNxKh4y_uPzKHvzDoNs7GEx5VO2pKJTRY7DDSkUl_xAAtzmwSdhlX7nwV_GVOAFUi.jpg,
-    validation_state: 4, request_for_approuval: true, show_capacity: false}
+    validation_state: 4, request_for_approval: true, show_capacity: false}
 - model: billapp.event
   pk: 7
   fields: {title: "D\xE9gustation de bi\xE8re", description: "Venez boire des bi\xE8res
@@ -85,14 +85,14 @@
       11:34:33+00:00', end_register: ! '2019-05-23 11:34:33+00:00', place: Epita Kremelin
       Bicetre (Under), price_ionis: 0.0, price: 1.0, ext_capacity: 0, int_capacity: 10,
     staff_capacity: 5, promotion_image_path: promo/rGndBoiFsNvWg2PRoviODaylofw6ZvLH_logotxt.png,
-    validation_state: 1, request_for_approuval: false, show_capacity: true}
+    validation_state: 1, request_for_approval: false, show_capacity: true}
 - model: billapp.event
   pk: 11
   fields: {title: testvalid, description: a, association: 2, manager: 1, premium: false,
     begin: ! '2019-05-22 22:00:00+00:00', end: ! '2019-05-24 22:00:00+00:00', begin_register: ! '2019-04-30
       22:00:00+00:00', end_register: ! '2019-05-23 22:00:00+00:00', place: a, price_ionis: 1.0,
     price: 1.0, ext_capacity: 1, int_capacity: 1, staff_capacity: 0, promotion_image_path: promo/13L1H8hsEdro5J6nRSiGLyO12BMgTxIe_wall1.png,
-    validation_state: 3, request_for_approuval: true, show_capacity: false}
+    validation_state: 3, request_for_approval: true, show_capacity: false}
 - model: billapp.associationuser
   pk: 1
   fields: {user: 3, association: 1, role: 2}

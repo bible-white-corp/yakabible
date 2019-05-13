@@ -276,7 +276,7 @@ def ask_approval(request, pk):
         return HttpResponseRedirect('/?failure')
     res = send_approval_mail(e, adm[0])
     if res:
-        e.request_for_approuval = True
+        e.request_for_approval = True
         e.save()
         return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=success')
     else:
@@ -360,7 +360,7 @@ class ApprovingListView(generic.ListView):
             .filter(begin__gte=datetime.now()) \
             .order_by('begin') \
             .filter(validation_state__lte=3) \
-            .filter(request_for_approuval=True)
+            .filter(request_for_approval=True)
 
 
 class EventRealtime(generic.DetailView):
@@ -485,7 +485,7 @@ def ask_refusing(request, pk):
     description = refus_form.cleaned_data['description']
 
     e.validation_state = 1
-    e.request_for_approuval = False
+    e.request_for_approval = False
     e.save()
 
     if not send_refusing_mail(e, adm, status.count() != 0, description):
