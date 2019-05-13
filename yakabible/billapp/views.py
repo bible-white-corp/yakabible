@@ -339,10 +339,13 @@ class EventsListView(generic.ListView):
     model = Event
 
     def get_queryset(self):
-        return super().get_queryset() \
+        res = super().get_queryset() \
             .filter(end__gte=datetime.now()) \
             .order_by('begin') \
             .filter(validation_state=4)
+        paginator = Paginator(res, 10)
+        page = self.request.GET.get("page")
+        return paginator.get_page(page)
 
 
 class ApprovingListView(generic.ListView):
