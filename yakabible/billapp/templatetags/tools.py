@@ -149,7 +149,7 @@ def unprepared(e, u):
         return False
     if u.is_anonymous:
         return True
-    if u == e.manager or u.is_staff or u.is_superuser:
+    if u == e.manager or user_is_manager_or_admin(u):
         return False
     status = e.association.associationuser_set.filter(user=u).filter(association=e.association)
     if not status:
@@ -250,7 +250,7 @@ def events_to_approve(u, e):
     """
     if u.is_anonymous:
         return False
-    if u.is_superuser or u.is_staff:
+    if user_is_manager_or_admin(u):
         return True
     status = e.association.associationuser_set.filter(user=u).filter(association=e.association)
     if not status:
@@ -290,7 +290,7 @@ def has_to_validate(u):
     if not events or events.count() == 0:
         return False
 
-    if u.is_superuser or u.is_staff:
+    if user_is_manager_or_admin(u):
             return True
 
     for ev in events:
@@ -308,7 +308,7 @@ def can_approve(u, ev):
     """
     if not u.is_authenticated or not ev.request_for_approuval:
         return False
-    if u.is_superuser or u.is_staff:
+    if user_is_manager_or_admin(u):
         return True
     status = ev.association.associationuser_set.filter(user=u).filter(association=ev.association)
     if status and status[0].role == 2:
@@ -320,7 +320,7 @@ def can_validate(u, ev):
     """
     used in event.html to know if user has already validate an event
     """
-    if u.is_superuser or u.is_staff:
+    if user_is_manager_or_admin(u):
         if ev.validation_state != 3:
             return True
     else:

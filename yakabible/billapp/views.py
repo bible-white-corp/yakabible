@@ -305,7 +305,7 @@ def RegEventView(request, pk):
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
 
-@group_required('manager', 'Admin')
+@group_required('Manager', 'Admin')
 def DeleteAssociation(request, pk):
     """
     View to delete an association
@@ -424,11 +424,14 @@ def ask_validation(request, pk):
     if e.validation_state == 4:
         return HttpResponseRedirect('/?eventAlreadyValidated')
     status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
-    if not (status and status[0].role == 2) and not (request.user.is_superuser or request.user.is_staff):
+    is_prez = status and status[0].role == 2
+    is_adm = user_is_manager_or_admin(user)
+
+    if not is_prez and not is_adm:
         return HttpResponseRedirect('/?unauthorized')
-    if (request.user.is_superuser or request.user.is_staff) and e.validation_state == 3:
+    if is_adm and e.validation_state == 3:
         return HttpResponseRedirect('/?authorizationAlreadyGiven')
-    if status and status[0].role == 2 and e.validation_state == 2:
+    if is_prez and e.validation_state == 2:
         return HttpResponseRedirect('/?authorizationAlreadyGiven')
 
     adm = User.objects.filter(groups__name="Manager")
@@ -465,7 +468,7 @@ def ask_refusing(request, pk):
     if e.validation_state == 4:
         return HttpResponseRedirect('/?eventAlreadyValidated')
     status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
-    if not (status and status[0].role == 2) and not (request.user.is_superuser or request.user.is_staff):
+    if not (status and status[0].role == 2) and not user_is_manager_or_admin(user):
         return HttpResponseRedirect('/?unauthorized')
 
     adm = User.objects.filter(groups__name="Manager")

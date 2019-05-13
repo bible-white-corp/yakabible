@@ -45,7 +45,7 @@ class Event(models.Model):
     validation_state = models.SmallIntegerField(choices=(
         (1, 'Need authorization'),
         (2, 'Approved by the association'),
-        (3, 'Approuved by EPITA'),
+        (3, 'Approved by EPITA'),
         (4, 'Authorized')
     ), default=1)
     request_for_approuval = models.BooleanField(default=False)#TODO faute d'orthographe, si on a le temps...
