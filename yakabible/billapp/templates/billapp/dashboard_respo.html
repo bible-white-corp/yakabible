@@ -14,18 +14,18 @@
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs" id="DashassoTab" role="tablist">
             <li class="nav-item mx-3">
-                <a class="nav-link {{f_active}}" id="listevent-tab" data-toggle="tab" href="#listevent" role="tab">Liste des événements</a>
+                <a class="nav-link active" id="listevent-tab" data-toggle="tab" href="#listevent" role="tab">Liste des événements</a>
             </li>
             <li class="nav-item mx-3">
-                <a class="nav-link {{s_active}}" id="listassos-tab" data-toggle="tab" href="#listassos" role="tab">Liste des associations</a>
+                <a class="nav-link" id="listassos-tab" data-toggle="tab" href="#listassos" role="tab">Liste des associations</a>
             </li>
             <li class="nav-item mx-3">
-                <a class="nav-link {{t_active}}" id="createasso-tab" data-toggle="tab" href="#createasso" role="tab">Créer une association</a>
+                <a class="nav-link" id="createasso-tab" data-toggle="tab" href="#createasso" role="tab">Créer une association</a>
             </li>
         </ul>
     </div>
     <div class="tab-content" id="DashassoTabContent">
-        <div class="tab-pane fade {{show_f_active}} mx-2" id="listevent" role="tabpanel">
+        <div class="tab-pane fade show active mx-2" id="listevent" role="tabpanel">
             <div class="row">
                 <div class="col-sm">
                     <h4 class="mt-3"> Evenements confirmés </h4>
@@ -40,8 +40,8 @@
                         {% for event in Events %}
                             {% if event.validation_state == 3%}
                                 <tr>
-                                    <td> {{ event.title }} </td>
-                                    <td> {{ event.manager.username }} </td>
+                                    <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
+                                    <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
                                 </tr>
                             {% endif %}
                         {% endfor %}
@@ -61,8 +61,8 @@
                         {% for event in Events %}
                             {% if not event.validation_state == 3%}
                                 <tr>
-                                    <td> {{ event.title }} </td>
-                                    <td> {{ event.manager.username }} </td>
+                                    <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
+                                    <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
                                 </tr>
                             {% endif %}
                         {% endfor %}
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade {{show_s_active}} mx-2" id="listassos" role="tabpanel">
+        <div class="tab-pane fade mx-2" id="listassos" role="tabpanel">
             <table class="table table-condensed">
                 <thead>
                     <tr>
@@ -84,8 +84,13 @@
                 <tbody>
                 {% for asso in Assos %}
                     <tr>
-                        <td> {{ asso.name }} </td>
-                        <td> {{ asso | get_president }} </td>
+                        <td><a href="{% url 'association' pk=asso.pk %}">{{ asso.name }}</a></td>
+                        {% get_president asso as president %}
+                        {% if president %}
+                        <td><a href="{% url 'profile' pk=president.pk %}">{{ president }}</a></td>
+                        {% else %}
+                        <td>Pas de président</td>
+                        {% endif %}
                         <td> {{ asso | get_number_of_member }} </td>
                         <td> <a href="{% url 'del_asso' pk=asso.pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
                     </tr>
@@ -93,8 +98,24 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade {{show_t_active}} mx-2" id="createasso" role"tabpanel">
+        <div class="tab-pane fade mx-2" id="createasso" role="tabpanel">
             <div class="mb-2">
+                <div class="mt-2">
+                    {% if Form.errors %}
+                        {% for field in Form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in Form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 <form enctype='multipart/form-data' class='container' method="post">
                     <div class="form-row">
                         <div class="col-lg-6">

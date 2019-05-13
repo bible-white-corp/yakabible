@@ -56,7 +56,7 @@ class Asso_Form(forms.Form):
                                                   'rows': 5}))
 
 class Staff_Form(forms.Form):
-    association_name = forms.ModelChoiceField(label='f_association_name', widget=forms.Select(attrs={'class': 'form-control'}), queryset=Association.objects.all(), required=False, help_text="Company")
+    association_name = forms.ModelChoiceField(label='f_association_name', widget=forms.Select(attrs={'class': 'form-control'}), queryset=Association.objects.all(), required=False, help_text="Association")
     capacity = forms.IntegerField(label='f_capacity',
                widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
@@ -82,6 +82,11 @@ class Inscription_Form(forms.Form):
     pwd_conf = forms.CharField(label='f_pwd_conf',
                     widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+
 class Refusing_Form(forms.Form):
     description = forms.CharField(label='description')
-    
+
+
+class AddUserAssosFrom(forms.Form):
+    input = forms.CharField(label='f_title', max_length=128,
+                            widget=forms.TextInput(attrs={'class': 'form-control awesomplete'}))

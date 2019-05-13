@@ -10,7 +10,14 @@
 
 {% block content %}
 <div class="card mt-3">
-    <h5 class="card-header">Association</h5>
+    <h5 class="card-header">Association
+        {% user_in_assos request.user object as user_in_asso %}
+        {% if user_in_asso %}
+        <a href="{% url 'dashboard_association' pk=object.pk %}">
+            <span class="badge badge-secondary badge-info">Dashboard</span>
+        </a>
+        {% endif %}
+    </h5>
     <div class="container">
         <div class="media mt-3">
             <img height="100" src="{{ object.logo_path.url }}" class="mr-3" alt="{{ object.name }}">
@@ -106,7 +113,7 @@
                     <td>{{ us.user.last_name }}</td>
                     <td><a href="{% url 'profile' pk=us.user.pk %}">{{ us.user.username }}</a></td>
                     <td>{{ us.user.email }}</td>
-                    <td>{{ us.role }}</td>
+                    <td>{{ us.role|get_role }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

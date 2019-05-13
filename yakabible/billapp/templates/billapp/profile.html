@@ -14,7 +14,7 @@
         <h5 class="card-header">Profil</h5>
         <div class="container">
             <div class="media mt-3">
-                <img height="100" src="{{ request.user | get_photo }}" class="mr-3"
+                <img height="100" src="{{ object | get_photo }}" class="mr-3"
                      alt="{{ object.username }}">
                 <div class="media-body align-middle">
                     <h1 class="">{{ object.first_name }} {{ object.last_name }}</h1>
@@ -46,6 +46,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% if object == request.user %}
             <hr>
             <h2>Tickets :</h2>
             <table class="table table-sm">
@@ -63,13 +64,14 @@
                     <tr>
                         <th scope="row">{{ tick.pk }}</th>
                         <td><a href="{% url 'event' pk=tick.event.pk %}">{{ tick.event.title }}</a></td>
-                        <td>{{ tick.category }}</td>
+                        <td>{{ tick.category | true_false_to_fr }}</td>
                         <td>{{ tick.state | get_ticket_state }}</td>
                         <td><a href="{% url 'ticket' pk=tick.pk %}"><i class="fas fa-download"></i></a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}

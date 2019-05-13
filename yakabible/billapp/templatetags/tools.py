@@ -1,6 +1,5 @@
 from django import template
-from billapp.models import Ticket
-from billapp.models import Event
+from billapp.models import *
 from datetime import datetime
 from django.templatetags.static import static
 from django.contrib.auth.models import User
@@ -68,6 +67,14 @@ def get_ticket_state(index):
 
 
 @register.filter
+def true_false_to_fr(b):
+    if b:
+        return "Oui"
+    return "Non"
+
+
+@register.filter
+@register.simple_tag
 def get_president(assos):
     user = assos.associationuser_set.filter(role=2)
     if not user:
@@ -91,6 +98,46 @@ def event_started(context):
 @register.filter
 def visible_events(e):
     return e.filter(validation_state=4).filter(end__gte=datetime.now())
+
+
+@register.filter
+def user_is_manager_or_admin(user):
+    return User.objects.filter(groups__name="Admin", pk=user.pk)\
+           or User.objects.filter(groups__name="manager", pk=user.pk)
+
+
+@register.simple_tag
+def user_in_assos(user, assos):
+    """
+    Filtre si l'utilisateur est dans l'assos (ou admin/manager)
+    """
+    return assos.associationuser_set.filter(user__pk=user.pk) or user_is_manager_or_admin(user)
+
+
+@register.simple_tag
+def user_in_assos_super(user, assos):
+    """
+    Filtre si l'utilisateur est au minimum membre de bureau
+    """
+    return assos.associationuser_set.filter(user__pk=user.pk, role__gt=0) or user_is_manager_or_admin(user)
+
+
+@register.simple_tag
+def asso_is_president(user, asso):
+    return asso.associationuser_set.filter(user__pk=user.pk, role=2)
+
+
+@register.simple_tag
+def can_delete(user, asso, dest_user):
+    """
+    Return True if user can delete dest_user in asso
+    """
+    if user_is_manager_or_admin(user):
+        return True
+    asso_user = asso.associationuser_set.get(user__pk=user.pk)
+    if asso_user.role == 2:
+        return True
+    return asso_user.role > 0 and dest_user.role <= 0
 
 
 @register.simple_tag
