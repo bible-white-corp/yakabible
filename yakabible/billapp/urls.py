@@ -9,6 +9,7 @@ urlpatterns = [
     path('connection/', views.ConnectionView.as_view(), name='connection'),
     path('registration/', views.RegistrationView.as_view(), name='registration'),
     path('logout/', views.LogOutView, name='log_out'),
+    path('unsetnotify/', views.NotifyOff, name='notifyoff'),
 
     path('event/', views.EventsListView.as_view(), name='events_list'),
     path('event/<int:pk>', views.EventView.as_view(), name='event'),

@@ -38,7 +38,7 @@ def in_the_bound(e):
 
 @register.filter
 def get_photo(user):
-    try :
+    try:
         user.social_auth.get(provider="epita")
         return "https://photos.cri.epita.fr/" + user.username
     except:
@@ -102,7 +102,7 @@ def visible_events(e):
 
 @register.filter
 def user_is_manager_or_admin(user):
-    return User.objects.filter(groups__name="Admin", pk=user.pk)\
+    return User.objects.filter(groups__name="Admin", pk=user.pk) \
            or User.objects.filter(groups__name="manager", pk=user.pk)
 
 
@@ -193,6 +193,7 @@ def is_Rapproval_failure(query):
         return True
     return False
 
+
 @register.filter
 def is_Mailing_success(query):
     """
@@ -201,6 +202,7 @@ def is_Mailing_success(query):
     if query.get('Mailing') == 'success':
         return True
     return False
+
 
 @register.filter
 def is_Validation_success(query):
@@ -211,6 +213,7 @@ def is_Validation_success(query):
         return True
     return False
 
+
 @register.filter
 def is_Mailing_failure(query):
     """
@@ -219,6 +222,7 @@ def is_Mailing_failure(query):
     if query.get('Mailing') == 'failure':
         return True
     return False
+
 
 @register.filter
 def is_refusing_success(query):
@@ -229,6 +233,7 @@ def is_refusing_success(query):
         return True
     return False
 
+
 @register.filter
 def is_refusing_failure(query):
     """
@@ -237,6 +242,7 @@ def is_refusing_failure(query):
     if query.get('deny') == 'failure':
         return True
     return False
+
 
 @register.filter
 def get_number_of_member(asso):
@@ -276,22 +282,22 @@ def validation_step(event):
 
 
 @register.simple_tag
-def has_to_validate(u):
+def has_taff(u):
     """
-    used in base.html to know if the alert on validation is needed
+    used in base.html to know if the event ninspection is available
     """
     if not u.is_authenticated:
         return False
-    events = Event.objects\
-        .filter(begin__gte=datetime.now())\
-        .filter(validation_state__lte=3)\
+    events = Event.objects \
+        .filter(begin__gte=datetime.now()) \
+        .filter(validation_state__lte=3) \
         .filter(request_for_approuval=True)
 
     if not events or events.count() == 0:
         return False
 
     if user_is_manager_or_admin(u):
-            return True
+        return True
 
     for ev in events:
         status = ev.association.associationuser_set.filter(user=u).filter(association=ev.association)
@@ -300,6 +306,29 @@ def has_to_validate(u):
                 return True
 
     return False
+
+
+@register.simple_tag
+def has_to_validate(u):
+    """
+    used in base.html to know if the alert on validation is needed
+    """
+    events = Event.objects \
+        .filter(begin__gte=datetime.now()) \
+        .filter(validation_state__lte=3) \
+        .filter(request_for_approuval=True)
+    is_adm = user_is_manager_or_admin(u)
+
+    for ev in events:
+        if is_adm and ev.validation_state != 3:
+            return True
+        status = ev.association.associationuser_set.filter(user=u).filter(association=ev.association)
+        if status:
+            if status[0].role == 2 and ev.validation_state != 2:
+                return True
+
+    return False
+
 
 @register.simple_tag
 def can_approve(u, ev):
@@ -314,6 +343,7 @@ def can_approve(u, ev):
     if status and status[0].role == 2:
         return True
     return False
+
 
 @register.simple_tag
 def can_validate(u, ev):

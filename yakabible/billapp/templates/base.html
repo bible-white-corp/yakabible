@@ -20,23 +20,23 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'index' %}">
-                <img src={% static "billapp/img/logo-epita.png" %} height="100" width="150" alt="">
-            </a>
-            <a class="navbar-brand" href="{% url 'index' %}">
-                <h1>Billetterie EPITA</h1>
-            </a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <img src={% static "billapp/img/logo-epita.png" %} height="100" width="150" alt="">
+        </a>
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <h1>Billetterie EPITA</h1>
+        </a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarResponsive">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
 
-                <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <div class="navbar-text text-light">
@@ -51,92 +51,108 @@
                         <a class="nav-link" href="{% url 'connection' %}?next={{ request.path }}">Connexion</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'social:begin' backend='epita' %}?next={{ request.path }}">OpenID Connect</a>
+                        <a class="nav-link" href="{% url 'social:begin' backend='epita' %}?next={{ request.path }}">OpenID
+                            Connect</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'registration' %}">Inscription</a>
                     </li>
                 {% endif %}
-                    <li>
-                        <form>
-                            <div class="input-group ml-3">
-                                <input type="text" class="form-control" placeholder="Search">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
+                <li>
+                    <form>
+                        <div class="input-group ml-3">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- Navbar stylé -->
-    <div style="display:none;" id="navproxy"></div>
-    <nav id="nav" class="navbar navbar-expand  navbar-light bg-light">
-        <div class="container">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'own_profile' %}">Mon Profil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'assos_list' %}">Associations</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'events_list' %}">Événements</a>
+                        </div>
+                    </form>
                 </li>
             </ul>
         </div>
-    </nav>
-    {% has_to_validate user as hastaf %}
-    {% if hastaf %}
+    </div>
+</nav>
+{% has_taff user as hastaf %}
+<!-- Navbar stylé -->
+<div style="display:none;" id="navproxy"></div>
+<nav id="nav" class="navbar navbar-expand  navbar-light bg-light">
+    <div class="container">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'own_profile' %}">Mon Profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'assos_list' %}">Associations</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'events_list' %}">Événements</a>
+            </li>
+            {% if hastaf %}
+                {% has_to_validate user as hasVal %}
+                {% if hasVal %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'approving' %}"><i class="fas fa-exclamation"></i> <b>Inspection
+                            événements</b> <i class="fas fa-exclamation"></i></a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'approving' %}"> Inspection événements</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{% if hastaf %}
+    {% if hasVal and not request.session.noNotify1 %}
         <div class="mt-3 alert alert-warning alert-dismissible fade show text-center" role="alert">
-          Vous avez des <a href="{% url 'approving' %}" class="alert-link">événements à valider</a>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+            Vous avez des <a href="{% url 'approving' %}" class="alert-link">événements à valider</a>
+            <button onclick="disable_notify()" type="button" id="adblock1" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     {% endif %}
-    <main role="main" class="container">
-        {% block content %}
-        {% endblock content %}
-    </main>
-    <footer class="jumbotron jumbotron-fluid mt-5 mb-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <p>
-                        Heure du server : {% now "j F Y H:i" %}
-                    </p>
-                    <p>
-                        {% get_admin_email %}
-                    </p>
-                </div>
-                <div class="col-6">
-                    <p>Développeurs :</p>
-                    <ul>
-                        <li>Thomas Lupin</li>
-                        <li>Louis  Holleville</li>
-                        <li>Arthur Busuttil</li>
-                        <li>Géraud Magne</li>
-                    </ul>
-                </div>
+{% endif %}
+<main role="main" class="container">
+    {% block content %}
+    {% endblock content %}
+</main>
+<footer class="jumbotron jumbotron-fluid mt-5 mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <p>
+                    Heure du server : {% now "j F Y H:i" %}
+                </p>
+                <p>
+                    {% get_admin_email %}
+                </p>
+            </div>
+            <div class="col-6">
+                <p>Développeurs :</p>
+                <ul>
+                    <li>Thomas Lupin</li>
+                    <li>Louis Holleville</li>
+                    <li>Arthur Busuttil</li>
+                    <li>Géraud Magne</li>
+                </ul>
             </div>
         </div>
-    </footer>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src={% static "billapp/js/jquery-3.3.1.min.js" %}></script>
-    <script src={% static "billapp/js/popper.min.js" %}></script>
-    <script src={% static "billapp/js/bootstrap.min.js" %}></script>
-    <script src={% static "billapp/js/datatables.min.js" %}></script>
+    </div>
+</footer>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src={% static "billapp/js/jquery-3.3.1.min.js" %}></script>
+<script src={% static "billapp/js/popper.min.js" %}></script>
+<script src={% static "billapp/js/bootstrap.min.js" %}></script>
+<script src={% static "billapp/js/datatables.min.js" %}></script>
 
-    {% block sup_foot %}
-    {% endblock sup_foot %}
+{% block sup_foot %}
+{% endblock sup_foot %}
 
-    <script src={% static 'billapp/js/main.js' %}></script>
+<script src={% static 'billapp/js/main.js' %}></script>
 </body>
 
 </html>

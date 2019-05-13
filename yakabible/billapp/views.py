@@ -428,7 +428,7 @@ def ask_validation(request, pk):
         return HttpResponseRedirect('/?eventAlreadyValidated')
     status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
     is_prez = status and status[0].role == 2
-    is_adm = user_is_manager_or_admin(user)
+    is_adm = user_is_manager_or_admin(request.user)
 
     if not is_prez and not is_adm:
         return HttpResponseRedirect('/?unauthorized')
@@ -471,7 +471,7 @@ def ask_refusing(request, pk):
     if e.validation_state == 4:
         return HttpResponseRedirect('/?eventAlreadyValidated')
     status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
-    if not (status and status[0].role == 2) and not user_is_manager_or_admin(user):
+    if not (status and status[0].role == 2) and not user_is_manager_or_admin(request.user):
         return HttpResponseRedirect('/?unauthorized')
 
     adm = User.objects.filter(groups__name="Manager")
@@ -491,3 +491,7 @@ def ask_refusing(request, pk):
     if not send_refusing_mail(e, adm, status.count() != 0, description):
         return redirect(request.path_info.split('/refusing')[0] + '?deny=failure')
     return redirect(request.path_info.split('/refusing')[0] + '?deny=success')
+
+def NotifyOff(request):
+    request.session["noNotify1"] = True
+    return HttpResponse('ok')
