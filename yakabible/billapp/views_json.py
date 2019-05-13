@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
-
+import datetime
 from .models import Event, Ticket
 
 def get_color(obj):
@@ -21,6 +21,9 @@ def EventsJSON(request):
     json = []
     events = Event.objects.all().filter(validation_state=4)
     if start and end:
+        print(start)
+        start = datetime.datetime.strptime(start, '%Y-%m-%dT%H:%M:%S+02:00').strftime('%Y-%m-%dT%H:%M:%S')
+        end = datetime.datetime.strptime(end, '%Y-%m-%dT%H:%M:%S+02:00').strftime('%Y-%m-%dT%H:%M:%S')
         events = events.filter(end__gte=start, begin__lte=end)
     else:
         events = events.filter(end__gte=datetime.now())
