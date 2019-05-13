@@ -5,7 +5,7 @@
 {% endblock sup_head %}
 
 {% block title %}
-{{ object.title }}
+    {{ object.title }}
 {% endblock title %}
 
 {% block content %}
@@ -58,57 +58,68 @@
         {% else %}
             {% if not event.validation_state == 4 %}
                 <div class="alert-warning container-fluid">
-                Cet événement n'a pas encore été validé !
+                    Cet événement n'a pas encore été validé !
                 </div>
             {% endif %}
         {% endif %}
 
-    <div class="card mt-3">
-        <h5 class="card-header">Événement</h5>
-        <div class="container">
-            <h1 class="mt-2">{{ object.title }}</h1>
-            {% if event.promotion_image_path %}
-                <div class='mt-3'>
-                    <image src="{{ event.promotion_image_path.url }}" alt='promotion image' class=" mt-3 mb-3 img-cover d-block w-100">
-                </div>
-            {% endif %}
-            <div class="card mt-5">
-                <div class="card-body">{{ object.description }}</div>
-            </div>
-            <div class="card mt-4 mb-3">
-                <p class="card-header">Infos</p>
-                <div class="container">
-                    {% if object.premium %}
-                        <p><i class="fas fa-star mr-2 mt-3"></i> Événement premium !</p>
-                    {% endif %}
-                    <p><i class="far fa-calendar mr-2 mt-3"></i> Du <b>{{ object.begin }}</b> au <b>{{ object.end }}</b></p>
-                    <p><i class="fas fa-user-plus mr-2"></i> Inscriptions du <b>{{ object.begin_register }}</b> au <b>{{ object.end_register }}</b></p>
-                    <div class="row">
-                        <p class="col-lg-4"><i class="fas fa-sign-in-alt mr-2"></i> Internes : Prix = {{ object.price_ionis }}€
-                            {% if object.show_capacity %}
-                                <b>|</b> Places = {{ object | get_int }}/{{ object.int_capacity }}
-                            {% endif %}
-                        </p>
-                        <p class="col-lg-4"><i class="fas fa-sign-out-alt mr-2"></i> Externes : Prix = {{ object.price }}€
-                            {% if object.show_capacity %}
-                                <b>|</b> Places = {{ object | get_ext}}/{{ object.ext_capacity }}
-                            {% endif %}
-                        </p>
+        <div class="card mt-3">
+            <h5 class="card-header">Événement</h5>
+            <div class="container">
+                <h1 class="mt-2">{{ object.title }}</h1>
+                {% if event.promotion_image_path %}
+                    <div class='mt-3'>
+                        <image src="{{ event.promotion_image_path.url }}" alt='promotion image'
+                               class=" mt-3 mb-3 img-cover d-block w-100">
                     </div>
-                    <a href='https://www.google.com/maps/search/{{object.place}}' style="color:inherit;text-decoration:none;" target="blank"><h4><i class="fas fa-map mr-2 mb-2"></i> {{ object.place }}</h4></a>
+                {% endif %}
+                <div class="card mt-5">
+                    <div class="card-body">{{ object.description }}</div>
                 </div>
+                <div class="card mt-4 mb-3">
+                    <p class="card-header">Infos</p>
+                    <div class="container">
+                        {% if object.premium %}
+                            <p><i class="fas fa-star mr-2 mt-3"></i> Événement premium !</p>
+                        {% endif %}
+                        <p><i class="far fa-calendar mr-2 mt-3"></i> Du <b>{{ object.begin }}</b> au
+                            <b>{{ object.end }}</b></p>
+                        <p><i class="fas fa-user-plus mr-2"></i> Inscriptions du <b>{{ object.begin_register }}</b> au
+                            <b>{{ object.end_register }}</b></p>
+                        <div class="row">
+                            <p class="col-lg-4"><i class="fas fa-sign-in-alt mr-2"></i> Internes : Prix
+                                = {{ object.price_ionis }}€
+                                {% if object.show_capacity %}
+                                    <b>|</b> Places = {{ object | get_int }}/{{ object.int_capacity }}
+                                {% endif %}
+                            </p>
+                            <p class="col-lg-4"><i class="fas fa-sign-out-alt mr-2"></i> Externes : Prix
+                                = {{ object.price }}€
+                                {% if object.show_capacity %}
+                                    <b>|</b> Places = {{ object | get_ext}}/{{ object.ext_capacity }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <a href='https://www.google.com/maps/search/{{ object.place }}'
+                           style="color:inherit;text-decoration:none;" target="blank"><h4><i
+                                class="fas fa-map mr-2 mb-2"></i> {{ object.place }}</h4></a>
+                    </div>
+                </div>
+                {% if object|in_the_bound and object.validation_state == 4 %}
+                    <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary"
+                       role="button">S'inscrire</a>
+                {% else %}
+                    <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-secondary disabled" role="button">Inscriptions
+                        closes</a>
+                {% endif %}
+                <p>Organisé par : <a
+                        href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a
+                        href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
             </div>
-            {% if object|in_the_bound and object.validation_state == 4%}
-                <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary" role="button" >S'inscrire</a>
-            {% else %}
-                <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-secondary disabled" role="button" >Inscriptions closes</a>
-            {% endif%}
-            <p>Organisé par : <a href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
         </div>
-    </div>
         {% if not event.validation_state == 4 %}
             <div class="alert-warning container-fluid">
-            Cet événement n'a pas encore été validé !
+                Cet événement n'a pas encore été validé !
             </div>
 
             <div class="card mt-3">
@@ -116,26 +127,40 @@
                 <div class="container">
                     {% can_rfa event user as requestable %}
                     {% if requestable %}
-                            {% if not event.request_for_approuval %}
-                                <a href="{% url 'ask_approval' pk=object.pk %}" class="mb-3 btn btn-primary" role="button" >Demande d'approbation</a>
-                            {% else %}
-                                <a class="mb-3 btn btn-secondary disabled" role="button" >Approbation en cours</a>
-                            {% endif %}
+                        {% if not event.request_for_approuval %}
+                            <a href="{% url 'ask_approval' pk=object.pk %}" class="mt-3 mb-3 btn btn-primary"
+                               role="button">Demande
+                                d'approbation</a>
+                        {% else %}
+                            <a class="mb-3 mt-3 btn btn-secondary disabled" role="button">Approbation en cours</a>
+                        {% endif %}
                     {% endif %}
                     {% can_approve user event as approvable %}
                     {% if approvable %}
                         {% can_validate user event as validatable %}
                         {% if validatable %}
-                            <a href="{% url 'validating' pk=object.pk %}" class="mb-3 btn btn-success" role="button" >Validation</a>
+                            <a href="{% url 'validating' pk=object.pk %}" class="mt-3 mb-3 btn btn-success"
+                               role="button">Validation</a>
                         {% else %}
-                                <a class="mb-3 btn btn-secondary disabled" role="button" >Validation pris en compte</a>
+                            <a class="mb-3 mt-3 btn btn-secondary disabled" role="button">Validation pris en compte</a>
                         {% endif %}
-                        <form action="{% url 'refusing' pk=object.pk %}" method="post">
-                            {% csrf_token %}
-                            {{ form_refus.description }}
-                            
-                            <button type="submit" class="btn btn-danger">Invalidation</button>
-                        </form>
+                        <button class="btn btn-danger" type="button" data-toggle="collapse"
+                                data-target="#refusCollapse" aria-expanded="false"
+                                aria-controls="refusCollapse">
+                            {% if validatable %}
+                                Refus
+                            {% else %}
+                                Invalidation
+                            {% endif %}
+                        </button>
+                        <div class="collapse mt-1" id="refusCollapse">
+                            <form action="{% url 'refusing' pk=object.pk %}" method="post">
+                                {% csrf_token %}
+                                {{ form_refus.description }}
+
+                                <button type="submit" class="mt-1 btn btn-info">Envoyer</button>
+                            </form>
+                        </div>
                     {% endif %}
 
                 </div>
