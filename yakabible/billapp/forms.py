@@ -84,3 +84,4 @@ class Inscription_Form(forms.Form):
 
 class Refusing_Form(forms.Form):
     description = forms.CharField(label='description')
+    

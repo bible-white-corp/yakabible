@@ -124,6 +124,11 @@ class EventView(generic.DetailView):
     template_name = 'billapp/event.html'
     model = Event
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_refus'] = Refusing_Form()
+        return context
+
 class AssociationView(generic.DetailView):
     """
     View de la description d'une association
