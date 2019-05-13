@@ -95,7 +95,7 @@ class Inscription_Form(forms.Form):
 
 
 class Refusing_Form(forms.Form):
-    description = forms.CharField(label='description',
+    description = forms.CharField(label='description', required=False,
                                   widget=forms.Textarea(attrs={'class': 'form-control',
                                                                'placeholder': 'Ajouter une raison au refus...',
                                                                'rows': '3'}))
