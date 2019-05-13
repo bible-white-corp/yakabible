@@ -64,8 +64,8 @@ class CreateEvView(generic.View):
         elif event_form.is_valid() and staff_form.is_valid():
             asso = Association.objects.get(pk=pk)
             e = insert_event(request.user, event_form, asso)
-            insert_staff_capacity(staff_form, e)
-            return HttpResponseRedirect('/?valid')
+            if (insert_staff_capacity(staff_form, e)):
+                return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'asso': asso,
                                                     'event_form': event_form,
                                                     'staff_form': staff_form})

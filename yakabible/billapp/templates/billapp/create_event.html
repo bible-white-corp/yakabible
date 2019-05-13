@@ -99,6 +99,20 @@ Créer un événement
                 <div class="p-3">
                     {{ staff_form.management_form }}
                     {% for form in staff_form %}
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
                         <div class="form-row">
                             <div class="col-lg-6 col-md-12 mb-3">
                                 <label for="f_association_name">Asso</label>

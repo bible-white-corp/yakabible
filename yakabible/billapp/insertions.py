@@ -62,16 +62,23 @@ def update_ticket(ticket, new_state):
     return ticket
 
 def insert_staff_capacity(formset, event):
+    asso_list = []
     for form in formset:
-        if form.cleaned_data['association_name'] == "" or form.cleaned_data['capacity'] <= 0:
+        asso = form.cleaned_data['association_name']
+        cap = form.cleaned_data['capacity']
+        if (asso in asso_list):
+            form.add_error('association_name', 'Une association ne peut apparaître qu\'une seule fois')
+            return False
+        asso_list.append(asso)
+        if asso == None or cap <= 0:
            continue
         ev_staff_cap = EventStaffCapacity(
                     event = event,
-                    association = form.cleaned_data['association_name'],
-                    capacity = form.cleaned_data['capacity']
+                    association = asso,
+                    capacity = cap
                     )
         ev_staff_cap.save()
-
+    return True
 
 def insert_user_assos(assos, user):
     new = AssociationUser(user=user, association=assos, role=0)
