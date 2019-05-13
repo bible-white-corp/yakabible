@@ -95,12 +95,14 @@ class ConnectionView(generic.TemplateView):
         return render(request, self.template_name, {'form': form,
                                                     'error': True})
 
-
-class RegistrationView(generic.TemplateView):
+class RegistrationView(UserPassesTestMixin, generic.TemplateView):
     """
     View de la page d'inscription au site avec formulaire
     """
     template_name = 'billapp/registration.html'
+
+    def test_func(self):
+        return self.request.user.is_anonymous
 
     def get(self, request):
         form = Inscription_Form(request.GET)
