@@ -1,0 +1,17 @@
+Billeterie EPITA
+
+Bonjour {{ ticket.user.first_name }} {{ ticket.user.last_name }},
+
+Voici votre confirmation de commande pour l'événement {{ event.title }}
+organisé par l'association {{ event.association }}.
+Vous pourrez accéder à l'événement en imprimant le billet
+ci-joint au format pdf.
+
+Récapitulatif
+
+L'événement commencera le {{ ticket.event.begin }}
+au {{ ticket.event.place }}
+
+--
+Mail envoyé automatiquement par la billeterie EPITA,
+merci de ne pas y répondre.

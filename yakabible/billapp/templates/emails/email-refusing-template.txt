@@ -1,0 +1,12 @@
+Billeterie EPITA
+
+L'événement créé par l'association {{ event.association }}
+a été refusé par {% if is_prez %}l'association{% else %}l'administration {% endif %}pour la raison suivante:
+{{ reason }}
+
+Vous pouvez visualiser l'événement ici:
+{{ link }}
+
+--
+Mail envoyé automatiquement par la billeterie EPITA,
+merci de ne pas y répondre.

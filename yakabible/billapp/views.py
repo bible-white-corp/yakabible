@@ -275,13 +275,14 @@ def ask_approval(request, pk):
         adm = User.objects.filter(groups__name="Admin")
     if not adm:
         return HttpResponseRedirect('/?failure')
-    res = send_approval_mail(e, adm[0])
+    path = request.path_info.split('/ask_for_approval')[0]
+    res = send_approval_mail(e, adm[0], HttpResponseRedirect(path))
     if res:
         e.request_for_approval = True
         e.save()
-        return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=success')
+        return redirect(path + '?Rapproval=success')
     else:
-        return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=failure')
+        return redirect(path + '?Rapproval=failure')
 
 
 @login_required
@@ -451,12 +452,14 @@ def ask_validation(request, pk):
         e.validation_state = 4
     e.save()
 
-    if e.validation_state == 4:
-        if not send_validation_mail(e, adm):
-            return redirect(request.path_info.split('/validating')[0] + '?Mailing=failure')
-        return redirect(request.path_info.split('/validating')[0] + '?Mailing=success')
+    path = request.path_info.split('/validating')[0]
 
-    return redirect(request.path_info.split('/validating')[0] + '?Validation=success')
+    if e.validation_state == 4:
+        if not send_validation_mail(e, adm, path):
+            return redirect( path + '?Mailing=failure')
+        return redirect(path + '?Mailing=success')
+
+    return redirect(path + '?Validation=success')
 
 
 @login_required
@@ -488,10 +491,11 @@ def ask_refusing(request, pk):
     e.validation_state = 1
     e.request_for_approval = False
     e.save()
+    path = request.path_info.split('/refusing')[0]
 
-    if not send_refusing_mail(e, adm, status.count() != 0, description):
-        return redirect(request.path_info.split('/refusing')[0] + '?deny=failure')
-    return redirect(request.path_info.split('/refusing')[0] + '?deny=success')
+    if not send_refusing_mail(e, adm, status.count() != 0, description, path):
+        return redirect(path + '?deny=failure')
+    return redirect(path + '?deny=success')
 
 def NotifyOff(request):
     request.session["noNotify1"] = True

@@ -1,0 +1,73 @@
+{% extends 'emails/email-base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block main_block %}
+    <table class="w580" width="580" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            <td class="w580" width="580">
+                <h2 style="color:#0E7693; font-size:22px; padding-top:12px;">
+                    {{ title }} </h2>
+
+                <div align="left" class="article-content">
+                    <p>
+                        L'événement {{ event.title }} a été créé par l'association
+                        {{ event.association }} et requiert votre attention afin de
+                        pouvoir etre validé.
+                    </p>
+                    <p>
+                        Un récapitulatif de l'événement se trouve plus bas mais vous
+                        pouvez d'ores et déjà l'approuver ou le refuser en suivant
+                        ce <a href="{{ link }}">lien</a>. Vous y trouverez également
+                        des informations supplémentaires sur le-dit événement.
+                    </p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="w580" width="580" height="1" bgcolor="#c7c5c5"></td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- fin zone -->
+
+    <!-- une autre zone de contenu -->
+    <table class="w580" width="580" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+        <tr>
+            <td colspan="3">
+                <h2 style="color:#0E7693; font-size:22px; padding-top:12px;">
+                    Récapitulatif </h2>
+            </td>
+        </tr>
+        <tr>
+            <td class="w275" width="275" valign="top">
+                <div align="left" class="article-content">
+                    <br> L'événement se déroulerait du </br>
+                    {{ event.begin }}</br>
+                    au {{ event.end }}</p>
+                    <ul>
+                        <li> capacité IONIS: {{ event.int_capacity }} (tarif:
+                            {{ event.price_ionis }}€)
+                        </li>
+                        <li> capacité externes: {{ event.ext_capacity }} (tarif:
+                            {{ event.price }}€)
+                        </li>
+                        <li> capacité staff: {{ event.staff_capacity }}</li>
+                    </ul>
+                </div>
+            </td>
+            <td class="w30" width="30" class="w30"></td>
+            <td class="w275" width="275" valign="top">
+                <div align="left" class="article-content">
+                    <p> Description: </br>
+                        {{ event.description }} </p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="w580" height="1" bgcolor="#c7c5c5"></td>
+        </tr>
+
+        </tbody>
+    </table>
+{% endblock %}

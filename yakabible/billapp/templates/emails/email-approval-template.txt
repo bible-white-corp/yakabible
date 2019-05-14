@@ -1,0 +1,28 @@
+Billeterie EPITA
+
+L'événement {{ event.title }} a été créé par l'association
+{{ event.association }} et requiert votre attention afin de
+pouvoir etre validé.
+
+Un récapitulatif de l'événement se trouve plus bas mais vous
+pouvez d'ores et déjà l'approuver ou le refuser en suivant
+ce lien:
+{{ link }}.
+Vous y trouverez également
+des informations supplémentaires sur le-dit événement.
+
+Récapitulatif:
+
+L'événement se déroulerait du {{ event.begin }}
+au {{ event.end }}
+
+capacité IONIS: {{ event.int_capacity }} (tarif: {{ event.price_ionis }}€)
+capacité externes: {{ event.ext_capacity }} (tarif: {{ event.price }}€)
+capacité staff: {{ event.staff_capacity }}
+
+Description:
+{{ event.description }}
+
+--
+Mail envoyé automatiquement par la billeterie EPITA,
+merci de ne pas y répondre.
