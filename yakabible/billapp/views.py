@@ -66,6 +66,7 @@ class CreateEvView(generic.View):
             e = insert_event(request.user, event_form, asso)
             if (insert_staff_capacity(staff_form, e)):
                 return HttpResponseRedirect('/?valid')
+            e.delete()
         return render(request, self.template_name, {'asso': asso,
                                                     'event_form': event_form,
                                                     'staff_form': staff_form})
