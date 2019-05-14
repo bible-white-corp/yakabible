@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 
 from django.core.mail import EmailMessage
 from django.core.mail import EmailMultiAlternatives
-
+from email.mime.image import MIMEImage
 
 def make_qrcode(ticket):
     q = qrcode.QRCode()
@@ -71,6 +71,19 @@ def make_pdf(ticket):
     buffer.close()
     return pdf
 
+def send_mail(obj, text_bd, html_bd, targets):
+    email = EmailMultiAlternatives(
+        subject=obj, from_email='yakabible@gmail.com', to=targets,
+        body=text_bd
+    )
+    email.attach_alternative(html_bd, "text/html")
+    email.mixed_subtype='related'
+    fp = open(os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png'), 'rb')
+    epita_logo = MIMEImage(fp.read())
+    fp.close()
+    epita_logo.add_header('Content-ID', '<{}>'.format('logo-epita.png'))
+    email.attach(epita_logo)
+    return email.send() == 1
 
 def send_pdf_mail(ticket, pdf=None):
     if pdf is None:
@@ -104,22 +117,14 @@ def send_approval_mail(ev, adm, path):
                'event': ev
                }
 
-
     obj = '[APPROBATION][' + ev.association.name + '] Requete d\'approbation: ' + ev.title
     text_bd = render_to_string("emails/email-approval-template.txt", context)
     html_bd = render_to_string("emails/email-approval-template.html", context)
 
-    email = EmailMultiAlternatives(
-        subject=obj, from_email='yakabible@gmail.com', to=[adm.email, prez, ev.manager.email],
-        body=text_bd
-    )
-    email.attach_alternative(html_bd, "text/html")
-    epita_path = os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png')
-    email.attach_file(epita_path)
-    return email.send(fail_silently=False) == 1
+    return send_mail(obj, text_bd, html_bd, [adm.email, prez, ev.manager.email])
 
 
-def send_validation_mail(ev, adm):
+def send_validation_mail(ev, adm, path):
     """
     Send mail to resp and president (if found) asking them to approve the event
     """
@@ -129,17 +134,19 @@ def send_validation_mail(ev, adm):
     prez = prez[0].user.email
     adm = adm[0].email
 
-    email = EmailMessage(
-        '[VALIDATION][' + ev.association.name + '] Evénement approuvé: ' + ev.title,
-        'L\'événement ' + ev.title + ' a été approuvé par les deux partis.',
-        'yakabible@gmail.com',
-        [adm, prez, ev.manager.email]
-    )
-    # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
-    return email.send() == 1
+    context = {'title': 'Evénement approuvé: ' + ev.title,
+               'link': path,
+               'event': ev
+               }
+
+    obj = '[VALIDATION][' + ev.association.name + '] Evénement approuvé: ' + ev.title
+    text_bd = render_to_string("emails/email-validation-template.txt", context)
+    html_bd = render_to_string("emails/email-validation-template.html", context)
+
+    return send_mail(obj, text_bd, html_bd, [adm, prez, ev.manager.email])
 
 
-def send_refusing_mail(ev, adm, is_prez, description):
+def send_refusing_mail(ev, adm, is_prez, description, path):
     """
     Send mail to resp and president (if found) asking them to approve the event
     """
@@ -149,15 +156,18 @@ def send_refusing_mail(ev, adm, is_prez, description):
     prez = prez[0].user.email
     adm = adm[0].email
 
-    email = EmailMessage(
-        '[VALIDATION][' + ev.association.name + '] Evénement refusé: ' + ev.title,
-        'L\'événement ' + ev.title + ' a été refusé par ' + ('l\'association' if is_prez else 'l\'administration') +
-        ((' pour la raison suivante:\n\n' + description + '\n') if len(description) != 0 else '.'),
-        'yakabible@gmail.com',
-        [adm, prez, ev.manager.email]
-    )
-    # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
-    return email.send() == 1
+    context = {'title': 'Evénement refusé: ' + ev.title,
+               'link': path,
+               'event': ev,
+               'has_description': len(description) != 0,
+               'description': description,
+               'is_prez': is_prez
+               }
+    text_bd = render_to_string("emails/email-refusing-template.txt", context)
+    html_bd = render_to_string("emails/email-refusing-template.html", context)
+    obj = '[VALIDATION][' + ev.association.name + '] Evénement refusé: ' + ev.title
+
+    return send_mail(obj, text_bd, html_bd, [adm, prez, ev.manager.email])
 
 
 def make_pdf_response(ticket, pdf=None):

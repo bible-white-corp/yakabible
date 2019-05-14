@@ -1,0 +1,16 @@
+Billeterie EPITA
+
+L'événement {{ event.title }} de l'association {{ event.association }}
+a été validé par l'administration et l'association.
+Il se déroulera donc du {{ event.begin }}
+ au {{ event.end }}.
+
+Pour rappel, les inscriptions débuteront le
+{{ event.begin_register }}
+
+Vous pouvez inspecter l'événement au lien suivant:
+{{ link }}
+
+--
+Mail envoyé automatiquement par la billeterie EPITA,
+merci de ne pas y répondre.
