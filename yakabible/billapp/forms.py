@@ -50,8 +50,15 @@ class Event_Form(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
+        if "begin" not in cleaned_data:
+            self.add_error("begin", forms.ValidationError("There is no begin date!"))
+            return
         begin1 = cleaned_data["begin"]
-        end1 =  cleaned_data["end"]
+
+        if "end" not in cleaned_data:
+            self.add_error("end", forms.ValidationError("There is no end date!"))
+            return
+        end1 = cleaned_data["end"]
 
         if begin1 >= end1:
             self.add_error("begin", forms.ValidationError("An event cannot start before its end!"))
@@ -59,7 +66,14 @@ class Event_Form(forms.Form):
         if begin1 < datetime.datetime.now():
             self.add_error("begin", forms.ValidationError("An event cannot be planned in the past!"))
 
+        if "begin_register" not in cleaned_data:
+            self.add_error("begin_register", forms.ValidationError("There is no begin_register date!"))
+            return
         begin2 = self.cleaned_data["begin_register"]
+
+        if "end_register" not in cleaned_data:
+            self.add_error("end_register", forms.ValidationError("There is no end_register date!"))
+            return
         end2 = self.cleaned_data["end_register"]
 
         if begin2 > end2:
