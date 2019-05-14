@@ -275,13 +275,14 @@ def ask_approval(request, pk):
         adm = User.objects.filter(groups__name="Admin")
     if not adm:
         return HttpResponseRedirect('/?failure')
-    res = send_approval_mail(e, adm[0])
+    path = request.path_info.split('/ask_for_approval')[0]
+    res = send_approval_mail(e, adm[0], HttpResponseRedirect(path))
     if res:
         e.request_for_approval = True
         e.save()
-        return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=success')
+        return redirect(path + '?Rapproval=success')
     else:
-        return redirect(request.path_info.split('/ask_for_approval')[0] + '?Rapproval=failure')
+        return redirect(path + '?Rapproval=failure')
 
 
 @login_required

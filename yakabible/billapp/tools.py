@@ -1,6 +1,7 @@
 import re
 import qrcode
 import os
+
 from django.conf import settings
 
 from PIL import Image
@@ -89,7 +90,7 @@ def send_pdf_mail(ticket, pdf=None):
     email.send()
 
 
-def send_approval_mail(ev, adm):
+def send_approval_mail(ev, adm, path):
     """
     Send mail to resp and president (if found) asking them to approve the event
     """
@@ -99,21 +100,22 @@ def send_approval_mail(ev, adm):
     prez = prez[0].user.email
 
     context = {'title': 'Requete d\'approbation: ' + ev.title,
-               'link': '#',
+               'link': path,
                'event': ev
                }
 
-    plaintext_context = Context(autoescape=False)
 
     obj = '[APPROBATION][' + ev.association.name + '] Requete d\'approbation: ' + ev.title
     text_bd = 'L\'evenement ' + ev.title + ' est en attente d\'approbation'
-    html_bd = render_to_string(["emails/email-approval-template.html"], context, plaintext_context)
+    html_bd = render_to_string(["emails/email-approval-template.html"], context)
 
     email = EmailMultiAlternatives(
         subject=obj, from_email='yakabible@gmail.com', to=[adm.email, prez, ev.manager.email],
         body=text_bd
     )
     email.attach_alternative(html_bd, "text/html")
+    epita_path = os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png')
+    email.attach_file(epita_path)
     return email.send(fail_silently=False) == 1
 
 
