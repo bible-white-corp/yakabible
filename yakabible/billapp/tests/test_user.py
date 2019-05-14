@@ -6,7 +6,7 @@ from billapp.forms import *
 # Create your tests here.
 
 class UserTestCase(TestCase):
-    fixtures = "db.yaml"
+    fixtures = ['user.yaml', 'billapp.yaml']
 
     def test_user_form(self):
         form = Inscription_Form(data={
