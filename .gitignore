@@ -11,3 +11,8 @@ db.sqlite3
 
 # Epita CRI
 *__afs*
+
+# Tests
+.coverage
+pytest_res.txt
+flake8_res.txt
