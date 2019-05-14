@@ -9,7 +9,12 @@ from io import BytesIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 
+from django.template import Context
+from django.template.loader import render_to_string
+
 from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
+
 
 def make_qrcode(ticket):
     q = qrcode.QRCode()
@@ -93,14 +98,24 @@ def send_approval_mail(ev, adm):
         return False
     prez = prez[0].user.email
 
-    email = EmailMessage(
-        '[APPROBATION][' + ev.association.name + '] Requete d\'approbation: ' + ev.title,
-        'L\'evenement ' + ev.title + ' est en attente d\'approbation',
-        'yakabible@gmail.com',
-        [adm.email, prez, ev.manager.email]
+    context = {'title': 'Requete d\'approbation: ' + ev.title,
+               'link': '#',
+               'event': ev
+               }
+
+    plaintext_context = Context(autoescape=False)
+
+    obj = '[APPROBATION][' + ev.association.name + '] Requete d\'approbation: ' + ev.title
+    text_bd = 'L\'evenement ' + ev.title + ' est en attente d\'approbation'
+    html_bd = render_to_string(["emails/email-approval-template.html"], context, plaintext_context)
+
+    email = EmailMultiAlternatives(
+        subject=obj, from_email='yakabible@gmail.com', to=[adm.email, prez, ev.manager.email],
+        body=text_bd
     )
-    # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
-    return email.send() == 1
+    email.attach_alternative(html_bd, "text/html")
+    return email.send(fail_silently=False) == 1
+
 
 def send_validation_mail(ev, adm):
     """
@@ -121,6 +136,7 @@ def send_validation_mail(ev, adm):
     # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     return email.send() == 1
 
+
 def send_refusing_mail(ev, adm, is_prez, description):
     """
     Send mail to resp and president (if found) asking them to approve the event
@@ -140,6 +156,7 @@ def send_refusing_mail(ev, adm, is_prez, description):
     )
     # TODO à la fin email.send(True) pour enlever le debug (indépendant de DEBUG=True)
     return email.send() == 1
+
 
 def make_pdf_response(ticket, pdf=None):
     if pdf is None:
