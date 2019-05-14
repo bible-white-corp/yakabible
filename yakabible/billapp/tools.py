@@ -106,8 +106,8 @@ def send_approval_mail(ev, adm, path):
 
 
     obj = '[APPROBATION][' + ev.association.name + '] Requete d\'approbation: ' + ev.title
-    text_bd = 'L\'evenement ' + ev.title + ' est en attente d\'approbation'
-    html_bd = render_to_string(["emails/email-approval-template.html"], context)
+    text_bd = render_to_string("emails/email-approval-template.txt", context)
+    html_bd = render_to_string("emails/email-approval-template.html", context)
 
     email = EmailMultiAlternatives(
         subject=obj, from_email='yakabible@gmail.com', to=[adm.email, prez, ev.manager.email],
