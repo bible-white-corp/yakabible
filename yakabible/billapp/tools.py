@@ -6,14 +6,12 @@ from django.conf import settings
 
 from PIL import Image
 
-from io import BytesIO
+from io import BytesIO, StringIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 
-from django.template import Context
 from django.template.loader import render_to_string
 
-from django.core.mail import EmailMessage
 from django.core.mail import EmailMultiAlternatives
 from email.mime.image import MIMEImage
 
@@ -89,19 +87,41 @@ def send_pdf_mail(ticket, pdf=None):
     if pdf is None:
         pdf = make_pdf(ticket)
 
+    qr = make_qrcode(ticket)
     pdf_name = "{}_{}.pdf".format(ticket.user, ticket.event.title.replace(' ', '-'))
 
-    # TODO plus joli mail
-    email = EmailMessage(
-        'Billetterie EPITA: ' + ticket.event.title,
-        ticket.user.username + ', voici votre place pour l\'événement ' + ticket.event.title,
-        'yakabible@gmail.com',
-        [ticket.user.email]
-    )
-    email.attach(pdf_name, pdf)
-    # TODO à la fin, mettre email.send(True) pour enlever le debug (indépendant de DEBUG=True)
-    email.send()
+    context = {'title': 'Votre ticket pour ' + ticket.event.title,
+               'ticket': ticket
+               }
 
+    obj = 'Vos billets pour l\'événement ' + ticket.event.title
+    text_bd = render_to_string("emails/email-ticket-template.txt", context)
+    html_bd = render_to_string("emails/email-ticket-template.html", context)
+
+    email = EmailMultiAlternatives(
+        subject=obj, from_email='yakabible@gmail.com', to=[ticket.user.email],
+        body=text_bd
+    )
+    email.attach_alternative(html_bd, "text/html")
+    email.mixed_subtype = 'related'
+
+    fp = open(os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png'), 'rb')
+    epita_logo = MIMEImage(fp.read())
+    fp.close()
+    epita_logo.add_header('Content-ID', '<{}>'.format('logo-epita.png'))
+
+    qr_tmp = BytesIO()
+    qr.save(qr_tmp, "PNG")
+    qrcode = MIMEImage(qr_tmp.getvalue())
+
+    qrcode.add_header('Content-ID', '<{}>'.format('qr-code.png'))
+
+        #todo add ICalendar modul
+
+    email.attach(epita_logo)
+    email.attach(qrcode)
+    email.attach(pdf_name, pdf)
+    return email.send() == 1
 
 def send_approval_mail(ev, adm, path):
     """
@@ -134,12 +154,12 @@ def send_validation_mail(ev, adm, path):
     prez = prez[0].user.email
     adm = adm[0].email
 
-    context = {'title': 'Evénement approuvé: ' + ev.title,
+    context = {'title': 'Événement approuvé: ' + ev.title,
                'link': path,
                'event': ev
                }
 
-    obj = '[VALIDATION][' + ev.association.name + '] Evénement approuvé: ' + ev.title
+    obj = '[VALIDATION][' + ev.association.name + '] Événement approuvé: ' + ev.title
     text_bd = render_to_string("emails/email-validation-template.txt", context)
     html_bd = render_to_string("emails/email-validation-template.html", context)
 
@@ -156,7 +176,7 @@ def send_refusing_mail(ev, adm, is_prez, description, path):
     prez = prez[0].user.email
     adm = adm[0].email
 
-    context = {'title': 'Evénement refusé: ' + ev.title,
+    context = {'title': 'Événement refusé: ' + ev.title,
                'link': path,
                'event': ev,
                'has_description': len(description) != 0,
@@ -165,7 +185,7 @@ def send_refusing_mail(ev, adm, is_prez, description, path):
                }
     text_bd = render_to_string("emails/email-refusing-template.txt", context)
     html_bd = render_to_string("emails/email-refusing-template.html", context)
-    obj = '[VALIDATION][' + ev.association.name + '] Evénement refusé: ' + ev.title
+    obj = '[VALIDATION][' + ev.association.name + '] Événement refusé: ' + ev.title
 
     return send_mail(obj, text_bd, html_bd, [adm, prez, ev.manager.email])
 
