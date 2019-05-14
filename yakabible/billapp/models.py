@@ -38,9 +38,9 @@ class Event(models.Model):
     place = models.CharField(max_length=128)
     price_ionis = models.DecimalField(decimal_places=2, max_digits=5)
     price = models.DecimalField(decimal_places=2, max_digits=5)
-    ext_capacity = models.SmallIntegerField()
-    int_capacity = models.SmallIntegerField()
-    staff_capacity = models.SmallIntegerField()
+    ext_capacity = models.PositiveSmallIntegerField()
+    int_capacity = models.PositiveSmallIntegerField()
+    staff_capacity = models.PositiveSmallIntegerField()
     promotion_image_path = models.ImageField(upload_to=promo_image_path, blank=True)
     validation_state = models.SmallIntegerField(choices=(
         (1, 'Need authorization'),

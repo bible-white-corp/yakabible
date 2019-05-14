@@ -78,15 +78,16 @@ class Event_Form(forms.Form):
 
         if begin2 > end2:
             self.add_error("begin_register", forms.ValidationError("The registration cannot start before its end!"))
+            return
 
         if begin2 < datetime.datetime.now():
             self.add_error("begin", forms.ValidationError("The registration cannot be start in the past!"))
+            return
 
         if begin2 > begin1:
             self.add_error("begin2", forms.ValidationError("The registration cannot be planned after the begin "
                                                            "of an event!"))
-
-
+            return
 
 
 class Asso_Form(forms.Form):
