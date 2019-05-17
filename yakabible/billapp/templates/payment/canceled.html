@@ -5,11 +5,20 @@
 {% endblock sup_head %}
 
 {% block title %}
-    Transaction Paypal échoué
+    Transaction Paypal échouée
 {% endblock title %}
 
 {% block content %}
-    Votre transaction Paypal a échoué.
+    <div class="card mt-3">
+        <h5 class="card-header">Transaction Paypal échouée</h5>
+
+        <div class="alert-danger container-fluid">
+            <font size="4">
+                Paypal nous a indiqué que la transaction a échoué. Votre compte n'a pas été débité, et votre billet n'a pas été acheté.
+                Contactez un administrateur si vous suspectez un comportement anormal.
+            </font>
+        </div>
+    </div>
 {% endblock content %}
 
 {% block sup_foot %}

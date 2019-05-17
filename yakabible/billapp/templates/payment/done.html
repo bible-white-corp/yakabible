@@ -5,11 +5,20 @@
 {% endblock sup_head %}
 
 {% block title %}
-    Paiement Paypal réussi
+    Transaction Paypal réussie
 {% endblock title %}
 
 {% block content %}
-    Votre paiement Paypal a bien été reçu.
+    <div class="card mt-3">
+        <h5 class="card-header">Transaction Paypal réussie</h5>
+
+        <div class="alert-success container-fluid">
+            <font size="4">
+                Votre paiement Paypal a bien été reçu! Vous allez recevoir un mél contenant toutes les informations concernant votre billet.
+                Vous pouvez aussi aller directement télécharger votre billet dans la catégorie Tickets de votre profil.
+            </font>
+        </div>
+    </div>
 {% endblock content %}
 
 {% block sup_foot %}

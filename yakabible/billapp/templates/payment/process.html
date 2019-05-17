@@ -5,11 +5,16 @@
 {% endblock sup_head %}
 
 {% block title %}
-    Paypal transaction
+    Transaction Paypal
 {% endblock title %}
 
 {% block content %}
-    {{ form.render }}
+    <center>
+        <h2><u>Paiement</u></h2>
+        <div class="mt-4">
+            {{ form.render }}
+        </div>
+    </center>
 {% endblock content %}
 
 {% block sup_foot %}
