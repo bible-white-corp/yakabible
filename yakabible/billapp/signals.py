@@ -23,8 +23,6 @@ def valid_ipn_handler(sender, **kwargs):
 
     event_id = "".join(payment_key[1])
     user_id = payment_key[0]
-    print("event_id: " + str(event_id))
-    print("user_id: " + str(user_id))
 
     try:
         tmp_t = Ticket.objects.get(user=user_id, event=event_id)
@@ -32,12 +30,16 @@ def valid_ipn_handler(sender, **kwargs):
         tmp_t = None
 
     if tmp_t is not None:
+        print("ERROR: received paypal transacrion for an existing ticket\n" +
+              "invoice: " + sender.invoice, file=sys.stderr)
         raise ValueError
 
     event = get_object_or_404(Event, pk=event_id)
     user = get_object_or_404(User, id=user_id)
     #  TODO ajouter sécurité, genre clé random dans le invoice qu'on stocke, puis compare
+
     t = insert_ticket(user, event)
+
     print("ARGENT RECU de " + user.username + " pour l'événement " + event.title)  # debug
 
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
