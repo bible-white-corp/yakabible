@@ -15,6 +15,7 @@ from django.template.loader import render_to_string
 
 from django.core.mail import EmailMultiAlternatives
 from email.mime.image import MIMEImage
+from email.mime.text import MIMEText
 
 from billapp.forms import Event_Form, Staff_Form_Set, EventStaffCapacity
 
@@ -31,10 +32,13 @@ def make_qrcode(ticket):
 
 def make_ics(ticket):
     cal = Calendar()
-
+    cal.add('version', '2.0')
+    cal.add('prodid','//BWC//BILLETERIE EPITA//FR')
     event = Event()
     event.add('summary', ticket.event.title)
+    event.add('uid',datetime.datetime.now())
     event.add('dtstart', ticket.event.begin)
+    event.add('dtstamp', datetime.datetime.now())
     event.add('dtend', ticket.event.end)
     event.add('description', ticket.event.description)
     event.add('location', ticket.event.place)
@@ -134,11 +138,12 @@ def send_pdf_mail(ticket, pdf=None):
     qrcode = MIMEImage(qr_tmp.getvalue())
     qrcode.add_header('Content-ID', '<{}>'.format('qr-code.png'))
 
-    cal = make_ics(ticket)
+    cal = make_ics(ticket).to_ical()
 
     email.attach(epita_logo)
     email.attach(qrcode)
     email.attach(pdf_name, pdf)
+    email.attach('event.ics', cal, 'text/calendar')
     return email.send() == 1
 
 def send_approval_mail(ev, adm, path):
