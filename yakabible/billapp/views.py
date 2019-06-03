@@ -244,7 +244,10 @@ class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
         if 'delete_asso' in request.POST:
             pass
         if (asso_form.is_valid()):
-            insert_association(asso_form)
+            try:
+                insert_association(asso_form)
+            except:
+                return HttpResponseRedirect(reverse('dashboard_respo') + "#createasso?uniqueViolated")
             return self.get(request)
         return HttpResponseRedirect(reverse('dashboard_respo') + "#createasso")
 

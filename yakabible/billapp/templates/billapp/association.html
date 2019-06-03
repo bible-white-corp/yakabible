@@ -24,6 +24,11 @@
             <div class="media-body align-middle">
                 <h1 class="">{{ object.name }}</h1>
                 <a href="mailto:{{ object.email }}">{{ object.email }}</a>
+                {% if object.url != None %}
+                    <br />
+                    {% get_http_url object.url as assoURL %}
+                    <a href="{{ assoURL }}">{{ object.url }}</a>
+                {% endif %}
             </div>
         </div>
         <div class="card mt-3">

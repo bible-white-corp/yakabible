@@ -113,6 +113,11 @@ def user_in_assos(user, assos):
     """
     return assos.associationuser_set.filter(user__pk=user.pk) or user_is_manager_or_admin(user)
 
+@register.simple_tag
+def get_http_url(url):
+    if url.find('http:', 0, 6) != -1 or url.find('https:') != -1:
+        return url
+    return 'http://' + url
 
 @register.simple_tag
 def user_in_assos_super(user, assos):
