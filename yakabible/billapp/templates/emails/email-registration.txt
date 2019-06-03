@@ -1,0 +1,11 @@
+Billeterie EPITA
+
+Bonjour {{ fullname }},
+
+Votre inscription à la billeterie EPITA a été pris en compte
+et cette adresse mail sera utilisée pour vous communiquer
+toutes les informations relatives à vos événements.
+
+--
+Mail envoyé automatiquement par la billeterie EPITA,
+merci de ne pas y répondre.

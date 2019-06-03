@@ -143,6 +143,20 @@ def send_approval_mail(ev, adm, path):
 
     return send_mail(obj, text_bd, html_bd, [adm.email, prez, ev.manager.email])
 
+def send_registration(username, email):
+    """
+    Send mail to resp and president (if found) asking them to approve the event
+    """
+
+    context = {'title': 'Bienvenue !',
+               'fullname': username,
+               }
+
+    obj = '[BILLETERIE][EPITA] Bienvenue!'
+    text_bd = render_to_string("emails/email-registration.txt", context)
+    html_bd = render_to_string("emails/email-registration.html", context)
+
+    return send_mail(obj, text_bd, html_bd, [email])
 
 def send_validation_mail(ev, adm, path):
     """

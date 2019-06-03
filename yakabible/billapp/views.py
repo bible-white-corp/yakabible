@@ -119,6 +119,7 @@ class RegistrationView(UserPassesTestMixin, generic.TemplateView):
                 return render(request, self.template_name, {'form': form, 'errorAlreadyUsed': True})
 
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            send_registration(user.first_name + ' ' + user.last_name, user.email)
             return HttpResponseRedirect('/?valid')
 
         return render(request, self.template_name, {'form': form, 'error': True})
