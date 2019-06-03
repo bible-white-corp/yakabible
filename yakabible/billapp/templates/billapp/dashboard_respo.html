@@ -28,7 +28,7 @@
         <div class="tab-pane fade show active mx-2" id="listevent" role="tabpanel">
             <div class="row">
                 <div class="col-sm">
-                    <h4 class="mt-3"> Evenements confirmés </h4>
+                    <h4 class="mt-3"> Evénements confirmés </h4>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -135,6 +135,10 @@
                     <div class="form-group">
                         <label for="f_desc">Description</label>
                         {{ Form.description }}
+                    </div>
+                    <div class="form-group">
+                        <label for="f_url">Lien externe de l'association</label>
+                        {{ Form.url }}
                     </div>
                     <div class="mt-3">
                         {% csrf_token %}

@@ -99,6 +99,8 @@ class Asso_Form(forms.Form):
     description = forms.CharField(label='f_desc',
                                   widget=forms.Textarea(attrs={'class': 'form-control',
                                                                'rows': 5}))
+    url = forms.CharField(label='f_url',
+                                  widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
 
 
 class Staff_Form(forms.Form):
