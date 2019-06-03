@@ -12,7 +12,7 @@ Créer un événement
 {% block content %}
     <div class="card mt-3">
         <div class="card-header">
-            <h5> {{asso.name}} -- Création d'événement</h5>
+            <h5>{% if modif %}{{ event.title }} -- Modification{% else %}{{ asso.name }} -- Création d'événement{% endif %}</h5>
         </div>
         <div class="mx-2 mt-2">
             {% if event_form.errors %}
@@ -131,7 +131,7 @@ Créer un événement
                 </div>
             </div>
             {% csrf_token %}
-            <button class="btn btn-primary mb-3" type="submit">Valider</button>
+            <button class="btn btn-primary mb-3" type="submit">{% if modif %}Modifier{% else %}Valider{% endif %}</button>
         </form>
     </div>
 {% endblock content %}

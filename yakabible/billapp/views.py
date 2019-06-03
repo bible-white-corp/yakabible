@@ -1,27 +1,19 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
-from django.views import generic
-from django.core.paginator import Paginator
-from django.contrib.auth.models import User
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth import authenticate, login, logout
 from braces.views import GroupRequiredMixin
-from datetime import datetime
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.messages import get_messages
 from django.core.paginator import Paginator
 from django.db import IntegrityError
-from .forms import *
-from .models import Event, Ticket
-from .insertions import *
-from .tools import *
-from .decorators import *
-
-from decimal import Decimal
-from django.conf import settings
+from django.http import HttpResponseNotFound
+from django.urls import reverse
+from django.views import generic
 from paypal.standard.forms import PayPalPaymentsForm
+
+from .decorators import *
+from .forms import *
+from .insertions import *
 
 
 class IndexView(generic.ListView):
@@ -70,6 +62,26 @@ class CreateEvView(generic.View):
         return render(request, self.template_name, {'asso': asso,
                                                     'event_form': event_form,
                                                     'staff_form': staff_form})
+
+
+class EventEdit(generic.View):
+    template_name = "billapp/create_event.html"
+
+    def get(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
+        event_form = get_fort_from_event(event)
+        """ TODO : Remplir le staff_form avec les infos existantes """
+        staff_form = Staff_Form_Set()
+        return render(request, self.template_name, {'event': event,
+                                                    "modif": True,
+                                                    "event_form": event_form,
+                                                    'staff_form': staff_form})
+
+    def post(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
+        event_form = Event_Form(request.POST, request.FILES)
+        staff_form = Staff_Form_Set(request.POST)
+        """ TODO : Modifier Event, et envoyer des mails """
 
 
 class ConnectionView(generic.TemplateView):

@@ -64,7 +64,13 @@
         {% endif %}
 
         <div class="card mt-3">
-            <h5 class="card-header">Événement</h5>
+            <h5 class="card-header">Événement
+                {% if object.manager == request.user %}
+                    <a href="{% url 'edit_event' pk=object.pk %}">
+                        <span class="badge badge-secondary badge-info">Editer</span>
+                    </a>
+                {% endif %}
+            </h5>
             <div class="container">
                 <h1 class="mt-2">{{ object.title }}</h1>
                 {% if event.promotion_image_path %}

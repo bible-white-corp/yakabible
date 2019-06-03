@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('event/', views.EventsListView.as_view(), name='events_list'),
     path('event/<int:pk>', views.EventView.as_view(), name='event'),
+    path('event/<int:pk>/edit', views.EventEdit.as_view(), name='edit_event'),
     path('event/<int:pk>/register', views.RegEventView, name='reg_event'),
     path('event/<int:pk>/reg_event_success', views.RegEventSuccessView, name='reg_event_success'),
     path('event/<int:pk>/realtime', views.EventRealtime.as_view(), name='event_realtime'),

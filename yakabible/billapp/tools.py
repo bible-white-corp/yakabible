@@ -15,6 +15,9 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from email.mime.image import MIMEImage
 
+from billapp.forms import Event_Form
+
+
 def make_qrcode(ticket):
     q = qrcode.QRCode()
     q.add_data(ticket.user.username + '\n')
@@ -226,3 +229,21 @@ def make_pdf_response(ticket, pdf=None):
 
 def is_ionis(user):
     return re.match(r".*\.epita\.*", user.email)
+
+def get_fort_from_event(event):
+    form = Event_Form(initial={
+        "title": event.title,
+        "description": event.description,
+        "begin": event.begin,
+        "end": event.end,
+        "begin_register": event.begin_register,
+        "end_register": event.end_register,
+        "place": event.place,
+        "price_ionis": event.price_ionis,
+        "price": event.price,
+        "ext_capacity": event.ext_capacity,
+        "int_capacity": event.int_capacity,
+        "promotion_image_path": event.promotion_image_path,
+        "show_capacity": event.show_capacity
+    })
+    return form
