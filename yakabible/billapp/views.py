@@ -1,19 +1,27 @@
-from braces.views import GroupRequiredMixin
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
+from django.views import generic
+from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth import authenticate, login, logout
+from braces.views import GroupRequiredMixin
+from datetime import datetime
+from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.core.paginator import Paginator
 from django.db import IntegrityError
-from django.http import HttpResponseNotFound
-from django.urls import reverse
-from django.views import generic
-from paypal.standard.forms import PayPalPaymentsForm
-
-from .decorators import *
 from .forms import *
+from .models import Event, Ticket
 from .insertions import *
+from .tools import *
+from .decorators import *
+
+from decimal import Decimal
+from django.conf import settings
+from paypal.standard.forms import PayPalPaymentsForm
 
 
 class IndexView(generic.ListView):
