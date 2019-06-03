@@ -89,6 +89,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'events_list' %}">Événements</a>
             </li>
+            {% if user|user_is_manager_or_admin %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard_respo' %}">Dashboard Responsable</a>
+                </li>
+            {% endif %}
             {% if hastaf %}
                 {% has_to_validate user as hasVal %}
                 {% if hasVal %}
