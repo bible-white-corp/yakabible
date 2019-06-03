@@ -7,6 +7,7 @@ from django.conf import settings
 from PIL import Image
 
 from io import BytesIO, StringIO
+import datetime
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 
@@ -15,7 +16,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from email.mime.image import MIMEImage
 
-from billapp.forms import Event_Form
+from billapp.forms import Event_Form, Staff_Form_Set, EventStaffCapacity
 
 from icalendar import Calendar, Event
 
@@ -244,14 +245,19 @@ def make_pdf_response(ticket, pdf=None):
 def is_ionis(user):
     return re.match(r".*\.epita\.*", user.email)
 
-def get_fort_from_event(event):
+
+def transform_date(date_field):
+    return date_field.strftime("%d/%m/%Y %H:%M")
+
+
+def get_form_from_event(event):
     form = Event_Form(initial={
         "title": event.title,
         "description": event.description,
-        "begin": event.begin,
-        "end": event.end,
-        "begin_register": event.begin_register,
-        "end_register": event.end_register,
+        "begin": transform_date(event.begin),
+        "end": transform_date(event.end),
+        "begin_register": transform_date(event.begin_register),
+        "end_register": transform_date(event.end_register),
         "place": event.place,
         "price_ionis": event.price_ionis,
         "price": event.price,
@@ -261,3 +267,15 @@ def get_fort_from_event(event):
         "show_capacity": event.show_capacity
     })
     return form
+
+
+def get_staff_form_from_event(event):
+    staffs = EventStaffCapacity.objects.filter(event=event)
+
+    list_form = []
+    for staff in staffs:
+        list_form.append({'association_name': staff.association.pk,
+                          'capacity': staff.capacity})
+
+    staff_form = Staff_Form_Set(initial=list_form)
+    return staff_form

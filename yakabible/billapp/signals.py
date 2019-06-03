@@ -7,6 +7,7 @@ from django.urls import reverse
 from paypal.standard.models import ST_PP_COMPLETED
 from django.dispatch import receiver
 from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
+from .tools import *
 
 from billapp.insertions import insert_ticket
 from billapp.models import Event, Ticket
@@ -36,17 +37,18 @@ def valid_ipn_handler(sender, **kwargs):
 
     event = get_object_or_404(Event, pk=event_id)
     user = get_object_or_404(User, id=user_id)
-    #  TODO ajouter sécurité, genre clé random dans le invoice qu'on stocke, puis compare
 
     t = insert_ticket(user, event)
+    pdf = make_pdf(t)
+    send_pdf_mail(t, pdf)
+
 
     print("ARGENT RECU de " + user.username + " pour l'événement " + event.title)  # debug
 
-    return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
 
 
 @receiver(invalid_ipn_received)
-def do_not_show_me_the_money(sender, **kwargs):
+def invalid_ipn_handler(sender, **kwargs):
     print("\nERROR: IPN signal was treated as invalid by django-paypal:" +
           "\ninvoice;" + sender.invoice +
           "\ntxn_id: " + sender.txn_id + "\n", file=sys.stderr)

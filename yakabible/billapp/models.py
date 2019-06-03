@@ -17,7 +17,7 @@ class Association(models.Model):
     logo_path = models.ImageField(upload_to=assos_image_path)
     email = models.CharField(max_length=64, unique=True)
     description = models.TextField(max_length=2000)
-    url = models.TextField(max_length=64, default=None, null=True)
+    url = models.TextField(max_length=64, default=None, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -42,7 +42,7 @@ class Event(models.Model):
     ext_capacity = models.PositiveSmallIntegerField()
     int_capacity = models.PositiveSmallIntegerField()
     staff_capacity = models.PositiveSmallIntegerField()
-    promotion_image_path = models.ImageField(upload_to=promo_image_path, blank=True)
+    promotion_image_path = models.ImageField(upload_to=promo_image_path, blank=True, null=True)
     validation_state = models.SmallIntegerField(choices=(
         (1, 'Need authorization'),
         (2, 'Approved by the association'),
