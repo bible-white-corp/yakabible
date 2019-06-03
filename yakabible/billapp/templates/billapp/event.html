@@ -120,7 +120,12 @@
                 {% endif %}
                 <p>Organisé par : <a
                         href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a
-                        href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
+                        href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)
+                        {% if object.association.url != None %}
+                             <br />
+                             {% get_http_url object.association.url as assoURL %}
+                             Site Web: <a href="{{ assoURL }}">{{ object.association.url }}</a>
+                        {% endif %}</p>
             </div>
         </div>
         {% if not event.validation_state == 4 %}
