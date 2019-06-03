@@ -74,12 +74,10 @@
                         </table>
                     </div>
                 </div>
-                {% if is_super %}
                 <div class="mb-2">
                     <a href="{% url 'create_event' pk=object.pk %}" class="btn btn-primary" id="create_event">Créer un
                         évènement</a>
                 </div>
-                {% endif %}
             </div>
             <div class="tab-pane fade mx-2" id="listuser" role="tabpanel">
                 <table class="table table-condensed">
