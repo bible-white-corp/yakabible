@@ -275,7 +275,7 @@ def ask_approval(request, pk):
         adm = User.objects.filter(groups__name="Admin")
     if not adm:
         return HttpResponseRedirect('/?failure')
-    path = request.path_info.split('/ask_for_approval')[0]
+    path = request.build_absolute_uri().split('/ask_for_approval')[0]
     res = send_approval_mail(e, adm[0], HttpResponseRedirect(path))
     if res:
         e.request_for_approval = True
@@ -452,7 +452,7 @@ def ask_validation(request, pk):
         e.validation_state = 4
     e.save()
 
-    path = request.path_info.split('/validating')[0]
+    path = request.build_absolute_uri().split('/validating')[0]
 
     if e.validation_state == 4:
         if not send_validation_mail(e, adm, path):
@@ -491,7 +491,7 @@ def ask_refusing(request, pk):
     e.validation_state = 1
     e.request_for_approval = False
     e.save()
-    path = request.path_info.split('/refusing')[0]
+    path = request.build_absolute_uri().split('/refusing')[0]
 
     if not send_refusing_mail(e, adm, status.count() != 0, description, path):
         return redirect(path + '?deny=failure')
