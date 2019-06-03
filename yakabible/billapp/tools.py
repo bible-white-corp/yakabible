@@ -114,7 +114,8 @@ def send_pdf_mail(ticket, pdf=None):
     pdf_name = "{}_{}.pdf".format(ticket.user, ticket.event.title.replace(' ', '-'))
 
     context = {'title': 'Votre ticket pour ' + ticket.event.title,
-               'ticket': ticket
+               'ticket': ticket,
+               'event' : ticket.event
                }
 
     obj = 'Vos billets pour l\'événement ' + ticket.event.title
