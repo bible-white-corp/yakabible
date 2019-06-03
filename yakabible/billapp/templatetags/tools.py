@@ -103,7 +103,7 @@ def visible_events(e):
 @register.filter
 def user_is_manager_or_admin(user):
     return User.objects.filter(groups__name="Admin", pk=user.pk) \
-           or User.objects.filter(groups__name="manager", pk=user.pk)
+           or User.objects.filter(groups__name="Manager", pk=user.pk)
 
 
 @register.simple_tag
