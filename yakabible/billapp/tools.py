@@ -17,6 +17,8 @@ from email.mime.image import MIMEImage
 
 from billapp.forms import Event_Form
 
+from icalendar import Calendar, Event
+
 
 def make_qrcode(ticket):
     q = qrcode.QRCode()
@@ -25,6 +27,19 @@ def make_qrcode(ticket):
     q.add_data(str(ticket.pk) + '\n')
     q.add_data(ticket.user.email + '\n')
     return q.make_image()
+
+def make_ics(ticket):
+    cal = Calendar()
+
+    event = Event()
+    event.add('summary', ticket.event.title)
+    event.add('dtstart', ticket.event.begin)
+    event.add('dtend', ticket.event.end)
+    event.add('description', ticket.event.description)
+    event.add('location', ticket.event.place)
+    cal.add_component(event)
+
+    return cal
 
 
 def make_pdf(ticket):
@@ -116,10 +131,9 @@ def send_pdf_mail(ticket, pdf=None):
     qr_tmp = BytesIO()
     qr.save(qr_tmp, "PNG")
     qrcode = MIMEImage(qr_tmp.getvalue())
-
     qrcode.add_header('Content-ID', '<{}>'.format('qr-code.png'))
 
-        #todo add ICalendar modul
+    cal = make_ics(ticket)
 
     email.attach(epita_logo)
     email.attach(qrcode)
