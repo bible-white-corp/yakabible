@@ -77,9 +77,8 @@ class EventEdit(generic.View):
 
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
-        event_form = get_fort_from_event(event)
-        """ TODO : Remplir le staff_form avec les infos existantes """
-        staff_form = Staff_Form_Set()
+        event_form = get_form_from_event(event)
+        staff_form = get_staff_form_from_event(event)
         return render(request, self.template_name, {'event': event,
                                                     "modif": True,
                                                     "event_form": event_form,
@@ -89,7 +88,18 @@ class EventEdit(generic.View):
         event = get_object_or_404(Event, pk=pk)
         event_form = Event_Form(request.POST, request.FILES)
         staff_form = Staff_Form_Set(request.POST)
-        """ TODO : Modifier Event, et envoyer des mails """
+
+        if 'additems' in request.POST and request.POST["additems"] == 'true':
+            formset_dictionary_copy = request.POST.copy()
+            formset_dictionary_copy['form-TOTAL_FORMS'] = int(formset_dictionary_copy['form-TOTAL_FORMS']) + 1
+            staff_form = Staff_Form_Set(formset_dictionary_copy)
+        elif event_form.is_valid() and staff_form.is_valid():
+            if update_event(request.user, event_form, staff_form, event):
+                return HttpResponseRedirect(reverse('event', args=[pk]))
+        return render(request, self.template_name, {'modif': True,
+                                                    'event': event,
+                                                    'event_form': event_form,
+                                                    'staff_form': staff_form})
 
 
 class ConnectionView(generic.TemplateView):

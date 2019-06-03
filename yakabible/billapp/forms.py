@@ -11,26 +11,18 @@ class Event_Form(forms.Form):
                                                                'rows': 5}))
     begin = forms.DateTimeField(label='f_date_start',
                                 input_formats=['%d/%m/%Y %H:%M'],
-                                widget=forms.TextInput(attrs={'class': 'form-control datetimepicker-input date-pick',
-                                                              'data-toggle': 'datetimepicker',
-                                                              'data-target': '#id_begin'}))
+                                widget=forms.TextInput(attrs={'class': 'form-control form_datetime'}))
     end = forms.DateTimeField(label='f_date_end',
                               input_formats=['%d/%m/%Y %H:%M'],
-                              widget=forms.TextInput(attrs={'class': 'form-control datetimepicker-input date-pick',
-                                                            'data-toggle': 'datetimepicker',
-                                                            'data-target': '#id_end'}))
+                              widget=forms.TextInput(attrs={'class': 'form-control form_datetime'}))
     begin_register = forms.DateTimeField(label='f_insc_start',
                                          input_formats=['%d/%m/%Y %H:%M'],
                                          widget=forms.TextInput(
-                                             attrs={'class': 'form-control datetimepicker-input date-pick',
-                                                    'data-toggle': 'datetimepicker',
-                                                    'data-target': '#id_begin_register'}))
+                                             attrs={'class': 'form-control form_datetime'}))
     end_register = forms.DateTimeField(label='f_insc_end',
                                        input_formats=['%d/%m/%Y %H:%M'],
                                        widget=forms.TextInput(
-                                           attrs={'class': 'form-control datetimepicker-input date-pick',
-                                                  'data-toggle': 'datetimepicker',
-                                                  'data-target': '#id_end_register'}))
+                                           attrs={'class': 'form-control form_datetime'}))
     place = forms.CharField(label='f_place', max_length=128,
                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     price_ionis = forms.IntegerField(label='f_price_int',

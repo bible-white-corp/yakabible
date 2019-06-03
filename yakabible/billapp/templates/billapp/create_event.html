@@ -139,18 +139,12 @@ Créer un événement
 {% block sup_foot %}
     <script src={% static "billapp/js/moment.min.js" %}></script>
     <script src={% static "billapp/js/datepicker.min.js" %}></script>
-    <script type="text/javascript">
-        $(function () {
-            $('.date-pick').datetimepicker({
-                locale: 'fr'
-            });
-        });
-    </script>
     <script>
         $(document).ready(function() {
             $("#additemsbutton").on('click',function(event) {
                 $("#additems").val("true");
             });
+            $(".form_datetime").datetimepicker({format: 'dd/mm/yyyy hh:ii'});
         });
     </script>
 {% endblock sup_foot %}
