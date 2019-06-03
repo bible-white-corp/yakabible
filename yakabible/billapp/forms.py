@@ -41,9 +41,8 @@ class Event_Form(forms.Form):
                                       widget=forms.NumberInput(attrs={'class': 'form-control'}))
     int_capacity = forms.IntegerField(label='f_limit_int', min_value=0, max_value=450,
                                       widget=forms.NumberInput(attrs={'class': 'form-control'}))
-    promotion_image_path = forms.ImageField(label='f_img',
-                                            widget=forms.FileInput(attrs={'class': 'custom-file-input',
-                                                                          'Required': 'False'}))
+    promotion_image_path = forms.ImageField(label='f_img', required=False,
+                                            widget=forms.FileInput(attrs={'class': 'custom-file-input'}))
     show_capacity = forms.BooleanField(label='f_show_capacity', required=False,
                                        initial=False,
                                        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
