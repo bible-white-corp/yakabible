@@ -141,7 +141,15 @@ def send_approval_mail(ev, adm, path):
     text_bd = render_to_string("emails/email-approval-template.txt", context)
     html_bd = render_to_string("emails/email-approval-template.html", context)
 
-    return send_mail(obj, text_bd, html_bd, [adm.email, prez, ev.manager.email])
+    targets = []
+    if prez == ev.manager.email:
+        targets = [adm.email]
+    elif adm.email == ev.manager.email:
+        targets = [prez]
+    else:
+        targets = [adm.email, prez, ev.manager.email]
+
+    return send_mail(obj, text_bd, html_bd, targets)
 
 def send_registration(username, email):
     """
