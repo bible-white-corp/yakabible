@@ -73,6 +73,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        {% has_staff_place_in_event object obj.association as has_staff_place%}
                                         {% for obj2 in obj.association.associationuser_set.all %}
                                                 <tr>
                                                     <td> {{ obj2.user.username }} </td>
@@ -82,6 +83,8 @@
                                                     <td> <a href="{% url 'del_staff' pk=staff_pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
                                                     {% elif staff_pk == -2 %}
                                                     <td> <button class="btn btn-secondary disabled"> Pris par une autre association </button> </td>
+                                                    {% elif not has_staff_place %}
+                                                    <td> <button class="btn btn-secondary disabled"> Plus de place </button> </td>
                                                     {% else %}
                                                     <td> <a href="{% url 'add_staff' pk=object.pk user_pk=obj2.user.pk asso_pk=obj.association.pk %}"> <button class="btn btn-success">ajouter</button> </a> </td>
                                                     {% endif %}

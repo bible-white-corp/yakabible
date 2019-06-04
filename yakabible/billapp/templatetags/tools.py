@@ -367,7 +367,7 @@ def can_validate(u, ev):
 @register.simple_tag
 def is_staff_in_event(user, event, asso):
     """
-    Filtre si l'utilisateur est staff sur un event 
+    Filtre si l'utilisateur est staff sur un event
     """
     t = Ticket.objects.filter(user__pk=user.pk, category=True)
     if t == None or len(t) == 0:
@@ -375,3 +375,15 @@ def is_staff_in_event(user, event, asso):
     if t[0].association != asso:
         return -2
     return t[0].pk
+
+
+@register.simple_tag
+def has_staff_place_in_event(event, asso):
+    """
+    Filtre si une asso a assez de place staff sur un event
+    """
+    print(event)
+    print(asso)
+    esc = EventStaffCapacity.objects.get(event=event, association=asso)
+    tickets = Ticket.objects.filter(event=event, association=asso)
+    return len(tickets) < esc.capacity

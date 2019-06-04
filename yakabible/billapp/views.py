@@ -227,13 +227,16 @@ def AddStaffEvent(request, pk, user_pk, asso_pk):
     event = get_object_or_404(Event, pk=pk)
     user = get_object_or_404(User, pk=user_pk)
     asso = get_object_or_404(Association, pk=asso_pk)
-    insert_staff(user, event, asso)
+    esc = EventStaffCapacity.objects.get(event=event, association=asso)
+    tickets = Ticket.objects.filter(event=event, association=asso)
+    if len(tickets) < esc.capacity:
+        insert_staff(user, event, asso)
     return HttpResponseRedirect(reverse('event_staff', args=[pk]) + "#" + asso.name)
 
 
 def DelStaffEvent(request, pk):
     """
-    View pour ajouter staff à un event
+    View pour enlever staff à un event
     """
     ticket = get_object_or_404(Ticket, pk=pk)
     asso = ticket.association
