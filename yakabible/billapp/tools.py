@@ -118,7 +118,7 @@ def send_pdf_mail(ticket, pdf=None):
                'event' : ticket.event
                }
 
-    obj = 'Vos billets pour l\'événement ' + ticket.event.title
+    obj = ticket.user.username + ', vos billets pour l\'événement ' + ticket.event.title
     text_bd = render_to_string("emails/email-ticket-template.txt", context)
     html_bd = render_to_string("emails/email-ticket-template.html", context)
 
