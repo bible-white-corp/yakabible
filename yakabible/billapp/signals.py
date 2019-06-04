@@ -19,11 +19,12 @@ def valid_ipn_handler(sender, **kwargs):
     ipn = sender
     payment_key = ipn.invoice.split('/')
 
-    if len(payment_key) != 2:
+    if len(payment_key) != 3:
         raise ValueError
 
     event_id = "".join(payment_key[1])
     user_id = payment_key[0]
+    ionis = (payment_key[2] == "ionis")
 
     try:
         tmp_t = Ticket.objects.get(user=user_id, event=event_id)
@@ -38,7 +39,7 @@ def valid_ipn_handler(sender, **kwargs):
     event = get_object_or_404(Event, pk=event_id)
     user = get_object_or_404(User, id=user_id)
 
-    t = insert_ticket(user, event)
+    t = insert_ticket(user, event, ionis)
     pdf = make_pdf(t)
     send_pdf_mail(t, pdf)
 

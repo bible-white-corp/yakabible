@@ -337,7 +337,7 @@ def RegEventView(request, pk):
         if price > 0.00:
             return redirect(reverse('paymentProcess', args=[pk]) + ionis_query)  # payment
 
-        t = insert_ticket(request.user, e)
+        t = insert_ticket(request.user, e, ionis_query != '')
     else:
         t = get_object_or_404(Ticket, user=request.user, event=e)
     return HttpResponseRedirect(reverse('reg_event_success', args=[t.pk]))
@@ -432,9 +432,13 @@ def payment_process(request, pk):
 
     e = get_object_or_404(Event, pk=pk)
     price = e.price
+    category = 'extern'
+
     ionis = request.GET.get('ionis', '')
 
     if ionis != '':
+        ionis = '?ionis=true'
+        category = 'ionis'
         price = e.price_ionis
 
     user = request.user.first_name + " " + request.user.last_name
@@ -446,7 +450,7 @@ def payment_process(request, pk):
         "business": "yakabible@gmail.com",
         "amount": str(price),
         "item_name": user + " : " + eventname,
-        "invoice": user_id + "/" + str(eventpk),
+        "invoice": user_id + "/" + str(eventpk) + "/" + category,
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return": request.build_absolute_uri(reverse('paymentDone')),
         "cancel_return": request.build_absolute_uri(reverse('paymentCanceled')),
