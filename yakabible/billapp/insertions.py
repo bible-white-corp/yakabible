@@ -63,6 +63,7 @@ def insert_staff(user, e, asso):
                 event = e,
                 association = asso,
                 category = True,
+                ionis = False,
                 state = 0
                 )
     t.save()
