@@ -168,6 +168,19 @@ class EventView(generic.DetailView):
         return context
 
 
+class EventStaffView(generic.DetailView):
+    """
+    View de linkage staff d'un événement
+    """
+    template_name = 'billapp/event_staff_link.html'
+    model = Event
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form_refus'] = Refusing_Form()
+        return context
+
+
 class AssociationView(generic.DetailView):
     """
     View de la description d'une association
@@ -205,6 +218,26 @@ def AddUserAssosView(request, pk):
     user = get_object_or_404(User, username=adduser.cleaned_data['input'])
     insert_user_assos(assos, user)
     return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
+
+
+def AddStaffEvent(request, pk, user_pk):
+    """
+    View pour ajouter staff à un event
+    """
+    event = get_object_or_404(Event, pk=pk)
+    user = get_object_or_404(User, pk=user_pk)
+    insert_staff(user, event)
+    return HttpResponseRedirect(reverse('event_staff', args=[pk]))
+
+
+def DelStaffEvent(request, pk):
+    """
+    View pour ajouter staff à un event
+    """
+    ticket = get_object_or_404(Ticket, pk=pk)
+    ticket.delete()
+    print('OK')
+    return HttpResponseRedirect(reverse('event_staff', args=[pk]))
 
 
 @in_asso_super_required

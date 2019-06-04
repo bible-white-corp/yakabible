@@ -362,3 +362,14 @@ def can_validate(u, ev):
         if ev.validation_state != 2:
             return True
     return False
+
+
+@register.simple_tag
+def is_staff_in_event(user, event):
+    """
+    Filtre si l'utilisateur est staff sur un event 
+    """
+    t = Ticket.objects.filter(user__pk=user.pk, category=True)
+    if t == None or len(t) == 0:
+        return -1
+    return t[0].pk

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    {{ object.title }}
+{% endblock title %}
+
+{% block content %}
+    {% unprepared event user as accessible %}
+    {% if accessible %}
+        Oops, vous ne pouvez pas acceder a cette page pour le moment.
+        <!-- #TODO faire une jolie page de refus-->
+    {% else %}
+        <div class="card mt-3">
+            <h5 class="card-header">Événement</h5>
+            <div class="container">
+                <h1 class="mt-2">{{ object.title }}</h1>
+                {% if event.promotion_image_path %}
+                    <div class='mt-3'>
+                        <image src="{{ event.promotion_image_path.url }}" alt='promotion image'
+                               class=" mt-3 mb-3 img-cover d-block w-100">
+                    </div>
+                {% endif %}
+                <div class="card mt-5">
+                    <div class="card-body">{{ object.description }}</div>
+                </div>
+                <div class="card mt-4 mb-3">
+                    <p class="card-header">Infos</p>
+                    <div class="container">
+                        <p><i class="far fa-calendar mr-2 mt-3"></i> Du <b>{{ object.begin }}</b> au
+                            <b>{{ object.end }}</b></p>
+                        <p><i class="fas fa-user-plus mr-2"></i> Inscriptions du <b>{{ object.begin_register }}</b> au
+                            <b>{{ object.end_register }}</b></p>
+                        <a href='https://www.google.com/maps/search/{{ object.place }}'
+                           style="color:inherit;text-decoration:none;" target="blank"><h4><i
+                                class="fas fa-map mr-2 mb-2"></i> {{ object.place }}</h4></a>
+                    </div>
+                </div>
+                {% if object.eventstaffcapacity_set.count != 0 %}
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" id="ListAssoMemberTab" role="tablist">
+                                {% for obj in object.eventstaffcapacity_set.all %}
+                                <li class="nav-item mx-3">
+                                    {% if forloop.first %}
+                                    <a class="nav-link active" id="{{obj.assocition.name}}-tab" data-toggle="tab" href="#{{obj.association.name}}" role="tab"> {{obj.association.name}}</a>
+                                    {% else %}
+                                    <a class="nav-link" id="{{obj.assocition.name}}-tab" data-toggle="tab" href="#{{obj.association.name}}" role="tab"> {{obj.association.name}}</a>
+                                    {% endif %}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="tab-content" id="ListAssosMemberTabContent">
+                        {% for obj in object.eventstaffcapacity_set.all %}
+                        {% user_in_assos_super request.user obj.association as is_able %}
+                        {% if is_able %}
+                            {% if forloop.first %}
+                            <div class="tab-pane fade active show mx-2" id="{{obj.association.name}}" role="tabpanel">
+                            {% else %}
+                            <div class="tab-pane fade mx-2" id="{{obj.association.name}}" role="tabpanel">
+                            {% endif %}
+                                <div class="mb-2">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th> username </th>
+                                            <th> role </th>
+                                            <th> staff </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for obj2 in obj.association.associationuser_set.all %}
+                                                <tr>
+                                                    <td> {{ obj2.user.username }} </td>
+                                                    <td> {{ obj2.role | get_role }} </td>
+                                                    {% is_staff_in_event obj2.user object as staff_pk %}
+                                                    {% if staff_pk != -1%}
+                                                    <td> <a href="{% url 'del_staff' pk=staff_pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
+                                                    {% else %}
+                                                    <td> <a href="{% url 'add_staff' pk=object.pk user_pk=obj2.user.pk %}"> <button class="btn btn-success">ajouter</button> </a> </td>
+                                                    {% endif %}
+                                                </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                <p>Organisé par : <a
+                        href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a
+                        href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)</p>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

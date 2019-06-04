@@ -56,6 +56,16 @@ def insert_ticket(user, e):
     t.save()
     return t
 
+def insert_staff(user, e):
+    t = Ticket (
+                user = user,
+                event = e,
+                category = True,
+                state = 0
+                )
+    t.save()
+    return t
+
 def update_ticket(ticket, new_state):
     ticket.state = new_state
     ticket.save()

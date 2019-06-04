@@ -14,6 +14,7 @@ urlpatterns = [
     path('event/', views.EventsListView.as_view(), name='events_list'),
     path('event/<int:pk>', views.EventView.as_view(), name='event'),
     path('event/<int:pk>/edit', views.EventEdit.as_view(), name='edit_event'),
+    path('event/<int:pk>/staff', views.EventStaffView.as_view(), name='event_staff'),
     path('event/<int:pk>/register', views.RegEventView, name='reg_event'),
     path('event/<int:pk>/reg_event_success', views.RegEventSuccessView, name='reg_event_success'),
     path('event/<int:pk>/realtime', views.EventRealtime.as_view(), name='event_realtime'),
@@ -21,9 +22,11 @@ urlpatterns = [
     path('event/to_approve/', views.ApprovingListView.as_view(), name='approving'),
     path('event/<int:pk>/validating/', views.ask_validation, name='validating'),
     path('event/<int:pk>/refusing/', views.ask_refusing, name='refusing'),
+    path('event/<int:pk>/staff/<int:user_pk>', views.AddStaffEvent, name='add_staff'),
 
     path('ticket/<int:pk>', views.TicketDownload, name='ticket'),
     path('ticket/<int:pk>/update', views_json.UpdateTicket, name='ticket_update'),
+    path('ticket/<int:pk>/staff_delete', views.DelStaffEvent, name='del_staff'),
 
     path('assos/', views.AssociationListView.as_view(), name='assos_list'),
     path('assos/<int:pk>', views.AssociationView.as_view(), name='association'),
