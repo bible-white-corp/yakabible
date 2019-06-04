@@ -9,7 +9,7 @@
 {% endblock title %}
 
 {% block content %}
-    {% unprepared event user as accessible %}
+    {% can_add_staff event user as accessible %}
     {% if accessible %}
         Oops, vous ne pouvez pas acceder a cette page pour le moment.
         <!-- #TODO faire une jolie page de refus-->

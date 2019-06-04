@@ -165,6 +165,30 @@ def unprepared(e, u):
 
 
 @register.simple_tag
+def can_add_staff(e, u):
+    """
+    Used in event_staff_link.html to know if the user is authorized to link staff
+    """
+    if e.validation_state != 4:
+        return True
+    if u.is_anonymous:
+        return True
+    if u == e.manager or user_is_manager_or_admin(u):
+        return False
+    status = AssociationUser.objects.filter(user=u)
+    if not status:
+        return True
+    tmp_assos = EventStaffCapacity.objects.filter(event=e).values('association')
+    assos = [ a['association'] for a in tmp_assos]
+    for link in status:
+        if link.association.pk not in assos:
+            continue
+        if link.role == 1 or link.role == 2:
+            return False
+    return True
+
+
+@register.simple_tag
 def can_rfa(e, u):
     """
     used in event.html to know if the user can ask for the approval of the event
