@@ -113,34 +113,34 @@
   fields: {user: 6, association: 1, role: 0}
 - model: billapp.ticket
   pk: 2
-  fields: {user: 2, event: 3, category: false, state: 1}
+  fields: {user: 2, event: 3, category: false, ionis: false, state: 1}
 - model: billapp.ticket
   pk: 3
-  fields: {user: 4, event: 5, category: false, state: 0}
+  fields: {user: 4, event: 5, category: false, ionis: true, state: 0}
 - model: billapp.ticket
   pk: 4
-  fields: {user: 2, event: 5, category: false, state: 0}
+  fields: {user: 2, event: 5, category: false, ionis: false, state: 0}
 - model: billapp.ticket
   pk: 5
-  fields: {user: 1, event: 3, category: false, state: 1}
+  fields: {user: 1, event: 3, category: false, ionis: true, state: 1}
 - model: billapp.ticket
   pk: 6
-  fields: {user: 5, event: 2, category: false, state: 1}
+  fields: {user: 5, event: 2, category: false, ionis: false, state: 1}
 - model: billapp.ticket
   pk: 7
-  fields: {user: 2, event: 2, category: false, state: 1}
+  fields: {user: 2, event: 2, category: false, ionis: false, state: 1}
 - model: billapp.ticket
   pk: 8
-  fields: {user: 5, event: 5, category: false, state: 0}
+  fields: {user: 5, event: 5, category: false, ionis: false, state: 0}
 - model: billapp.ticket
   pk: 9
-  fields: {user: 5, event: 3, category: false, state: 0}
+  fields: {user: 5, event: 3, category: false, ionis: false, state: 0}
 - model: billapp.ticket
   pk: 10
-  fields: {user: 6, event: 5, category: false, state: 0}
+  fields: {user: 6, event: 5, category: false, ionis: true, state: 0}
 - model: billapp.ticket
   pk: 11
-  fields: {user: 6, event: 7, category: false, state: 0}
+  fields: {user: 6, event: 7, category: false, ionis: true, state: 0}
 - model: billapp.eventstaffcapacity
   pk: 2
   fields: {event: 11, association: 1, capacity: 1}
