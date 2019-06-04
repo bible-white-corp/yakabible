@@ -220,7 +220,7 @@ def AddUserAssosView(request, pk):
     return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
 
 
-def AddStaffEvent(request, pk, user_pk, asso_pk):
+def AddStaffEventView(request, pk, user_pk, asso_pk):
     """
     View pour ajouter staff à un event
     """
@@ -234,7 +234,7 @@ def AddStaffEvent(request, pk, user_pk, asso_pk):
     return HttpResponseRedirect(reverse('event_staff', args=[pk]) + "#" + asso.name)
 
 
-def DelStaffEvent(request, pk):
+def DelStaffEventView(request, pk):
     """
     View pour enlever staff à un event
     """

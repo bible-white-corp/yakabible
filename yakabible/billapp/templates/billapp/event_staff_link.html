@@ -44,6 +44,8 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" id="ListAssoMemberTab" role="tablist">
                                 {% for obj in object.eventstaffcapacity_set.all %}
+                                {% user_in_assos_super request.user obj.association as is_able %}
+                                {% if is_able %}
                                 <li class="nav-item mx-3">
                                     {% if forloop.first %}
                                     <a class="nav-link active" id="{{obj.assocition.name}}-tab" data-toggle="tab" href="#{{obj.association.name}}" role="tab"> {{obj.association.name}}</a>
@@ -51,6 +53,7 @@
                                     <a class="nav-link" id="{{obj.assocition.name}}-tab" data-toggle="tab" href="#{{obj.association.name}}" role="tab"> {{obj.association.name}}</a>
                                     {% endif %}
                                 </li>
+                                {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
