@@ -329,11 +329,13 @@ def RegEventView(request, pk):
     if tmp_t is None:
 
         price = e.price
-        if is_ionis(request.user):
+        ionis_query = request.GET.get('ionis', '')
+        if ionis_query != '':
+            ionis_query = "?ionis=true"
             price = e.price_ionis
 
         if price > 0.00:
-            return redirect(reverse('paymentProcess', args=[pk]))  # payment
+            return redirect(reverse('paymentProcess', args=[pk]) + ionis_query)  # payment
 
         t = insert_ticket(request.user, e)
     else:
@@ -430,7 +432,9 @@ def payment_process(request, pk):
 
     e = get_object_or_404(Event, pk=pk)
     price = e.price
-    if is_ionis(request.user):
+    ionis = request.GET.get('ionis', '')
+
+    if ionis != '':
         price = e.price_ionis
 
     user = request.user.first_name + " " + request.user.last_name
