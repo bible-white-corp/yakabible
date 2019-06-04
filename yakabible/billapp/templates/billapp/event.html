@@ -72,7 +72,7 @@
                 {% endif %}
             </h5>
             <div class="container">
-                <h1 class="mt-2">{{ object.title }}</h1>
+                <h1 class="mt-2">{{ object.title }}</h1>
                 {% if event.promotion_image_path %}
                     <div class='mt-3'>
                         <image src="{{ event.promotion_image_path.url }}" alt='promotion image'
@@ -112,8 +112,23 @@
                     </div>
                 </div>
                 {% if object|in_the_bound and object.validation_state == 4 %}
-                    <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary"
-                       role="button">S'inscrire</a>
+                    <center>
+                        {% if object.price_ionis > 0 %}
+                            <a href="{% url 'reg_event' pk=object.pk %}?ionis=true" class="mb-3 btn btn-primary"
+                               role="button">Acheter sa place (IONIS)</a>
+                        {% else %}
+                            <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary"
+                               role="button">S'inscrire (IONIS)</a>
+                        {% endif %}
+                        {% if object.price > 0 %}
+                            <a href="{% url 'reg_event' pk=object.pk %}?ionis=true" class="mb-3 btn btn-info"
+                               role="button">Acheter sa place (externe)</a>
+                        {% else %}
+                            <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-info"
+                               role="button">S'inscrire (externe)</a>
+                        {% endif %}
+
+                    </center>
                 {% else %}
                     <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-secondary disabled" role="button">Inscriptions
                         closes</a>
