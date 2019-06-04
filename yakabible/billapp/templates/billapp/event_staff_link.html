@@ -40,12 +40,11 @@
                     </div>
                 </div>
                 {% if object.eventstaffcapacity_set.count != 0 %}
+                    {% user_event_staff_cap_where_ranked request.user event as esc_list %}
                     <div class="card mt-3">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" id="ListAssoMemberTab" role="tablist">
-                                {% for obj in object.eventstaffcapacity_set.all %}
-                                {% user_in_assos_super request.user obj.association as is_able %}
-                                {% if is_able %}
+                                {% for obj in esc_list %}
                                 <li class="nav-item mx-3">
                                     {% if forloop.first %}
                                     <a class="nav-link active" id="{{obj.assocition.name}}-tab" data-toggle="tab" href="#{{obj.association.name}}" role="tab"> {{obj.association.name}}</a>
@@ -53,51 +52,48 @@
                                     <a class="nav-link" id="{{obj.assocition.name}}-tab" data-toggle="tab" href="#{{obj.association.name}}" role="tab"> {{obj.association.name}}</a>
                                     {% endif %}
                                 </li>
-                                {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
                         <div class="tab-content" id="ListAssosMemberTabContent">
-                        {% for obj in object.eventstaffcapacity_set.all %}
+                        {% for obj in esc_list %}
                         {% user_in_assos_super request.user obj.association as is_able %}
-                        {% if is_able %}
-                            {% if forloop.first %}
-                            <div class="tab-pane fade active show mx-2" id="{{obj.association.name}}" role="tabpanel">
-                            {% else %}
-                            <div class="tab-pane fade mx-2" id="{{obj.association.name}}" role="tabpanel">
-                            {% endif %}
-                                <div class="mb-2">
-                                    <table class="table table-condensed">
-                                        <thead>
-                                        <tr>
-                                            <th> username </th>
-                                            <th> role </th>
-                                            <th> staff </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% has_staff_place_in_event object obj.association as has_staff_place%}
-                                        {% for obj2 in obj.association.associationuser_set.all %}
-                                                <tr>
-                                                    <td> {{ obj2.user.username }} </td>
-                                                    <td> {{ obj2.role | get_role }} </td>
-                                                    {% is_staff_in_event obj2.user object obj2.association as staff_pk %}
-                                                    {% if staff_pk >= 0 %}
-                                                    <td> <a href="{% url 'del_staff' pk=staff_pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
-                                                    {% elif staff_pk == -2 %}
-                                                    <td> <button class="btn btn-secondary disabled"> Pris par une autre association </button> </td>
-                                                    {% elif not has_staff_place %}
-                                                    <td> <button class="btn btn-secondary disabled"> Plus de place </button> </td>
-                                                    {% else %}
-                                                    <td> <a href="{% url 'add_staff' pk=object.pk user_pk=obj2.user.pk asso_pk=obj.association.pk %}"> <button class="btn btn-success">ajouter</button> </a> </td>
-                                                    {% endif %}
-                                                </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                        {% if forloop.first %}
+                        <div class="tab-pane fade active show mx-2" id="{{obj.association.name}}" role="tabpanel">
+                        {% else %}
+                        <div class="tab-pane fade mx-2" id="{{obj.association.name}}" role="tabpanel">
                         {% endif %}
+                            <div class="mb-2">
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th> username </th>
+                                        <th> role </th>
+                                        <th> staff </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% has_staff_place_in_event object obj.association as has_staff_place%}
+                                    {% for obj2 in obj.association.associationuser_set.all %}
+                                            <tr>
+                                                <td> {{ obj2.user.username }} </td>
+                                                <td> {{ obj2.role | get_role }} </td>
+                                                {% is_staff_in_event obj2.user object obj2.association as staff_pk %}
+                                                {% if staff_pk >= 0 %}
+                                                <td> <a href="{% url 'del_staff' pk=staff_pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
+                                                {% elif staff_pk == -2 %}
+                                                <td> <button class="btn btn-secondary disabled"> Pris par une autre association </button> </td>
+                                                {% elif not has_staff_place %}
+                                                <td> <button class="btn btn-secondary disabled"> Plus de place </button> </td>
+                                                {% else %}
+                                                <td> <a href="{% url 'add_staff' pk=object.pk user_pk=obj2.user.pk asso_pk=obj.association.pk %}"> <button class="btn btn-success">ajouter</button> </a> </td>
+                                                {% endif %}
+                                            </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         {% endfor %}
                         </div>
                     </div>

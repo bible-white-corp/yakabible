@@ -406,8 +406,19 @@ def has_staff_place_in_event(event, asso):
     """
     Filtre si une asso a assez de place staff sur un event
     """
-    print(event)
-    print(asso)
     esc = EventStaffCapacity.objects.get(event=event, association=asso)
     tickets = Ticket.objects.filter(event=event, association=asso)
     return len(tickets) < esc.capacity
+
+
+@register.simple_tag
+def user_event_staff_cap_where_ranked(u, e):
+    """
+    Filtre pour récupérer une liste d'EventStaffCapacity liée à l'utilisateur
+    """
+    escs = EventStaffCapacity.objects.filter(event=e)
+    l = []
+    for esc in escs:
+        if user_in_assos_super(u, esc.association):
+            l.append(esc)
+    return l
