@@ -11,6 +11,11 @@
 {% block content %}
     <center>
         <h2><u>Paiement</u></h2>
+        {% if "ionis" in request.GET %}
+            <h5>Place Ionis</h5>
+        {% else %}
+            <h5>Place externe</h5>
+        {% endif %}
         <div class="mt-4">
             {{ form.render }}
         </div>
