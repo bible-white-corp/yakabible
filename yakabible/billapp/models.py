@@ -75,6 +75,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     category = models.BooleanField()
+    association = models.ForeignKey(Association, on_delete=models.CASCADE, blank=True, null=True)
     state = models.IntegerField()
 
     def __str__(self):

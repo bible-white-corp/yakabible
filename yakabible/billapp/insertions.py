@@ -56,10 +56,11 @@ def insert_ticket(user, e):
     t.save()
     return t
 
-def insert_staff(user, e):
+def insert_staff(user, e, asso):
     t = Ticket (
                 user = user,
                 event = e,
+                association = asso,
                 category = True,
                 state = 0
                 )

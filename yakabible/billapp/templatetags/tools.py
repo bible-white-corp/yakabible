@@ -365,11 +365,13 @@ def can_validate(u, ev):
 
 
 @register.simple_tag
-def is_staff_in_event(user, event):
+def is_staff_in_event(user, event, asso):
     """
     Filtre si l'utilisateur est staff sur un event 
     """
     t = Ticket.objects.filter(user__pk=user.pk, category=True)
     if t == None or len(t) == 0:
         return -1
+    if t[0].association != asso:
+        return -2
     return t[0].pk

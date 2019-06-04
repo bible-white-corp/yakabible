@@ -22,7 +22,7 @@ urlpatterns = [
     path('event/to_approve/', views.ApprovingListView.as_view(), name='approving'),
     path('event/<int:pk>/validating/', views.ask_validation, name='validating'),
     path('event/<int:pk>/refusing/', views.ask_refusing, name='refusing'),
-    path('event/<int:pk>/staff/<int:user_pk>', views.AddStaffEvent, name='add_staff'),
+    path('event/<int:pk>/staff/<int:user_pk>/association/<int:asso_pk>', views.AddStaffEvent, name='add_staff'),
 
     path('ticket/<int:pk>', views.TicketDownload, name='ticket'),
     path('ticket/<int:pk>/update', views_json.UpdateTicket, name='ticket_update'),

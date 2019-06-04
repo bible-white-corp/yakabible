@@ -220,14 +220,15 @@ def AddUserAssosView(request, pk):
     return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
 
 
-def AddStaffEvent(request, pk, user_pk):
+def AddStaffEvent(request, pk, user_pk, asso_pk):
     """
     View pour ajouter staff à un event
     """
     event = get_object_or_404(Event, pk=pk)
     user = get_object_or_404(User, pk=user_pk)
-    insert_staff(user, event)
-    return HttpResponseRedirect(reverse('event_staff', args=[pk]))
+    asso = get_object_or_404(Association, pk=asso_pk)
+    insert_staff(user, event, asso)
+    return HttpResponseRedirect(reverse('event_staff', args=[pk]) + "#" + asso.name)
 
 
 def DelStaffEvent(request, pk):
@@ -235,9 +236,10 @@ def DelStaffEvent(request, pk):
     View pour ajouter staff à un event
     """
     ticket = get_object_or_404(Ticket, pk=pk)
+    asso = ticket.association
+    event = ticket.event
     ticket.delete()
-    print('OK')
-    return HttpResponseRedirect(reverse('event_staff', args=[pk]))
+    return HttpResponseRedirect(reverse('event_staff', args=[event.pk]) + "#" + asso.name)
 
 
 @in_asso_super_required
