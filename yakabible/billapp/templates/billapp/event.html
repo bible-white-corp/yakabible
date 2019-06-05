@@ -117,11 +117,11 @@
                             <a href="{% url 'reg_event' pk=object.pk %}?ionis=true" class="mb-3 btn btn-primary"
                                role="button">Acheter sa place (IONIS)</a>
                         {% else %}
-                            <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-primary"
+                            <a href="{% url 'reg_event' pk=object.pk %}?ionis=true" class="mb-3 btn btn-primary"
                                role="button">S'inscrire (IONIS)</a>
                         {% endif %}
                         {% if object.price > 0 %}
-                            <a href="{% url 'reg_event' pk=object.pk %}?ionis=true" class="mb-3 btn btn-info"
+                            <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-info"
                                role="button">Acheter sa place (externe)</a>
                         {% else %}
                             <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-info"
