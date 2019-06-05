@@ -15,7 +15,6 @@ from django.template.loader import render_to_string
 
 from django.core.mail import EmailMultiAlternatives
 from email.mime.image import MIMEImage
-from email.mime.text import MIMEText
 
 from billapp.forms import Event_Form, Staff_Form_Set, EventStaffCapacity
 
@@ -31,6 +30,11 @@ def make_qrcode(ticket):
     return q.make_image()
 
 def make_ics(ticket):
+    """
+    Generate an ics object following RFC5455
+    :param ticket: the ticket that correspond to the future ics
+    :return: the calendar object
+    """
     cal = Calendar()
     cal.add('version', '2.0')
     cal.add('prodid','//BWC//BILLETERIE EPITA//FR')
@@ -93,6 +97,14 @@ def make_pdf(ticket):
     return pdf
 
 def send_mail(obj, text_bd, html_bd, targets):
+    """
+    Generic function to send informational mail
+    :param obj: the subject of the mail
+    :param text_bd: the .txt alternative file
+    :param html_bd: the html main view file
+    :param targets: a list of mail address
+    :return: true if sending succeeded
+    """
     email = EmailMultiAlternatives(
         subject=obj, from_email='yakabible@gmail.com', to=targets,
         body=text_bd
@@ -107,6 +119,12 @@ def send_mail(obj, text_bd, html_bd, targets):
     return email.send() == 1
 
 def send_pdf_mail(ticket, pdf=None):
+    """
+    Send the ticket mail to the tuser
+    :param ticket: the ticket in the BDD
+    :param pdf: the pdf to attach if exists
+    :return: boolean with true if the sending succeeded
+    """
     if pdf is None:
         pdf = make_pdf(ticket)
 
@@ -129,22 +147,26 @@ def send_pdf_mail(ticket, pdf=None):
     email.attach_alternative(html_bd, "text/html")
     email.mixed_subtype = 'related'
 
+#Converting the EPITA img as an embedded image for the mail html
     fp = open(os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png'), 'rb')
     epita_logo = MIMEImage(fp.read())
     fp.close()
     epita_logo.add_header('Content-ID', '<{}>'.format('logo-epita.png'))
 
+#Creation of the QRCode as an embedded image in the mail
     qr_tmp = BytesIO()
     qr.save(qr_tmp, "PNG")
     qrcode = MIMEImage(qr_tmp.getvalue())
     qrcode.add_header('Content-ID', '<{}>'.format('qr-code.png'))
 
+#Generating the .ics attcach file
     cal = make_ics(ticket).to_ical()
 
     email.attach(epita_logo)
     email.attach(qrcode)
     email.attach(pdf_name, pdf)
     email.attach('event.ics', cal, 'text/calendar')
+
     return email.send() == 1
 
 def send_approval_mail(ev, adm, path):
