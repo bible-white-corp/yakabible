@@ -129,7 +129,6 @@ def update_event(request, form, staff_form, event):
     # users = event.ticket_set.user
     users = Ticket.objects\
         .filter(event=event)\
-        .values('user')
 
     if (users):
         link = request.build_absolute_uri().split('/edit')[0]
@@ -145,7 +144,6 @@ def update_event(request, form, staff_form, event):
                 .filter(role=2)\
                 .filter(association=event.association)[0]\
                 .user.email
-            print(president)
             if event.validation_state == 4:
                 event.validation_state = 3
             else:
@@ -196,7 +194,7 @@ class NotifyVisitors(Thread):
     Thread in charge of sending to all visitors the event modification notification
     """
 
-    def __index__(self, users, event, link):
+    def __init__(self, users, event, link):
         Thread.__init__(self)
         self.users = users
         self.event = event
@@ -204,4 +202,4 @@ class NotifyVisitors(Thread):
 
     def run(self):
         for u in self.users:
-            send_modification_notification_mail(self.event, u.email, self.link)
+            send_modification_notification_mail(self.event, u.user.email, self.link)
