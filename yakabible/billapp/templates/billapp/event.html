@@ -151,6 +151,14 @@
             <div class="card mt-3">
                 <h5 class="card-header">Gestion de la validation</h5>
                 <div class="container">
+                    {% if request.user|user_is_manager_or_admin %}
+                        {% if object.premium %}
+                            <a href="{% url 'update_premium' pk=object.pk %}" class="mt-3 mb-3 btn btn-danger" role="button">Passer Non premium</a>
+                        {% else %}
+                            <a href="{% url 'update_premium' pk=object.pk %}" class="mt-3 mb-3 btn btn-success" role="button">Passer Premium</a>
+                        {% endif %}
+                        <br>
+                    {% endif %}
                     {% can_rfa event user as requestable %}
                     {% if requestable %}
                         {% if not event.request_for_approval %}
@@ -168,7 +176,7 @@
                             <a href="{% url 'validating' pk=object.pk %}" class="mt-3 mb-3 btn btn-success"
                                role="button">Validation</a>
                         {% else %}
-                            <button class="mb-3 mt-3 btn btn-secondary disabled text-white" role="button">Validation pris en compte</button>
+                            <button class="mb-3 mt-3 btn btn-secondary disabled text-white" role="button">Validation prise en compte</button>
                         {% endif %}
                         <button class="btn btn-danger" type="button" data-toggle="collapse"
                                 data-target="#refusCollapse" aria-expanded="false"

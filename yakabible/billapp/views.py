@@ -584,3 +584,10 @@ def ask_refusing(request, pk):
 def NotifyOff(request):
     request.session["noNotify1"] = True
     return HttpResponse('ok')
+
+
+def switch_premium(request, pk):
+    e = get_object_or_404(Event, pk=pk)
+    e.premium = not e.premium
+    e.save()
+    return HttpResponseRedirect(reverse('event', args=[pk]))
