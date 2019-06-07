@@ -1,8 +1,8 @@
 from .models import *
 from .tools import send_modification_mail
+from .tools import send_modification_notification_mail
 from .forms import Event_Form, Staff_Form, Staff_Form_Set
-from django.urls import reverse
-
+from threading import Thread
 
 def insert_event(user, form, asso):
     e = Event(
@@ -122,6 +122,14 @@ def update_event(request, form, staff_form, event):
 
     # Notify all sub users
     # users = event.ticket_set.user
+    users = Ticket.objects\
+        .filter(event=event)\
+        .values('user')
+
+    if (users):
+        link = request.build_absolute_uri().split('/edit')[0]
+        u_thread = NotifyVisitors(users, event, link)
+        u_thread.start()
 
     # Notify ADM & president
     if notify_adm or notify_president:
@@ -177,3 +185,18 @@ def insert_user_assos(assos, user):
     new = AssociationUser(user=user, association=assos, role=0)
     new.save()
     return new
+
+class NotifyVisitors(Thread):
+    """
+    Thread in charge of sending to all visitors the event modification notification
+    """
+
+    def __index__(self, users, event, link):
+        Thread.__init__(self)
+        self.users = users
+        self.event = event
+        self.link = link
+
+    def run(self):
+        for u in self.users:
+            send_modification_notification_mail(self.event, u.email, self.link)
