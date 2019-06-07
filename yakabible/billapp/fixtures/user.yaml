@@ -206,14 +206,14 @@
   pk: 2
   fields:
     name: Admin
-    permissions: [17, 18, 19, 20, 25, 26, 27, 28, 21, 22, 23, 24, 29, 30, 31, 32,
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 33, 34, 35, 36, 37, 38,
+    permissions: [21, 22, 23, 24, 29, 30, 31, 32, 25, 26, 27, 28, 33, 34, 35, 36,
+      1, 2, 3, 4, 17, 18, 19, 20, 5, 6, 7, 8, 13, 14, 15, 16, 9, 10, 11, 12, 37, 38,
       39, 40]
 - model: auth.group
   pk: 3
   fields:
     name: Manager
-    permissions: [28, 21, 22, 23, 24, 29, 30, 31, 32, 1, 2, 3, 4, 9, 10, 11, 12]
+    permissions: [21, 22, 23, 24, 29, 30, 31, 32, 28, 1, 2, 3, 4, 9, 10, 11, 12]
 - model: auth.group
   pk: 4
   fields:
@@ -223,7 +223,7 @@
   pk: 1
   fields:
     password: pbkdf2_sha256$150000$a4GReaVU3j40$FhaBOyp9njIog8eT+IB8iOJ4zJuFtalZ3cQ+/K/a+w8=
-    last_login: 2019-05-12 14:24:39.005866+00:00
+    last_login: 2019-05-12 14:24:39.005866
     is_superuser: false
     username: Manager
     first_name: Sarah
@@ -231,14 +231,14 @@
     email: yakabible+manager@gmail.com
     is_staff: true
     is_active: true
-    date_joined: 2019-04-06 16:56:13+00:00
+    date_joined: 2019-04-06 16:56:13
     groups: [3]
     user_permissions: []
 - model: auth.user
   pk: 2
   fields:
     password: pbkdf2_sha256$150000$mYXlW45SaDJ6$fyWheFXC0yFtxSPMz0tDuKL3Xng9Jn429XRz1x7bIxk=
-    last_login: 2019-05-12 15:44:00.168803+00:00
+    last_login: 2019-06-07 10:26:03.679794
     is_superuser: true
     username: Admin
     first_name: admin
@@ -246,7 +246,7 @@
     email: yakabible+admin@gmail.com
     is_staff: true
     is_active: true
-    date_joined: 2019-04-06 15:40:38+00:00
+    date_joined: 2019-04-06 15:40:38
     groups: [2]
     user_permissions: []
 - model: auth.user
@@ -261,7 +261,7 @@
     email: yakabible+president_antre@gmail.com
     is_staff: false
     is_active: true
-    date_joined: 2019-04-06 16:10:06+00:00
+    date_joined: 2019-04-06 16:10:06
     groups: [4]
     user_permissions: []
 - model: auth.user
@@ -276,14 +276,14 @@
     email: yakabible+bureau_antre@gmail.com
     is_staff: false
     is_active: true
-    date_joined: 2019-04-06 16:49:38+00:00
+    date_joined: 2019-04-06 16:49:38
     groups: [4]
     user_permissions: []
 - model: auth.user
   pk: 5
   fields:
     password: pbkdf2_sha256$180000$M2b698v6t6JO$70OW47O5ZS3lBN7bJBmgaqrVW8Uunyx4fAC3+dHrMys=
-    last_login: 2019-04-11 12:08:52+00:00
+    last_login: 2019-04-11 12:08:52
     is_superuser: false
     username: Membre_Antre
     first_name: Pas
@@ -291,14 +291,14 @@
     email: yakabible+membre_antre@gmail.com
     is_staff: false
     is_active: true
-    date_joined: 2019-04-06 16:50:23+00:00
+    date_joined: 2019-04-06 16:50:23
     groups: [4]
     user_permissions: []
 - model: auth.user
   pk: 6
   fields:
     password: '!LExv1BeOtqTYXcfg8bPAP3yWdgzTvGQVwivS29kQ'
-    last_login: 2019-05-12 15:45:12.295117+00:00
+    last_login: 2019-05-12 15:45:12.295117
     is_superuser: false
     username: thomas.lupin
     first_name: Thomas
@@ -306,7 +306,7 @@
     email: thomas.lupin@epita.fr
     is_staff: false
     is_active: true
-    date_joined: 2019-05-07 20:10:40.608624+00:00
+    date_joined: 2019-05-07 20:10:40.608624
     groups: []
     user_permissions: []
 - model: social_django.usersocialauth

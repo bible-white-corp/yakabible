@@ -1,61 +1,62 @@
 - model: billapp.association
   pk: 1
   fields: {name: Antre, logo_path: assos/dhRHLsfMSsiUWcRo4Poh4H8dQM1a248j_antre.JPG,
-    email: antre@epita.fr, description: NOPE}
+    email: antre@epita.fr, description: NOPE, url: null}
 - model: billapp.association
   pk: 2
   fields: {name: Epitanime, logo_path: assos/TZNrWhS1CEJamadWVbg5r92HIauXBmvJ_epitanime.png,
-    email: epitanime@epita.fr, description: "c b1 l\xE9 anim"}
+    email: epitanime@epita.fr, description: "c b1 l\xE9 anim", url: null}
 - model: billapp.association
   pk: 3
   fields: {name: YAKA, logo_path: assos/uPzKHvzDoNs7GEx5VO2pKJTRY7DDSkUl_xAAtzmwSdhlX7nwV0vpBEHsyRjsuYRNk_maxresdefault.jpg,
-    email: YAKA@email.me, description: Yet Another Kind of Assistant}
+    email: YAKA@email.me, description: Yet Another Kind of Assistant, url: null}
 - model: billapp.association
   pk: 4
   fields: {name: EPTV, logo_path: assos/o8pHbbEyFrH9rN5VFFO3RPivs04P6omg_EPTV.jpg,
-    email: eptv@epita.fr, description: EPTV filme des trucs}
+    email: eptv@epita.fr, description: EPTV filme des trucs, url: null}
 - model: billapp.association
   pk: 5
   fields: {name: EpiMac, logo_path: assos/twGKsPZyFuTFcOsjR8L0gkHdI8YS8zEc_EpiMac.png,
-    email: mac@epita.fr, description: aPple thINk DiFFFFrent}
+    email: mac@epita.fr, description: aPple thINk DiFFFFrent, url: null}
 - model: billapp.association
   pk: 6
   fields: {name: Episport, logo_path: assos/b1TLbysOLPQd5KE80MSM3j5CyizgdxJJ_Episport.png,
     email: sport@epita.fr, description: "On fait du sport\r\nC'est bien le sport pour
-      rester en forme\r\n\r\nAllez a ForestHill"}
+      rester en forme\r\n\r\nAllez a ForestHill", url: null}
 - model: billapp.association
   pk: 7
   fields: {name: Prologin, logo_path: assos/gMvRz32t5iJ4H9W4Yfiq4iL9WoAIy4kR_Prologin.jpg,
     email: prologin@epita.fr, description: Tout le monde en parle mais je sais toujours
-      pas ce qu'ils font}
+      pas ce qu'ils font, url: null}
 - model: billapp.association
   pk: 8
   fields: {name: LATEB, logo_path: assos/7DcGLxJb8CxKWkUuVKO7zXQZ016giSnK_LATEB.jpg,
-    email: lateb@bierre.epita.fr, description: Lateb et la bierre}
+    email: lateb@bierre.epita.fr, description: Lateb et la bierre, url: null}
 - model: billapp.association
   pk: 9
   fields: {name: Epichess, logo_path: assos/w8c6MIL9X5ONWOvUIw6TE2RZqWmYfYg5_Epichess.jpg,
-    email: chess@project.yaka.fr, description: Le projet Chess arrive bientot !!}
+    email: chess@project.yaka.fr, description: Le projet Chess arrive bientot !!,
+    url: null}
 - model: billapp.association
   pk: 10
   fields: {name: Epistar, logo_path: assos/0UGjdimbviDciBHTNjW2Vi0QZ3Xp0tcD_EpiStar.png,
-    email: star@star.fr, description: "Regardons les \xE9toiles ensemble"}
+    email: star@star.fr, description: "Regardons les \xE9toiles ensemble", url: null}
 - model: billapp.event
   pk: 2
   fields: {title: Antre-Jeux, description: Lol salut, association: 1, manager: 3,
-    premium: true, begin: ! '2019-04-10 16:24:14+00:00', end: ! '2019-04-12 16:24:17+00:00',
-    begin_register: ! '2019-04-07 16:24:23+00:00', end_register: ! '2019-04-09 16:25:36+00:00',
-    place: KB, price_ionis: 2.5, price: 3.0, ext_capacity: 10, int_capacity: 10, staff_capacity: 10,
-    promotion_image_path: promo_2/antre.jpg, validation_state: 1, request_for_approval: true,
-    show_capacity: false}
+    premium: true, begin: ! '2019-07-01 00:00:00', end: ! '2019-07-07 18:00:00', begin_register: ! '2019-06-01
+      00:00:00', end_register: ! '2019-06-30 18:00:00', place: Epita Kremelin Bicetre,
+    price_ionis: '2.50', price: '3.47', ext_capacity: 10, int_capacity: 10, staff_capacity: 10,
+    promotion_image_path: promo_2/antre.jpg, validation_state: 4, request_for_approval: false,
+    show_capacity: true}
 - model: billapp.event
   pk: 3
   fields: {title: Five Minutes Dungeon, description: Entre deux exams, association: 1,
-    manager: 2, premium: false, begin: ! '2019-05-09 19:00:00+00:00', end: ! '2019-05-10
-      19:05:00+00:00', begin_register: ! '2019-05-04 14:40:00+00:00', end_register: ! '2019-05-06
-      19:00:00+00:00', place: KB, price_ionis: 2.0, price: 5.0, ext_capacity: 2, int_capacity: 5,
+    manager: 2, premium: false, begin: ! '2019-07-20 19:00:00', end: ! '2019-07-20
+      19:15:00', begin_register: ! '2019-07-20 14:40:00', end_register: ! '2019-07-20
+      19:00:00', place: KB, price_ionis: '0.00', price: '5.00', ext_capacity: 2, int_capacity: 5,
     staff_capacity: 0, promotion_image_path: promo/FTKzUA2qvQruun0uskJuXqCKdnXFsICn_56590de2b9b48d478252dac7fdf7cd55_original.jpg,
-    validation_state: 1, request_for_approval: true, show_capacity: false}
+    validation_state: 1, request_for_approval: true, show_capacity: true}
 - model: billapp.event
   pk: 5
   fields: {title: Convention Epitanime, description: "La convention Epitanime (anciennement
@@ -63,36 +64,28 @@
       sur la Japanimation. Elle se d\xE9roule tous les ans vers la fin du mois de
       mai dans les locaux du campus IONIS au Kremlin-Bic\xEAtre. Cette convention
       est organis\xE9e par l'association Epitanime. \r\nWikipedia lol", association: 2,
-    manager: 2, premium: true, begin: ! '2019-05-10 16:00:00+00:00', end: ! '2019-05-12
-      23:59:59+00:00', begin_register: ! '2019-05-01 00:00:00+00:00', end_register: ! '2019-05-10
-      18:00:00+00:00', place: "14 - 16 rue Voltaire, Le Kremlin-Bic\xEAtre", price_ionis: 0.0,
-    price: 5.0, ext_capacity: 100, int_capacity: 200, staff_capacity: 100, promotion_image_path: promo/Zmtd7qc0rS5FBIPkdnmVCryMumHcq1fL_161230_epitanime2017.jpg,
-    validation_state: 4, request_for_approval: true, show_capacity: false}
+    manager: 2, premium: true, begin: ! '2019-07-11 18:00:00', end: ! '2019-07-14
+      23:59:59', begin_register: ! '2019-06-07 00:00:00', end_register: ! '2019-07-11
+      18:00:00', place: "14 - 16 rue Voltaire, Le Kremlin-Bic\xEAtre", price_ionis: '5.00',
+    price: '15.00', ext_capacity: 100, int_capacity: 200, staff_capacity: 100, promotion_image_path: promo/Zmtd7qc0rS5FBIPkdnmVCryMumHcq1fL_161230_epitanime2017.jpg,
+    validation_state: 4, request_for_approval: true, show_capacity: true}
 - model: billapp.event
   pk: 6
   fields: {title: Coaching, description: Toute la BWC est conviee a une seance de
       coaching yaka*, association: 3, manager: 1, premium: false, begin: ! '2019-05-04
-      18:45:00+00:00', end: ! '2019-05-04 19:15:00+00:00', begin_register: ! '2019-05-03
-      22:19:15+00:00', end_register: ! '2019-05-04 00:00:00+00:00', place: Kremlin
-      Bicetre, price_ionis: -1.0, price: 0.0, ext_capacity: 0, int_capacity: 4, staff_capacity: 1,
-    promotion_image_path: promo/1ZzCe2NwCZzDDdu8h8qs3QGZQHNxKh4y_uPzKHvzDoNs7GEx5VO2pKJTRY7DDSkUl_xAAtzmwSdhlX7nwV_GVOAFUi.jpg,
+      18:45:00', end: ! '2019-05-04 19:15:00', begin_register: ! '2019-05-03 22:19:15',
+    end_register: ! '2019-05-04 00:00:00', place: Kremlin Bicetre, price_ionis: '-1.00',
+    price: '0.00', ext_capacity: 0, int_capacity: 4, staff_capacity: 1, promotion_image_path: promo/1ZzCe2NwCZzDDdu8h8qs3QGZQHNxKh4y_uPzKHvzDoNs7GEx5VO2pKJTRY7DDSkUl_xAAtzmwSdhlX7nwV_GVOAFUi.jpg,
     validation_state: 4, request_for_approval: true, show_capacity: false}
 - model: billapp.event
   pk: 7
   fields: {title: "D\xE9gustation de bi\xE8re", description: "Venez boire des bi\xE8res
-      dans l'under !", association: 8, manager: 2, premium: false, begin: ! '2019-05-23
-      06:00:00+00:00', end: ! '2019-05-23 18:00:00+00:00', begin_register: ! '2019-05-04
-      11:34:33+00:00', end_register: ! '2019-05-23 11:34:33+00:00', place: Epita Kremelin
-      Bicetre (Under), price_ionis: 0.0, price: 1.0, ext_capacity: 0, int_capacity: 10,
-    staff_capacity: 5, promotion_image_path: promo/rGndBoiFsNvWg2PRoviODaylofw6ZvLH_logotxt.png,
-    validation_state: 1, request_for_approval: false, show_capacity: true}
-- model: billapp.event
-  pk: 11
-  fields: {title: testvalid, description: a, association: 2, manager: 1, premium: false,
-    begin: ! '2019-05-22 22:00:00+00:00', end: ! '2019-05-24 22:00:00+00:00', begin_register: ! '2019-04-30
-      22:00:00+00:00', end_register: ! '2019-05-23 22:00:00+00:00', place: a, price_ionis: 1.0,
-    price: 1.0, ext_capacity: 1, int_capacity: 1, staff_capacity: 0, promotion_image_path: promo/13L1H8hsEdro5J6nRSiGLyO12BMgTxIe_wall1.png,
-    validation_state: 3, request_for_approval: true, show_capacity: false}
+      dans l'under !", association: 8, manager: 2, premium: false, begin: ! '2019-06-28
+      06:00:00', end: ! '2019-06-28 18:00:00', begin_register: ! '2019-06-08 00:00:00',
+    end_register: ! '2019-06-28 06:00:00', place: Epita Kremelin Bicetre (Under),
+    price_ionis: '0.00', price: '0.00', ext_capacity: 0, int_capacity: 10, staff_capacity: 5,
+    promotion_image_path: promo/rGndBoiFsNvWg2PRoviODaylofw6ZvLH_logotxt.png, validation_state: 4,
+    request_for_approval: false, show_capacity: true}
 - model: billapp.associationuser
   pk: 1
   fields: {user: 3, association: 1, role: 2}
@@ -113,34 +106,31 @@
   fields: {user: 6, association: 1, role: 0}
 - model: billapp.ticket
   pk: 2
-  fields: {user: 2, event: 3, category: false, ionis: false, state: 1}
+  fields: {user: 2, event: 3, category: false, ionis: false, association: null, state: 1}
 - model: billapp.ticket
   pk: 3
-  fields: {user: 4, event: 5, category: false, ionis: true, state: 0}
+  fields: {user: 4, event: 5, category: false, ionis: true, association: null, state: 0}
 - model: billapp.ticket
   pk: 4
-  fields: {user: 2, event: 5, category: false, ionis: false, state: 0}
+  fields: {user: 2, event: 5, category: true, ionis: true, association: null, state: 0}
 - model: billapp.ticket
   pk: 5
-  fields: {user: 1, event: 3, category: false, ionis: true, state: 1}
+  fields: {user: 1, event: 3, category: false, ionis: true, association: null, state: 1}
 - model: billapp.ticket
   pk: 6
-  fields: {user: 5, event: 2, category: false, ionis: false, state: 1}
+  fields: {user: 5, event: 2, category: false, ionis: false, association: null, state: 1}
 - model: billapp.ticket
   pk: 7
-  fields: {user: 2, event: 2, category: false, ionis: false, state: 1}
+  fields: {user: 2, event: 2, category: false, ionis: false, association: null, state: 1}
 - model: billapp.ticket
   pk: 8
-  fields: {user: 5, event: 5, category: false, ionis: false, state: 0}
+  fields: {user: 5, event: 5, category: false, ionis: false, association: null, state: 0}
 - model: billapp.ticket
   pk: 9
-  fields: {user: 5, event: 3, category: false, ionis: false, state: 0}
+  fields: {user: 5, event: 3, category: false, ionis: false, association: null, state: 0}
 - model: billapp.ticket
   pk: 10
-  fields: {user: 6, event: 5, category: false, ionis: true, state: 0}
+  fields: {user: 6, event: 5, category: false, ionis: true, association: null, state: 0}
 - model: billapp.ticket
   pk: 11
-  fields: {user: 6, event: 7, category: false, ionis: true, state: 0}
-- model: billapp.eventstaffcapacity
-  pk: 2
-  fields: {event: 11, association: 1, capacity: 1}
+  fields: {user: 6, event: 7, category: false, ionis: true, association: null, state: 0}
