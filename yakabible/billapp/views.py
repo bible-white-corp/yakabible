@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
@@ -77,6 +77,8 @@ class EventEdit(generic.View):
 
     def get(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
+        if request.user != event.manager:
+            return HttpResponseForbidden()
         event_form = get_form_from_event(event)
         staff_form = get_staff_form_from_event(event)
         return render(request, self.template_name, {'event': event,
@@ -86,6 +88,8 @@ class EventEdit(generic.View):
 
     def post(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
+        if request.user != event.manager:
+            return HttpResponseForbidden()
         event_form = Event_Form(request.POST, request.FILES)
         staff_form = Staff_Form_Set(request.POST)
 

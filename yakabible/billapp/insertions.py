@@ -80,12 +80,26 @@ def update_event(user, form, staff_form, event):
         return False
     notify_president = False
     notify_adm = False
+
+    if event.price != form.cleaned_data['price'] or event.price_ionis != form.cleaned_data['price_ionis']:
+        notify_president = True
+    if event.title != form.cleaned_data['title']\
+            or event.begin != form.cleaned_data['begin']\
+            or event.end != form.cleaned_data['end']\
+            or event.begin_register != form.cleaned_data['price_ionis']\
+            or event.end_register != form.cleaned_data['end_register']\
+            or event.place != form.cleaned_data['place']\
+            or event.int_capacity != form.cleaned_data['int_capacity']\
+            or event.ext_capacity != form.cleaned_data['ext_capacity']:
+        notify_president = True
+        notify_adm = True
+
     Event.objects.filter(pk=event.pk).update(
             title = form.cleaned_data['title'],
             description = form.cleaned_data['description'],
             association = event.association,
-            manager = user,
-            premium = False,
+            manager = event.manager,
+            premium = event.premium,
             begin = form.cleaned_data['begin'],
             end = form.cleaned_data['end'],
             begin_register = form.cleaned_data['begin_register'],
@@ -95,16 +109,25 @@ def update_event(user, form, staff_form, event):
             price = form.cleaned_data['price'],
             ext_capacity = form.cleaned_data['ext_capacity'],
             int_capacity = form.cleaned_data['int_capacity'],
-            staff_capacity = 0,
+            staff_capacity = 0, # Unused
             promotion_image_path = form.cleaned_data['promotion_image_path'],
-            validation_state = 1,
-            request_for_approval=False,
+            validation_state = event.validation_state,
+            request_for_approval=event.request_for_approval,
             show_capacity = form.cleaned_data['show_capacity']
             )
-    """
-    if event.title != event_form.cleaned_data['title']:
-        notify_president = True, etc
-    """
+
+
+    # Notify all sub users
+    users = event.ticket_set.user
+
+    # Notify ADM
+    if notify_adm:
+        pass
+
+    # Notify President
+    if notify_president:
+        pass
+
     return True
 
 
