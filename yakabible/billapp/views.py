@@ -26,7 +26,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 
 class IndexView(generic.ListView):
     """
-    View de la page d'accueil
+    View for the index page.
     """
     template_name = "billapp/index.html"
     model = Event
@@ -39,7 +39,7 @@ class IndexView(generic.ListView):
 
 class CreateEvView(generic.View):
     """
-    View pour créer un événement
+    View of the creation page of events.
     """
     template_name = "billapp/create_event.html"
     success_url = "/?valid"
@@ -73,6 +73,9 @@ class CreateEvView(generic.View):
 
 
 class EventEdit(generic.View):
+    """
+    View of the modification of an event.
+    """
     template_name = "billapp/create_event.html"
 
     def get(self, request, pk):
@@ -108,7 +111,7 @@ class EventEdit(generic.View):
 
 class ConnectionView(generic.TemplateView):
     """
-    View de la page de login
+    View of the login page.
     """
     template_name = 'billapp/connection.html'
 
@@ -132,7 +135,7 @@ class ConnectionView(generic.TemplateView):
 
 class RegistrationView(UserPassesTestMixin, generic.TemplateView):
     """
-    View de la page d'inscription au site avec formulaire
+    View of the registration page for new users.
     """
     template_name = 'billapp/registration.html'
 
@@ -161,7 +164,7 @@ class RegistrationView(UserPassesTestMixin, generic.TemplateView):
 
 class EventView(generic.DetailView):
     """
-    View de la description d'un événement
+    View of an event.
     """
     template_name = 'billapp/event.html'
     model = Event
@@ -174,7 +177,7 @@ class EventView(generic.DetailView):
 
 class EventStaffView(generic.DetailView):
     """
-    View de linkage staff d'un événement
+    Sub-view of events to manage staff.
     """
     template_name = 'billapp/event_staff_link.html'
     model = Event
@@ -187,7 +190,7 @@ class EventStaffView(generic.DetailView):
 
 class AssociationView(generic.DetailView):
     """
-    View de la description d'une association
+    View of the association page.
     """
     model = Association
     template_name = 'billapp/association.html'
@@ -195,7 +198,7 @@ class AssociationView(generic.DetailView):
 
 class DashboardAssociationView(UserPassesTestMixin, generic.DetailView):
     """
-    View du dashboard d'association
+    View of the dashboard of the association.
     """
     model = Association
     template_name = 'billapp/dashboard_association.html'
@@ -214,7 +217,7 @@ class DashboardAssociationView(UserPassesTestMixin, generic.DetailView):
 @in_asso_super_required
 def AddUserAssosView(request, pk):
     """
-    View pour ajouter un user a l'asso
+    Sub-view of the dashboard association to add users to the association.
     """
     assos = get_object_or_404(Association, pk=pk)
     adduser = AddUserAssosFrom(request.POST)
@@ -227,7 +230,7 @@ def AddUserAssosView(request, pk):
 
 def AddStaffEventView(request, pk, user_pk, asso_pk):
     """
-    View pour ajouter staff à un event
+    Sub-view of events to add staff to the event.
     """
     event = get_object_or_404(Event, pk=pk)
     user = get_object_or_404(User, pk=user_pk)
@@ -241,7 +244,7 @@ def AddStaffEventView(request, pk, user_pk, asso_pk):
 
 def DelStaffEventView(request, pk):
     """
-    View pour enlever staff à un event
+    Sub-view of events to remove staff from the event.
     """
     ticket = get_object_or_404(Ticket, pk=pk)
     asso = ticket.association
@@ -253,7 +256,7 @@ def DelStaffEventView(request, pk):
 @in_asso_super_required
 def UpdateUserAssosView(request, pk):
     """
-    View pour changer le role ou supprimer un user d'une asso
+    Sub-view of the association dashboard to manage users in the association.
     """
     assos = get_object_or_404(Association, pk=pk)
     user_assos = get_object_or_404(AssociationUser, pk=request.GET.get('user'))
@@ -273,7 +276,7 @@ def UpdateUserAssosView(request, pk):
 
 class DashboardRespoView(GroupRequiredMixin, generic.TemplateView):
     """
-    View du dashboard du responsable des associations
+    View of the admin manager dashboard.
     """
     group_required = [u'Manager', u'Admin']
     template_name = 'billapp/dashboard_respo.html'
@@ -312,7 +315,7 @@ def Profile_redir(request):
 
 class ProfileView(generic.DetailView):
     """
-    View d'une page utilisateur
+    View of the user profile.
     """
     model = User
     context_object_name = 'obj'
@@ -321,6 +324,9 @@ class ProfileView(generic.DetailView):
 
 @login_required
 def TicketDownload(request, pk):
+    """
+    Return the ticket of the user
+    """
     ticket = get_object_or_404(Ticket, pk=pk)
     if ticket.user != request.user:
         return HttpResponseNotFound("Ticket not found")
@@ -329,6 +335,9 @@ def TicketDownload(request, pk):
 
 @login_required
 def RegEventSuccessView(request, pk):
+    """
+    Generate the ticket et send the mails after the user registered to an event
+    """
     ticket = get_object_or_404(Ticket, pk=pk)
     pdf = make_pdf(ticket)
     send_pdf_mail(ticket, pdf)
@@ -364,6 +373,10 @@ def ask_approval(request, pk):
 
 @login_required
 def RegEventView(request, pk):
+    """
+    View to register to an event
+    Handles when the user is already register0
+    """
     e = get_object_or_404(Event, pk=pk)
     try:
         tmp_t = Ticket.objects.get(user=request.user, event=e)
@@ -390,7 +403,7 @@ def RegEventView(request, pk):
 def DeleteAssociation(request, pk):
     """
     View to delete an association
-    You should acces it from respo dashboard
+    You should access it from respo dashboard.
     """
     association = Association.objects.get(pk=pk)
     association.delete()
@@ -400,7 +413,7 @@ def DeleteAssociation(request, pk):
 
 class AssociationListView(generic.ListView):
     """
-    View de la liste des associaitons
+    View of the list of associations.
     """
     template_name = "billapp/association_list.html"
     model = Association
@@ -414,7 +427,7 @@ class AssociationListView(generic.ListView):
 
 class EventsListView(generic.ListView):
     """
-    View de la liste des événements
+    View of the list of scheduled events.
     """
     template_name = "billapp/events_list.html"
     model = Event
@@ -431,7 +444,7 @@ class EventsListView(generic.ListView):
 
 class ApprovingListView(generic.ListView):
     """
-    View de la liste des événements en attente d'approbation
+    View of the list of events needing approval.
     """
     template_name = "billapp/approving_events_list.html"
     model = Event
@@ -452,7 +465,7 @@ class EventRealtime(generic.DetailView):
 @csrf_exempt
 def payment_done(request):
     """
-    View de redirection Paypal, quand le paiemenet a été effectué
+    Redirection view when paypal succeeded.
     """
     return render(request, 'payment/done.html')
 
@@ -460,17 +473,15 @@ def payment_done(request):
 @csrf_exempt
 def payment_canceled(request):
     """
-    View de redirection Paypal, quand le paiemenet a échoué
+    Redirection view when paypal failed.
     """
     return render(request, 'payment/canceled.html')
 
 
 def payment_process(request, pk):
     """
-    View qui génère la page du bouton Paypal "Buy now"
-    avec un formulaire contenant toutes les informations
-    nécessaires à Paypal pour effectuer le paiement et
-    rediriger vers notre site
+    View for the generation of the "Buy Now" paypal button.
+    Also provides all of the data required by paypal.
     """
 
     e = get_object_or_404(Event, pk=pk)
@@ -507,7 +518,9 @@ def payment_process(request, pk):
 @login_required
 def ask_validation(request, pk):
     """
-    Verifie les autorisations et la cas possible, valide un evenement et envoie un mail au responsable + president
+    Procedure for the validation of an event. Checks if the user has the rights.
+    Updates the event to the corresponding state.
+    If both association and admin validated the event, upgrades it and send mails.
     """
     e = get_object_or_404(Event, pk=pk)
 
@@ -550,7 +563,8 @@ def ask_validation(request, pk):
 @login_required
 def ask_refusing(request, pk):
     """
-    Verifie les autorisations et la cas possible, refuse un evenement et envoie un mail au responsable + president
+    Procedure to refuse the event. Checks if the circumstances allow the refusal.
+    Changes the status of the event and sends the mails.
     """
     e = get_object_or_404(Event, pk=pk)
 
@@ -584,6 +598,9 @@ def ask_refusing(request, pk):
 
 
 def NotifyOff(request):
+    """
+    Disables notification indicating that the user should inspect events for the whole session.
+    """
     request.session["noNotify1"] = True
     return HttpResponse('ok')
 

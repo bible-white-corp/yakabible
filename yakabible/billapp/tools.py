@@ -22,6 +22,11 @@ from icalendar import Calendar, Event
 
 
 def make_qrcode(ticket):
+    """
+    Generates the QRCode.
+    :param ticket: ticket of the current user
+    :return: image object of the QRCode
+    """
     q = qrcode.QRCode()
     q.add_data(ticket.user.username + '\n')
     q.add_data(str(ticket.event.pk) + '\n')
@@ -60,6 +65,11 @@ def get_ticket_type(ticket):
 
 
 def make_pdf(ticket):
+    """
+    Generates the pdf ticket of the current user.
+    :param ticket: ticket object of the current user.
+    :return: a pdf object
+    """
     association = ticket.event.association
     buffer = BytesIO()
     img = make_qrcode(ticket)
@@ -268,6 +278,12 @@ def send_refusing_mail(ev, adm, is_prez, description, path):
 
 
 def make_pdf_response(ticket, pdf=None):
+    """
+    Prepare pdf for browser download.
+    :param ticket: ticket of the user/event.
+    :param pdf: pdf object generated from the ticket
+    :return: the http response for download.
+    """
     if pdf is None:
         pdf = make_pdf(ticket)
 
@@ -284,6 +300,11 @@ def transform_date(date_field):
 
 
 def get_form_from_event(event):
+    """
+    Re-create form creation event.
+    :param event: the event object
+    :return: the form created
+    """
     form = Event_Form(initial={
         "title": event.title,
         "description": event.description,
@@ -303,6 +324,11 @@ def get_form_from_event(event):
 
 
 def get_staff_form_from_event(event):
+    """
+    Re-create form for the staff of an event
+    :param event: concerned events.
+    :return: the form created.
+    """
     staffs = EventStaffCapacity.objects.filter(event=event)
 
     list_form = []

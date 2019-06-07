@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 def in_asso_required(function):
     """
-    Décorateur de view qui renvoie 403 si l'utilisateur n'est pas dans l'assos
+    Decorator for view that 403 if users not in association
     """
     def wrap(obj, *args, **kwargs):
         asso = Association.objects.get(pk=kwargs['pk'])
@@ -23,7 +23,7 @@ def in_asso_required(function):
 
 def in_asso_super_required(function):
     """
-    Décorateur de view qui renvoie 403 si l'utilisateur n'est pas au minimum membre de bureau
+    Decorator for view that 403 if users not bureau's member at least
     """
     def wrap(obj, *args, **kwargs):
         asso = Association.objects.get(pk=kwargs['pk'])
@@ -37,8 +37,7 @@ def in_asso_super_required(function):
 
 def group_required(*group_names):
     """
-    Decorateur pour vérifier l'apartenance à l'un des groupes donnés
-    en paramètre.
+    Decorator to check is users at least in groups
     """
     def in_groups(u):
         print(u)
