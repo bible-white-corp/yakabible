@@ -11,7 +11,6 @@ from .tools import *
 
 from billapp.insertions import insert_ticket
 from billapp.models import Event, Ticket
-from billapp.tools import is_ionis
 
 
 @receiver(valid_ipn_received)

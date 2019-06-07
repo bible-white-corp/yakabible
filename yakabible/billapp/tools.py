@@ -51,6 +51,14 @@ def make_ics(ticket):
     return cal
 
 
+def get_ticket_type(ticket):
+    if ticket.category:
+        return "Staff"
+    elif ticket.ionis:
+        return "Interne"
+    return "Externe"
+
+
 def make_pdf(ticket):
     association = ticket.event.association
     buffer = BytesIO()
@@ -86,7 +94,8 @@ def make_pdf(ticket):
     p.drawString(100, 540, 'Date: ' +
                  ticket.event.begin.strftime('%m/%d/%Y, %H:%M:%S'))
     p.drawString(100, 520, 'Lieu: ' + ticket.event.place)
-    p.drawString(100, 500, 'ID: ' + str(ticket.pk))
+    p.drawString(100, 500, 'Type de ticket: ' + get_ticket_type(ticket))
+    p.drawString(100, 480, 'ID: ' + str(ticket.pk))
     p.drawInlineImage(img, 100, 60)
 
     p.showPage()
@@ -268,10 +277,6 @@ def make_pdf_response(ticket, pdf=None):
 
     response.write(pdf)
     return response
-
-
-def is_ionis(user):
-    return re.match(r".*\.epita\.*", user.email)
 
 
 def transform_date(date_field):
