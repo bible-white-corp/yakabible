@@ -53,6 +53,7 @@ def TicketsJSON(request):
     for obj in tickets:
         json.append({
             'id': obj.pk,
+            'ionis': obj.ionis,
             'event': obj.event.pk,
             'username': obj.user.username,
             'firstname': obj.user.first_name,

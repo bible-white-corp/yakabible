@@ -51,6 +51,7 @@
             <thead>
             <tr>
                 <th scope="col">Ticket #</th>
+                <th scope="col">Type</th>
                 <th scope="col">Prénom Nom</th>
                 <th scope="col">Status</th>
                 <th scope="col">Changement</th>
@@ -59,7 +60,8 @@
             <tbody>
             {% for tick in object.ticket_set.all %}
                 <tr>
-                    <th scope="row">{{ tick.pk }}</th>
+                    <td scope="row">{{ tick.pk }}</td>
+                    <td scope="row">{% if tick.category %}Staff{% elif tick.ionis %}Interne{% else %}Externe{% endif %}</td>
                     <td>
                         <a href="{% url "profile" pk=tick.user.pk %}"></a>{{ tick.user.first_name }} {{ tick.user.last_name }}
                     </td>
