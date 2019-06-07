@@ -12,7 +12,6 @@
     {% unprepared event user as accessible %}
     {% if accessible %}
         Oops, vous ne pouvez pas acceder a cette page pour le moment.
-        <!-- #TODO faire une jolie page de refus-->
     {% else %}
         {% if "Rapproval" in request.GET %}
             {% if request.GET|is_Rapproval_success %}

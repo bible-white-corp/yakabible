@@ -354,15 +354,16 @@ def ask_approval(request, pk):
     """
     Try to send email to resp and president + set boolean request at true if success
     """
-    # TODO ajouter securite pour empecher l'access a cette fonction si utilisateur log + url direct
     e = get_object_or_404(Event, pk=pk)
     adm = User.objects.filter(groups__name="Manager")
+
     if not adm:
         adm = User.objects.filter(groups__name="Admin")
     if not adm:
         return HttpResponseRedirect('/?failure')
+
     path = request.build_absolute_uri().split('/ask_for_approval')[0]
-    res = send_approval_mail(e, adm[0], HttpResponseRedirect(path))
+    res = send_approval_mail(e, adm[0], path)
     if res:
         e.request_for_approval = True
         e.save()
