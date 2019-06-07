@@ -1,0 +1,24 @@
+{% extends 'emails/email-base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block main_block %}
+    <table class="w580" width="580" cellpadding="0" cellspacing="0" border="0">
+        <tbody>
+        <tr>
+            <td class="w580" width="580">
+                <h2 style="color:#0E7693; font-size:22px; padding-top:12px;">
+                    {{ title }} </h2>
+
+                <div align="left" class="article-content">
+                    <p>
+                        L'événement <a href={{ link }}>{{ event.title }}</a> a été modifié et requiert
+                        votre attention afin de pouvoir être re-validé.
+                    </p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="w580" width="580" height="1" bgcolor="#c7c5c5"></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

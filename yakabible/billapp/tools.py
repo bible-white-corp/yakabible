@@ -338,3 +338,24 @@ def get_staff_form_from_event(event):
 
     staff_form = Staff_Form_Set(initial=list_form)
     return staff_form
+
+def send_modification_mail(ev, president, adm, link):
+    """
+    Informs ADM and/or president if an event has changed and need to be approved.
+    """
+    dest = []
+    if president:
+        dest.append(president)
+    if adm:
+        dest.append(adm)
+    dest.append(ev.manager.email)
+
+    context = {'title': 'Événement modifié: ' + ev.title,
+               'link': link,
+               'event': ev,
+               }
+    text_bd = render_to_string("emails/email-modified-template.txt", context)
+    html_bd = render_to_string("emails/email-modified-template.html", context)
+    obj = '[VALIDATION][' + ev.association.name + '] Événement modifié: ' + ev.title
+
+    return send_mail(obj, text_bd, html_bd, dest)

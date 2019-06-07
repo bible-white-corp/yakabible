@@ -1,5 +1,8 @@
 from .models import *
+from .tools import send_modification_mail
 from .forms import Event_Form, Staff_Form, Staff_Form_Set
+from django.urls import reverse
+
 
 def insert_event(user, form, asso):
     e = Event(
@@ -74,7 +77,7 @@ def update_ticket(ticket, new_state):
     ticket.save()
     return ticket
 
-def update_event(user, form, staff_form, event):
+def update_event(request, form, staff_form, event):
     EventStaffCapacity.objects.filter(event=event).delete()
     if not insert_staff_capacity(staff_form, event):
         return False
@@ -120,13 +123,28 @@ def update_event(user, form, staff_form, event):
     # Notify all sub users
     # users = event.ticket_set.user
 
-    # Notify ADM
-    if notify_adm:
-        pass
-
-    # Notify President
-    if notify_president:
-        pass
+    # Notify ADM & president
+    if notify_adm or notify_president:
+        president = None
+        adm = None
+        if notify_president:
+            president = AssociationUser.objects\
+                .filter(role=2)\
+                .filter(association=event.association)[0]\
+                .user.email
+            print(president)
+            if event.validation_state == 4:
+                event.validation_state = 3
+            else:
+                event.validation_state = 1
+        if notify_adm:
+            adm = User.objects.filter(groups__name="Manager")
+            if not adm:
+                adm = User.objects.filter(groups_name="Admin")
+            event.validation_state = 1
+        event.save()
+        link = request.build_absolute_uri().split('/edit')[0]
+        return send_modification_mail(event, president, adm[0].email, link)
 
     return True
 

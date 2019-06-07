@@ -101,7 +101,7 @@ class EventEdit(generic.View):
             formset_dictionary_copy['form-TOTAL_FORMS'] = int(formset_dictionary_copy['form-TOTAL_FORMS']) + 1
             staff_form = Staff_Form_Set(formset_dictionary_copy)
         elif event_form.is_valid() and staff_form.is_valid():
-            if update_event(request.user, event_form, staff_form, event):
+            if update_event(request, event_form, staff_form, event):
                 return HttpResponseRedirect(reverse('event', args=[pk]))
         return render(request, self.template_name, {'modif': True,
                                                     'event': event,

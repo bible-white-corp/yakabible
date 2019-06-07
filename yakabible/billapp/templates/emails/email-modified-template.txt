@@ -1,0 +1,10 @@
+Billeterie EPITA
+
+L'événement {{ event.title }} a été modifié et requiert
+votre attention afin de pouvoir être re-validé.
+
+{{ link }}
+
+--
+Mail envoyé automatiquement par la billeterie EPITA,
+merci de ne pas y répondre.
