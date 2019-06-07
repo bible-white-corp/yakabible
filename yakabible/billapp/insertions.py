@@ -142,8 +142,11 @@ def update_event(request, form, staff_form, event):
         if notify_president:
             president = AssociationUser.objects\
                 .filter(role=2)\
-                .filter(association=event.association)[0]\
-                .user.email
+                .filter(association=event.association)
+            if president:
+                president = president[0].user.email
+            else:
+                president = None
             if event.validation_state == 4:
                 event.validation_state = 3
             else:
@@ -152,7 +155,8 @@ def update_event(request, form, staff_form, event):
             adm = User.objects.filter(groups__name="Manager")
             if not adm:
                 adm = User.objects.filter(groups_name="Admin")
-            adm = adm[0].email
+            if adm:
+                adm = adm[0].email
             event.validation_state = 1
         event.save()
         link = request.build_absolute_uri().split('/edit')[0]
