@@ -1,0 +1,4 @@
+[submodule "yakabible_app"]
+	path = yakabible_app
+	url = git@github.com:Thetoto/yakabible_app.git
+	branch = master
