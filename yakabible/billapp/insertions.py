@@ -97,6 +97,11 @@ def update_event(request, form, staff_form, event):
         notify_president = True
         notify_adm = True
 
+    # Keep image if no new image
+    image = form.cleaned_data['promotion_image_path']
+    if image is None or image == "":
+        image = event.promotion_image_path
+
     Event.objects.filter(pk=event.pk).update(
             title = form.cleaned_data['title'],
             description = form.cleaned_data['description'],
@@ -113,7 +118,7 @@ def update_event(request, form, staff_form, event):
             ext_capacity = form.cleaned_data['ext_capacity'],
             int_capacity = form.cleaned_data['int_capacity'],
             staff_capacity = 0, # Unused
-            promotion_image_path = form.cleaned_data['promotion_image_path'],
+            promotion_image_path = image,
             validation_state = event.validation_state,
             request_for_approval=event.request_for_approval,
             show_capacity = form.cleaned_data['show_capacity']
