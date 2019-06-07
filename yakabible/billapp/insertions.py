@@ -81,6 +81,7 @@ def update_event(request, form, staff_form, event):
     EventStaffCapacity.objects.filter(event=event).delete()
     if not insert_staff_capacity(staff_form, event):
         return False
+
     notify_president = False
     notify_adm = False
 
@@ -102,27 +103,26 @@ def update_event(request, form, staff_form, event):
     if image is None or image == "":
         image = event.promotion_image_path
 
-    Event.objects.filter(pk=event.pk).update(
-            title = form.cleaned_data['title'],
-            description = form.cleaned_data['description'],
-            association = event.association,
-            manager = event.manager,
-            premium = event.premium,
-            begin = form.cleaned_data['begin'],
-            end = form.cleaned_data['end'],
-            begin_register = form.cleaned_data['begin_register'],
-            end_register = form.cleaned_data['end_register'],
-            place = form.cleaned_data['place'],
-            price_ionis = form.cleaned_data['price_ionis'],
-            price = form.cleaned_data['price'],
-            ext_capacity = form.cleaned_data['ext_capacity'],
-            int_capacity = form.cleaned_data['int_capacity'],
-            staff_capacity = 0, # Unused
-            promotion_image_path = image,
-            validation_state = event.validation_state,
-            request_for_approval=event.request_for_approval,
-            show_capacity = form.cleaned_data['show_capacity']
-            )
+    event.title = form.cleaned_data['title']
+    event.description = form.cleaned_data['description']
+    event.association = event.association
+    event.manager = event.manager
+    event.premium = event.premium
+    event.begin = form.cleaned_data['begin']
+    event.end = form.cleaned_data['end']
+    event.begin_register = form.cleaned_data['begin_register']
+    event.end_register = form.cleaned_data['end_register']
+    event.place = form.cleaned_data['place']
+    event.price_ionis = form.cleaned_data['price_ionis']
+    event.price = form.cleaned_data['price']
+    event.ext_capacity = form.cleaned_data['ext_capacity']
+    event.int_capacity = form.cleaned_data['int_capacity']
+    event.staff_capacity = 0 # Unused
+    event.promotion_image_path = image
+    event.validation_state = event.validation_state
+    event.request_for_approval = event.request_for_approval
+    event.show_capacity = form.cleaned_data['show_capacity']
+    event.save()
 
 
     # Notify all sub users
