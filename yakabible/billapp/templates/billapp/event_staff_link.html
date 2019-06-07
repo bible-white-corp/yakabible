@@ -9,8 +9,8 @@
 {% endblock title %}
 
 {% block content %}
-    {% can_add_staff event user as accessible %}
-    {% if accessible %}
+    {% can_add_staff event user as not_accessible %}
+    {% if not_accessible %}
         Oops, vous ne pouvez pas acceder a cette page pour le moment.
     {% else %}
         <div class="card mt-3">

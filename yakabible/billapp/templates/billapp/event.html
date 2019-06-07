@@ -132,6 +132,12 @@
                     <a href="{% url 'reg_event' pk=object.pk %}" class="mb-3 btn btn-secondary disabled" role="button">Inscriptions
                         closes</a>
                 {% endif %}
+                {% can_add_staff object user as not_accessible %}
+                {% if object|in_the_bound and not not_accessible and object.validation_state == 4 %}
+                <div>
+                    <a href="{% url 'event_staff' pk=object.pk %}" class="mb-3 btn btn-info" role="button">Staff management</a>
+                </div>
+                {% endif %}
                 <p>Organisé par : <a
                         href="{% url 'association' pk=object.association.pk %}">{{ object.association }}</a> (<a
                         href="{% url 'profile' pk=object.manager.pk %}">{{ object.manager }}</a>)
