@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tools %}
 {% block sup_head %}
     <link href={% static 'billapp/fullcalendar/core/main.css' %} rel='stylesheet' />
     <link href={% static 'billapp/fullcalendar/list/main.css' %} rel='stylesheet' />
@@ -59,7 +60,7 @@ Accueil
             {% else %}
             <div class="carousel-item">
             {% endif %}
-                <a href="{% url 'event'  pk=prem.pk %}"><img src={{ prem.promotion_image_path.url }} class="img-cover d-block w-100" alt="{{ prem.title }}"></a><!-- Affiche event -->
+                <a href="{% url 'event'  pk=prem.pk %}"><img src="{% if prem.promotion_image_path %}{{ prem.promotion_image_path|get_promotion_image }}{% else %}{% static "billapp/img/black-placeholder.jpg" %}{% endif %}" class="img-cover d-block w-100" alt="{{ prem.title }}"></a><!-- Affiche event -->
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ prem.title }}</h5> <!-- Nom event -->
                     <p>{{ prem.description }}</p>
