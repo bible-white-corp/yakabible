@@ -11,7 +11,7 @@
 
 {% block content %}
     {% user_in_assos_super request.user object as is_super %}
-    <h1 class="mt-2"> {{ object.name }} </h1>
+    <h1 class="mt-2"> <a href="{% url 'association' pk=object.pk %}">{{ object.name }}</a> </h1>
     <div class="card mt-3">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="DashassoTab" role="tablist">
@@ -134,12 +134,21 @@
                     </tbody>
                 </table>
                 {% if is_super %}
+                <form action="{% url 'update_website' pk=object.pk %}" class="container" method="post">
+                    <div class="form-row mt-3">
+                        <div class="col-lg-3 col-md-6">
+                            {{ form_website.input }}
+                        </div>
+                        <button class="btn btn-primary mb-3" type="submit">Modifier le site web</button>
+                    </div>
+                    {% csrf_token %}
+                </form>
                 <form action="{% url 'add_user_assos' pk=object.pk %}" class="container" method="post">
                     <div class="form-row mt-3">
                         <div class="col-lg-3 col-md-6">
                             {{ form_adduser.input }}
                         </div>
-                        <button class="btn btn-primary mb-3" type="submit">Valider</button>
+                        <button class="btn btn-primary mb-3" type="submit">Ajouter un membre</button>
                     </div>
                     {{ form_adduser.choices }}
                     {% csrf_token %}

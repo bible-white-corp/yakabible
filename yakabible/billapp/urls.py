@@ -33,6 +33,7 @@ urlpatterns = [
     path('assos/<int:pk>', views.AssociationView.as_view(), name='association'),
     path('assos/<int:pk>/delete', views.DeleteAssociation, name='del_asso'),
     path('assos/<int:pk>/dashboard', views.DashboardAssociationView.as_view(), name='dashboard_association'),
+    path('assos/<int:pk>/dashboard/update_website', views.update_website, name='update_website'),
     path('assos/<int:pk>/dashboard/add_user', views.AddUserAssosView, name='add_user_assos'),
     path('assos/<int:pk>/dashboard/update_user', views.UpdateUserAssosView, name='update_user_assos'),
     path('assos/<int:pk>/create_event', views.CreateEvView.as_view(), name='create_event'),

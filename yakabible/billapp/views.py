@@ -207,6 +207,7 @@ class DashboardAssociationView(UserPassesTestMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['form_adduser'] = AddUserAssosFrom()
         context['users'] = User.objects.all()
+        context['form_website'] = WebsiteUpdateForm(initial={"input": Association.objects.get(pk=self.kwargs['pk']).url})
         return context
 
 
@@ -581,13 +582,24 @@ def ask_refusing(request, pk):
         return redirect(path + '?deny=failure')
     return redirect(path + '?deny=success')
 
+
 def NotifyOff(request):
     request.session["noNotify1"] = True
     return HttpResponse('ok')
 
 
 def switch_premium(request, pk):
+    if not user_is_manager_or_admin(request.user):
+        return HttpResponseForbidden
     e = get_object_or_404(Event, pk=pk)
     e.premium = not e.premium
     e.save()
     return HttpResponseRedirect(reverse('event', args=[pk]))
+
+
+def update_website(request, pk):
+    a = get_object_or_404(Association, pk=pk)
+    if "input" in request.POST:
+        a.url = request.POST["input"]
+        a.save()
+    return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")

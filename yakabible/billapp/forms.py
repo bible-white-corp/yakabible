@@ -139,3 +139,8 @@ class Refusing_Form(forms.Form):
 class AddUserAssosFrom(forms.Form):
     input = forms.CharField(label='f_title', max_length=128,
                             widget=forms.TextInput(attrs={'class': 'form-control awesomplete'}))
+
+
+class WebsiteUpdateForm(forms.Form):
+    input = forms.CharField(label='f_website', max_length=128,
+                            widget=forms.TextInput(attrs={'class': 'form-control'}))
