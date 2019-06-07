@@ -61,8 +61,8 @@ Accueil
             {% endif %}
                 <a href="{% url 'event'  pk=prem.pk %}"><img src={{ prem.promotion_image_path.url }} class="img-cover d-block w-100" alt="{{ prem.title }}"></a><!-- Affiche event -->
                 <div class="carousel-caption d-none d-md-block">
-                    <h5></h5> <!-- Nom event -->
-                    <p></p>
+                    <h5>{{ prem.title }}</h5> <!-- Nom event -->
+                    <p>{{ prem.description }}</p>
                     <!-- Description event -->
                 </div>
             </div>
