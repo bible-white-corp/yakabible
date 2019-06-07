@@ -141,10 +141,11 @@ def update_event(request, form, staff_form, event):
             adm = User.objects.filter(groups__name="Manager")
             if not adm:
                 adm = User.objects.filter(groups_name="Admin")
+            adm = adm[0].email
             event.validation_state = 1
         event.save()
         link = request.build_absolute_uri().split('/edit')[0]
-        return send_modification_mail(event, president, adm[0].email, link)
+        return send_modification_mail(event, president, adm, link)
 
     return True
 
