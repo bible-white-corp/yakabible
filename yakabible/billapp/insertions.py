@@ -118,7 +118,7 @@ def update_event(user, form, staff_form, event):
 
 
     # Notify all sub users
-    users = event.ticket_set.user
+    # users = event.ticket_set.user
 
     # Notify ADM
     if notify_adm:

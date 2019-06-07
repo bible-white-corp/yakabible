@@ -92,7 +92,7 @@
                         <td>Pas de président</td>
                         {% endif %}
                         <td> {{ asso | get_number_of_member }} </td>
-                        <td> <a href="{% url 'del_asso' pk=asso.pk %}"> <button class="btn btn-danger">supprimer</button> </a> </td>
+                        <td> <a href="{% url 'del_asso' pk=asso.pk %}"> <button class="btn btn-danger">Supprimer</button> </a> </td>
                     </tr>
                 {% endfor %}
                 </tbody>
