@@ -261,11 +261,11 @@ def UpdateUserAssosView(request, pk):
     assos = get_object_or_404(Association, pk=pk)
     user_assos = get_object_or_404(AssociationUser, pk=request.GET.get('user'))
     new_role = request.GET.get('new_role')
-    if assos.pk is not user_assos.association.pk \
-            or (can_delete(request.user, assos, user_assos) is False and new_role == "delete") \
-            or user_is_manager_or_admin(request.user) \
-            or (new_role != "2" and asso_is_president(request.user, assos)):
-        raise Http404("Invalid request")
+    if not user_is_manager_or_admin(request.user):
+        if assos.pk is not user_assos.association.pk \
+                or (can_delete(request.user, assos, user_assos) is False and new_role == "delete") \
+                or (new_role != "2" and asso_is_president(request.user, assos)):
+            raise Http404("Invalid request")
     if new_role == "delete":
         user_assos.delete()
     else:

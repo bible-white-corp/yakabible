@@ -130,7 +130,7 @@ def update_event(request, form, staff_form, event):
     users = Ticket.objects\
         .filter(event=event)\
 
-    if (users):
+    if users:
         link = request.build_absolute_uri().split('/edit')[0]
         u_thread = NotifyVisitors(users, event, link)
         u_thread.start()
