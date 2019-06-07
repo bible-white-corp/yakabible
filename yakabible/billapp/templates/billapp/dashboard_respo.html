@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                         {% for event in Events %}
-                            {% if event.validation_state == 3%}
+                            {% if event.validation_state == 4 %}
                                 <tr>
                                     <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
                                     <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                         {% for event in Events %}
-                            {% if not event.validation_state == 3%}
+                            {% if not event.validation_state == 4 %}
                                 <tr>
                                     <td><a href="{% url 'event' pk=event.pk %}">{{ event.title }}</a></td>
                                     <td><a href="{% url 'profile' pk=event.manager.pk %}">{{ event.manager.username }}</a></td>
