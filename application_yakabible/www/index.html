@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>YakaBible</title>
+</head>
+
+<body>
+<nav class="stop">
+    <div class="nav-wrapper teal">
+        <a href="/" alt="Logo" class="brand-logo center">YakaBible</a>
+    </div>
+</nav>
+<div class="box">
+    <nav class="header">
+        <div class="nav-wrapper teal">
+            <a href="/" alt="Logo" class="brand-logo center">YakaBible</a>
+        </div>
+    </nav>
+    <div class="content container">
+        <div id="test-swipe-1" class="hh col s12 white">
+            <a class="waves-effect waves-light btn" id="update_events" onclick="download_all()">Mettre à jour</a>
+            <a class="waves-effect waves-light btn" id="clear_all" onclick="clear_all()">Tout supprimer</a>
+            <ul class="collapsible" id="list_event">
+            </ul>
+        </div>
+        <div id="test-swipe-2" class="hh col s12">
+        </div>
+        <div id="test-swipe-3" class="hh col s12 white">
+            <table>
+                <thead>
+                <tr>
+                    <th>Logs :</th>
+                </tr>
+                </thead>
+
+                <tbody id="logs_body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="footer">
+        <ul class="tabs">
+            <li class="tab col s3"><a href=""><i class="material-icons">add</i></a></li>
+            <li class="tab col s3"><a href=""><i class="material-icons">crop_free</i></a></li>
+            <li class="tab col s3"><a href=""><i class="material-icons">insert_comment</i></a></li>
+        </ul>
+    </div>
+</div>
+<ul id="tabs-swipe-demo" class="tabs">
+    <li class="tab col s3"><a class="active" href="#test-swipe-1"><i class="material-icons">add</i></a></li>
+    <li class="tab col s3"><a href="#test-swipe-2"><i class="material-icons">crop_free</i></a></li>
+    <li class="tab col s3"><a href="#test-swipe-3"><i class="material-icons">insert_comment</i></a></li>
+</ul>
+<div id="modal_scan" class="modal modal-fixed-footer bottom-sheet">
+    <div class="modal-content">
+        <h4>Status : <span id="m_state"></span></h4>
+        <div id="ticket_found" class="m_obj card light-green darken-2">
+            <div class="card-content black-text">
+                <p>Le ticket est valide.</p>
+            </div>
+        </div>
+        <div id="not_started" class="m_obj card red darken-4">
+            <div class="card-content black-text">
+                <p>Attention ! Cet événement n'a pas encore commencé !</p>
+            </div>
+        </div>
+        <div id="ticket_not_found" class="m_obj card red darken-4">
+            <div class="card-content black-text">
+                <p>Attention ! Ce ticket est introuvable ! Essayez de mettre à jour les données.</p>
+            </div>
+        </div>
+        <p>Ticket # : <span id="m_pk"></span></p>
+        <p>Prénom Nom : <span id="m_name"></span></p>
+        <p>Username : <span id="m_username"></span></p>
+        <p>Type de ticket : <span id="m_type"></span></p>
+        <p>Événement : <span id="m_event"></span></p>
+    </div>
+    <div class="modal-footer">
+        <a id="m_check_in" href="#!" class="m_obj modal-close waves-effect waves-green btn-flat">Check-in</a>
+        <a id="m_check_out" href="#!" class="m_obj modal-close waves-effect waves-green btn-flat">Check-out</a>
+        <a id="m_go_break" href="#!" class="m_obj modal-close waves-effect waves-green btn-flat">Part en pause</a>
+        <a id="m_go_back" href="#!" class="m_obj modal-close waves-effect waves-green btn-flat">Revient de pause</a>
+        <a id="m_cancel" href="#!" class="modal-close waves-effect waves-green btn-flat">Annuler</a>
+    </div>
+</div>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/dexie.js"></script>
+<script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>

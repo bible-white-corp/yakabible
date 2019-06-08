@@ -1,0 +1,33 @@
+{
+  "name": "YakaBible",
+  "displayName": "YakaBible",
+  "version": "1.0.0",
+  "description": "Application compagnon de YakaBible",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Bible White Corp.",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cordova-android": "^8.0.0",
+    "cordova-browser": "^6.0.0",
+    "cordova-plugin-qrscanner": "^3.0.1"
+  },
+  "devDependencies": {
+    "cordova-plugin-whitelist": "^1.3.3"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-qrscanner": {}
+    },
+    "platforms": [
+      "browser",
+      "android"
+    ]
+  }
+}

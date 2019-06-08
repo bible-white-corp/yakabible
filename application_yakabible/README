@@ -1,0 +1,10 @@
+Need Node.JS
+```
+# npm install
+
+# cordova platform add browser
+# cordova run browser (Launch in Chrome)
+
+# cordova platform add android
+# cordova run android (Build for android, need Android Studio)
+```
