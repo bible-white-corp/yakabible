@@ -13,8 +13,7 @@ from django.urls import reverse
 # Create your tests here.
 
 
-
-class JsonTestCase(TestCase):
+class IndexTestCase(TestCase):
     fixtures = ['user.yaml', 'billapp.yaml']
 
     def setUp(self):
@@ -27,6 +26,9 @@ class JsonTestCase(TestCase):
 
     def login(self, u, p):
         self.client.login(username=u, password=p)
+
+    def test_available(self):
+        self.get_request(reverse('index'))
 
     def test_unlogged(self):
         response = self.get_request(reverse('index'))
