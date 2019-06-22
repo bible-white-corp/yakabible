@@ -21,3 +21,6 @@ flake8_res.txt
 /application_yakabible/node_modules
 /application_yakabible/platforms
 /application_yakabible/plugins
+
+# collectstatic
+/yakabible/static/
