@@ -1,4 +1,5 @@
 if test "$1" = "pytest"; then
+    python yakabible/manage.py collectstatic
     pytest yakabible/ --cov=billapp > pytest_res.txt
     cat pytest_res.txt
     export PYTEST_RET="$?"
