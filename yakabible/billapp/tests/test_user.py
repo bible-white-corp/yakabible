@@ -35,3 +35,13 @@ class UserTestCase(TestCase):
         self.test_user_form()
         user = authenticate(username="login", password="password")
         self.assertNotEqual(user, None)
+
+    def test_connection_user_login_fail(self):
+        self.test_user_form()
+        user = authenticate(username="logi", password="password")
+        self.assertEqual(user, None)
+
+    def test_connection_user_pwd_fail(self):
+        self.test_user_form()
+        user = authenticate(username="login", password="assword")
+        self.assertEqual(user, None)
