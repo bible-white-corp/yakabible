@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    Profil
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Inscription validée !</h5>
+        <div class="container">
+            <p>Merci de valider votre email via l'email qui vous a été envoyé.</p>
+            <p>{{ object.email }}</p>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}

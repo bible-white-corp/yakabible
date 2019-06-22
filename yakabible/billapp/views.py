@@ -19,6 +19,7 @@ from .models import Event, Ticket
 from .insertions import *
 from .tools import *
 from .decorators import *
+from django.contrib.auth.models import Group
 
 from decimal import Decimal
 from django.conf import settings
@@ -127,12 +128,23 @@ class ConnectionView(generic.TemplateView):
                                 username=form.cleaned_data['username'],
                                 password=form.cleaned_data['password'])
             if user is not None:
+                if user.groups.filter(name="Locked").exists():
+                    return render(request, self.template_name, {'form': form,
+                                                                'error2': True})
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 if request.GET.get('next'):
                     return HttpResponseRedirect(request.GET.get('next'))
                 return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form,
                                                     'error': True})
+
+
+class AfterReg(generic.DetailView):
+    """
+    View of the modification of an event.
+    """
+    model = User
+    template_name = "billapp/after_reg.html"
 
 
 class RegistrationView(UserPassesTestMixin, generic.TemplateView):
@@ -157,9 +169,11 @@ class RegistrationView(UserPassesTestMixin, generic.TemplateView):
             except IntegrityError:
                 return render(request, self.template_name, {'form': form, 'errorAlreadyUsed': True})
 
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            group_locked = Group.objects.get(name='Locked')
+            group_locked.user_set.add(user)
+            #  login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             send_registration(user.first_name + ' ' + user.last_name, user.email)
-            return HttpResponseRedirect('/?valid')
+            return HttpResponseRedirect(reverse('after_reg', args=[user.pk]))
 
         return render(request, self.template_name, {'form': form, 'error': True})
 
@@ -624,3 +638,10 @@ def update_website(request, pk):
         a.url = request.POST["input"]
         a.save()
     return HttpResponseRedirect(reverse('dashboard_association', args=[pk]) + "#listuser")
+
+
+def unlock_user(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    group_locked = Group.objects.get(name='Locked')
+    group_locked.user_set.remove(user)
+    return HttpResponseRedirect(reverse("connection"))
