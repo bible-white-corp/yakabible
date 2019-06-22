@@ -21,8 +21,13 @@ class IndexTestCase(TestCase):
 
     def get_request(self, page):
         response = self.client.get(page)
-        assert response.status_code == 200
+        assert response.status_code == 200 or response.status_code == 302
         return response.content.decode("utf-8")
+
+    def get_full_request(self, page):
+        response = self.client.get(page)
+        assert response.status_code == 200 or response.status_code == 302
+        return response
 
     def login(self, u, p):
         self.client.login(username=u, password=p)
@@ -61,3 +66,18 @@ class IndexTestCase(TestCase):
         assert asso.name in response
         assert asso.description[:10] in response
         assert 'href="/assos/{}/dashboard"'.format(pk) in response
+
+    def test_delete_asso_unlogged(self):
+        response = self.get_full_request(reverse('del_asso', args=[1]))
+        assert 'connection' in response.url
+
+    def test_delete_asso_admin(self):
+        self.login("Admin", "admin")
+        asso = Association.objects.get(pk=1)
+        assert asso != None
+        response = self.get_full_request(reverse('del_asso', args=[1]))
+
+    def test_delete_asso_member(self):
+        self.login("Bureau_Antre", 'bureau_antre')
+        response = self.get_full_request(reverse('del_asso', args=[1]))
+        assert 'connection' in response.url
