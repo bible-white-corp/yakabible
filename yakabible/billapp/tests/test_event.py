@@ -24,6 +24,16 @@ class IndexTestCase(TestCase):
         assert response.status_code == 200
         return response.content.decode("utf-8")
 
+    def get_request_error(self, page):
+        response = self.client.get(page)
+        assert response.status_code != 200 and response.status_code != 302
+        return response.content.decode("utf-8")
+
+    def get_full_request(self, page):
+        response = self.client.get(page)
+        assert response.status_code == 200 or response.status_code == 302
+        return response
+
     def login(self, u, p):
         self.client.login(username=u, password=p)
 
@@ -74,3 +84,28 @@ class IndexTestCase(TestCase):
         assert event.description[:10] in response
         assert event.title in response
         assert event.manager.username in response
+
+    def test_unlogged_create_event_access(self):
+        response = self.get_full_request(reverse('create_event', args=[1]))
+        assert 'connection' in response.url
+
+    def test_admin_create_event_access(self):
+        self.login("Admin", "admin")
+        response = self.get_full_request(reverse('create_event', args=[1]))
+
+    def test_member_create_event_access(self):
+        self.login("Membre_Antre", 'membre_antre')
+        response = self.get_full_request(reverse('create_event', args=[1]))
+
+    def test_unlogged_validate_event_access(self):
+        response = self.get_full_request(reverse('validating', args=[2]))
+        assert 'connection' in response.url
+
+    def test_admin_validate_event_access(self):
+        self.login("Admin", "admin")
+        response = self.get_full_request(reverse('validating', args=[2]))
+
+    def test_member_validate_event_access(self):
+        self.login("Membre_Antre", 'membre_antre')
+        response = self.get_full_request(reverse('validating', args=[2]))
+        assert 'unauthorized' in response.url

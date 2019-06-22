@@ -48,6 +48,8 @@ class CreateEvView(generic.View):
 
     def get(self, request, pk):
         asso = get_object_or_404(Association, pk=pk)
+        if (not user_in_assos(request.user, asso)):
+            return HttpResponseRedirect('connection')
         event_form = Event_Form()
         staff_form = Staff_Form_Set()
         return render(request, self.template_name, {'asso': asso,
@@ -56,7 +58,10 @@ class CreateEvView(generic.View):
 
     def post(self, request, pk):
         asso = get_object_or_404(Association, pk=pk)
+
         event_form = Event_Form(request.POST, request.FILES)
+        if (not user_in_assos(request.user, asso)):
+            return HttpResponseRedirect('connection')
 
         staff_form = Staff_Form_Set(request.POST)
         if 'additems' in request.POST and request.POST["additems"] == 'true':
@@ -541,9 +546,6 @@ def ask_validation(request, pk):
     If both association and admin validated the event, upgrades it and send mails.
     """
     e = get_object_or_404(Event, pk=pk)
-
-    if e.validation_state == 4:
-        return HttpResponseRedirect('/?eventAlreadyValidated')
     status = e.association.associationuser_set.filter(user=request.user).filter(association=e.association)
     is_prez = status and status[0].role == 2
     is_adm = user_is_manager_or_admin(request.user)
@@ -554,6 +556,9 @@ def ask_validation(request, pk):
         return HttpResponseRedirect('/?authorizationAlreadyGiven')
     if is_prez and e.validation_state == 2:
         return HttpResponseRedirect('/?authorizationAlreadyGiven')
+
+    if e.validation_state == 4:
+        return HttpResponseRedirect('/?eventAlreadyValidated')
 
     adm = User.objects.filter(groups__name="Manager")
     if not adm:
