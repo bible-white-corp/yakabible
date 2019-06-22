@@ -8,6 +8,7 @@ from billapp.insertions import *
 from billapp.forms import *
 from django.urls import reverse
 
+
 # Create your tests here.
 
 class JsonTestCase(TestCase):

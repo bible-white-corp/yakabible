@@ -128,7 +128,7 @@ class ConnectionView(generic.TemplateView):
                                 password=form.cleaned_data['password'])
             if user is not None:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                if (request.GET.get('next')):
+                if request.GET.get('next'):
                     return HttpResponseRedirect(request.GET.get('next'))
                 return HttpResponseRedirect('/?valid')
         return render(request, self.template_name, {'form': form,
