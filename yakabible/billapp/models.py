@@ -2,11 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 
+
 def promo_image_path(instance, filename):
     return 'promo/{0}_{1}'.format(get_random_string(length=32), filename)
 
+
 def assos_image_path(instance, filename):
     return 'assos/{0}_{1}'.format(get_random_string(length=32), filename)
+
 
 class Association(models.Model):
     """
@@ -29,6 +32,7 @@ class Association(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Event(models.Model):
     """
@@ -100,6 +104,7 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+
 class AssociationUser(models.Model):
     """
     Model associating :model:`billapp.Association` à un :model:`django.contrib.auth.models.User`.
@@ -113,12 +118,14 @@ class AssociationUser(models.Model):
 
     # Integer for the role of the user in the association
     role = models.IntegerField()
-        # 0 = Member
-        # 1 = Bureau's member
-        # 2 = President
+
+    # 0 = Member
+    # 1 = Bureau's member
+    # 2 = President
 
     def __str__(self):
         return self.user.username + ' : ' + self.association.name + ' (' + str(self.role) + ')'
+
 
 class Ticket(models.Model):
     """
@@ -141,6 +148,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.user.username + ' (' + self.event.title + ')'
+
 
 class EventStaffCapacity(models.Model):
     """

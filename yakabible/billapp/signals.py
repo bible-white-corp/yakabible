@@ -42,9 +42,7 @@ def valid_ipn_handler(sender, **kwargs):
     pdf = make_pdf(t)
     send_pdf_mail(t, pdf)
 
-
     print("ARGENT RECU de " + user.username + " pour l'événement " + event.title)  # debug
-
 
 
 @receiver(invalid_ipn_received)
@@ -52,4 +50,3 @@ def invalid_ipn_handler(sender, **kwargs):
     print("\nERROR: IPN signal was treated as invalid by django-paypal:" +
           "\ninvoice;" + sender.invoice +
           "\ntxn_id: " + sender.txn_id + "\n", file=sys.stderr)
-

@@ -3,6 +3,8 @@ from billapp.models import *
 from django.contrib.auth import authenticate, login, logout
 from billapp.insertions import *
 from billapp.forms import *
+
+
 # Create your tests here.
 
 class UserTestCase(TestCase):

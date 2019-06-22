@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound, \
+    HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
@@ -133,6 +134,7 @@ class ConnectionView(generic.TemplateView):
         return render(request, self.template_name, {'form': form,
                                                     'error': True})
 
+
 class RegistrationView(UserPassesTestMixin, generic.TemplateView):
     """
     View of the registration page for new users.
@@ -210,7 +212,8 @@ class DashboardAssociationView(UserPassesTestMixin, generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['form_adduser'] = AddUserAssosFrom()
         context['users'] = User.objects.all()
-        context['form_website'] = WebsiteUpdateForm(initial={"input": Association.objects.get(pk=self.kwargs['pk']).url})
+        context['form_website'] = WebsiteUpdateForm(
+            initial={"input": Association.objects.get(pk=self.kwargs['pk']).url})
         return context
 
 
@@ -555,7 +558,7 @@ def ask_validation(request, pk):
 
     if e.validation_state == 4:
         if not send_validation_mail(e, adm, path):
-            return redirect( path + '?Mailing=failure')
+            return redirect(path + '?Mailing=failure')
         return redirect(path + '?Mailing=success')
 
     return redirect(path + '?Validation=success')

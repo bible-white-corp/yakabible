@@ -8,10 +8,12 @@ from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from .models import Event, Ticket
 
+
 def get_color(obj):
     if obj.premium:
         return '#b23939'
     return ''
+
 
 def EventsJSON(request):
     start = request.GET.get('start')
@@ -32,13 +34,14 @@ def EventsJSON(request):
             'title': obj.title,
             'start': obj.begin,
             'end': obj.end,
-            'url': reverse('event', args=[obj.pk]), # url of event/obj.pk
+            'url': reverse('event', args=[obj.pk]),  # url of event/obj.pk
             'description': obj.association.name,
             'color': get_color(obj)
         })
     res = JsonResponse(json, safe=False)
     res["Access-Control-Allow-Origin"] = "*"
     return res
+
 
 def TicketsJSON(request):
     event_id = request.GET.get('event')
@@ -64,6 +67,7 @@ def TicketsJSON(request):
     res = JsonResponse(json, safe=False)
     res["Access-Control-Allow-Origin"] = "*"
     return res
+
 
 def UpdateTicket(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)

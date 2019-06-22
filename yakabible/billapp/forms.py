@@ -3,6 +3,7 @@ from django.forms import formset_factory
 from .models import *
 import datetime
 
+
 class Event_Form(forms.Form):
     title = forms.CharField(label='f_title', max_length=128,
                             widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -26,7 +27,7 @@ class Event_Form(forms.Form):
     place = forms.CharField(label='f_place', max_length=128,
                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     price_ionis = forms.IntegerField(label='f_price_int',
-                                   widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}))
+                                     widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}))
     price = forms.FloatField(label='f_price_ext',
                              widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}))
     ext_capacity = forms.IntegerField(label='f_limit_ext', min_value=0, max_value=150,
@@ -92,7 +93,7 @@ class Asso_Form(forms.Form):
                                   widget=forms.Textarea(attrs={'class': 'form-control',
                                                                'rows': 5}))
     url = forms.CharField(label='f_url',
-                                  widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
+                          widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
 
 
 class Staff_Form(forms.Form):

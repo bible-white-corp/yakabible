@@ -34,6 +34,7 @@ def make_qrcode(ticket):
     q.add_data(ticket.user.email + '\n')
     return q.make_image()
 
+
 def make_ics(ticket):
     """
     Generate an ics object following RFC5455
@@ -42,10 +43,10 @@ def make_ics(ticket):
     """
     cal = Calendar()
     cal.add('version', '2.0')
-    cal.add('prodid','//BWC//BILLETERIE EPITA//FR')
+    cal.add('prodid', '//BWC//BILLETERIE EPITA//FR')
     event = Event()
     event.add('summary', ticket.event.title)
-    event.add('uid',datetime.datetime.now())
+    event.add('uid', datetime.datetime.now())
     event.add('dtstart', ticket.event.begin)
     event.add('dtstamp', datetime.datetime.now())
     event.add('dtend', ticket.event.end)
@@ -115,6 +116,7 @@ def make_pdf(ticket):
     buffer.close()
     return pdf
 
+
 def send_mail(obj, text_bd, html_bd, targets):
     """
     Generic function to send informational mail
@@ -129,13 +131,14 @@ def send_mail(obj, text_bd, html_bd, targets):
         body=text_bd
     )
     email.attach_alternative(html_bd, "text/html")
-    email.mixed_subtype='related'
+    email.mixed_subtype = 'related'
     fp = open(os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png'), 'rb')
     epita_logo = MIMEImage(fp.read())
     fp.close()
     epita_logo.add_header('Content-ID', '<{}>'.format('logo-epita.png'))
     email.attach(epita_logo)
     return email.send() == 1
+
 
 def send_pdf_mail(ticket, pdf=None):
     """
@@ -152,7 +155,7 @@ def send_pdf_mail(ticket, pdf=None):
 
     context = {'title': 'Votre ticket pour ' + ticket.event.title,
                'ticket': ticket,
-               'event' : ticket.event
+               'event': ticket.event
                }
 
     obj = ticket.user.username + ', vos billets pour l\'événement ' + ticket.event.title
@@ -166,19 +169,19 @@ def send_pdf_mail(ticket, pdf=None):
     email.attach_alternative(html_bd, "text/html")
     email.mixed_subtype = 'related'
 
-#Converting the EPITA img as an embedded image for the mail html
+    # Converting the EPITA img as an embedded image for the mail html
     fp = open(os.path.join(settings.BASE_DIR, 'billapp/static/billapp/img/logo-epita.png'), 'rb')
     epita_logo = MIMEImage(fp.read())
     fp.close()
     epita_logo.add_header('Content-ID', '<{}>'.format('logo-epita.png'))
 
-#Creation of the QRCode as an embedded image in the mail
+    # Creation of the QRCode as an embedded image in the mail
     qr_tmp = BytesIO()
     qr.save(qr_tmp, "PNG")
     qrcode = MIMEImage(qr_tmp.getvalue())
     qrcode.add_header('Content-ID', '<{}>'.format('qr-code.png'))
 
-#Generating the .ics attcach file
+    # Generating the .ics attcach file
     cal = make_ics(ticket).to_ical()
 
     email.attach(epita_logo)
@@ -187,6 +190,7 @@ def send_pdf_mail(ticket, pdf=None):
     email.attach('event.ics', cal, 'text/calendar')
 
     return email.send() == 1
+
 
 def send_approval_mail(ev, adm, path):
     """
@@ -216,6 +220,7 @@ def send_approval_mail(ev, adm, path):
 
     return send_mail(obj, text_bd, html_bd, targets)
 
+
 def send_registration(username, email):
     """
     Send mail to resp and president (if found) asking them to approve the event
@@ -230,6 +235,7 @@ def send_registration(username, email):
     html_bd = render_to_string("emails/email-registration.html", context)
 
     return send_mail(obj, text_bd, html_bd, [email])
+
 
 def send_validation_mail(ev, adm, path):
     """
@@ -339,6 +345,7 @@ def get_staff_form_from_event(event):
     staff_form = Staff_Form_Set(initial=list_form)
     return staff_form
 
+
 def send_modification_mail(ev, president, adm, link):
     """
     Informs ADM and/or president if an event has changed and need to be approved.
@@ -360,8 +367,8 @@ def send_modification_mail(ev, president, adm, link):
 
     return send_mail(obj, text_bd, html_bd, dest)
 
-def send_modification_notification_mail(ev, user, link):
 
+def send_modification_notification_mail(ev, user, link):
     context = {'title': 'Événement modifié: ' + ev.title,
                'link': link,
                'event': ev,
