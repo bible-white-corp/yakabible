@@ -40,7 +40,6 @@ class IndexTestCase(TestCase):
             assert asso.description[:10] in response
             assert 'href="/assos/{}/dashboard"'.format(pk) not in response
 
-
     def test_logged_admin(self):
         self.login("Admin", "admin")
         for asso in Association.objects.all():
@@ -52,7 +51,6 @@ class IndexTestCase(TestCase):
             assert asso.description[:10] in response
             assert 'href="/assos/{}/dashboard"'.format(pk) in response
 
-
     def test_logged_membre(self):
         self.login("Bureau_Antre", 'bureau_antre')
         pk = 1
@@ -63,4 +61,3 @@ class IndexTestCase(TestCase):
         assert asso.name in response
         assert asso.description[:10] in response
         assert 'href="/assos/{}/dashboard"'.format(pk) in response
-

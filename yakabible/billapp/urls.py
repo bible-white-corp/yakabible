@@ -6,7 +6,7 @@ from . import views_json
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
 
-        path('connection/', views.ConnectionView.as_view(), name='connection'),
+    path('connection/', views.ConnectionView.as_view(), name='connection'),
     path('registration/', views.RegistrationView.as_view(), name='registration'),
     path('registration/after/<int:pk>', views.AfterReg.as_view(), name='after_reg'),
     path('registration/unlock/<int:pk>', views.unlock_user, name="unlock_user"),
