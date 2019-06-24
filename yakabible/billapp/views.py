@@ -177,7 +177,9 @@ class RegistrationView(UserPassesTestMixin, generic.TemplateView):
             group_locked = Group.objects.get(name='Locked')
             group_locked.user_set.add(user)
             #  login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            send_registration(user.first_name + ' ' + user.last_name, user.email)
+            link = request.build_absolute_uri().split('/registration')[0]
+            link += reverse('unlock_user', args=[user.pk])
+            send_registration(user.first_name + ' ' + user.last_name, user.email, link)
             return HttpResponseRedirect(reverse('after_reg', args=[user.pk]))
 
         return render(request, self.template_name, {'form': form, 'error': True})

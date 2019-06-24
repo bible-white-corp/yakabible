@@ -221,13 +221,14 @@ def send_approval_mail(ev, adm, path):
     return send_mail(obj, text_bd, html_bd, targets)
 
 
-def send_registration(username, email):
+def send_registration(username, email, link):
     """
     Send mail to resp and president (if found) asking them to approve the event
     """
 
     context = {'title': 'Bienvenue !',
                'fullname': username,
+               'link': link
                }
 
     obj = '[BILLETERIE][EPITA] Bienvenue!'
