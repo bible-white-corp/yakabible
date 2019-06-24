@@ -377,4 +377,4 @@ def send_modification_notification_mail(ev, user, link):
     html_bd = render_to_string("emails/email-modified-notif-template.html", context)
     obj = '[MODIFICATION][' + ev.association.name + '] Événement modifié: ' + ev.title
 
-    send_mail(obj, text_bd, html_bd, [user])
+    return send_mail(obj, text_bd, html_bd, [user])
