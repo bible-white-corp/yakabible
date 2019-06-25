@@ -59,9 +59,9 @@
                     </li>
                 {% endif %}
                 <li>
-                    <form>
+                    <form method="get" action="{% url 'search' %}">
                         <div class="input-group ml-3">
-                            <input type="text" class="form-control" placeholder="Search">
+                            <input name="q" type="text" class="form-control" placeholder="Recherche">
                             <div class="input-group-btn">
                                 <button class="btn btn-default" type="submit">
                                     <i class="fas fa-search"></i>

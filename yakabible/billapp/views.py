@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, FileResponse, HttpResponseNotFound, \
     HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
@@ -652,3 +653,17 @@ def unlock_user(request, pk):
     group_locked = Group.objects.get(name='Locked')
     group_locked.user_set.remove(user)
     return HttpResponseRedirect(reverse("connection"))
+
+
+def search_view(request):
+    if "q" not in request.GET:
+        return HttpResponseRedirect(reverse("index"))
+    query = request.GET.get("q")
+    print(query)
+    q_events = Event.objects.all().filter(title__icontains=query)
+    q_assos = Association.objects.all().filter(name__icontains=query)
+    q_users = User.objects.all().filter(
+       Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(username__icontains=query))
+    return render(request, "billapp/search.html", {"q_assos": q_assos,
+                                                   "q_events": q_events,
+                                                   "q_users": q_users})

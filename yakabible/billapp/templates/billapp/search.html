@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tools %}
+
+{% block sup_head %}
+{% endblock sup_head %}
+
+{% block title %}
+    Profil
+{% endblock title %}
+
+{% block content %}
+    <div class="card mt-3">
+        <h5 class="card-header">Recherche : {{ request.GET.q }}</h5>
+        <div class="container">
+            <h5 class="mt-1">Événements :</h5>
+            {% for events in q_events %}
+                <div class="list-group-item list-group-item-action">
+                [{{ events.begin.date }}]
+                <a href="{% url 'event' pk=events.pk %}">
+                   {{ events.title }} </a>
+                par
+                <a href="{% url 'association' pk=events.association.pk %}">
+                    {{ events.association }}
+                </a>
+                </div>
+            {% empty %}
+                <a href="#" class="list-group-item list-group-item-action">
+                    Aucun événement ne correspond à la recherche.
+                </a>
+            {% endfor %}
+            <h5 class="mt-1">Associations :</h5>
+            {% for assos in q_assos %}
+                <a href="{% url 'association' pk=assos.pk %}" class="list-group-item list-group-item-action">
+                    {{ assos.name }}
+                </a>
+            {% empty %}
+                <a href="#" class="list-group-item list-group-item-action">
+                    Aucune association ne correspond à la recherche.
+                </a>
+            {% endfor %}
+            <h5 class="mt-1">Profils :</h5>
+            {% for u in q_users %}
+                <a href="{% url 'profile' pk=u.pk %}" class="list-group-item list-group-item-action">
+                    {{ u.first_name }} {{ u.last_name }} / {{ u.username }}
+                </a>
+            {% empty %}
+                <a href="#" class="list-group-item list-group-item-action">
+                    Aucune profil ne correspond à la recherche.
+                </a>
+            {% endfor %}
+            <br class="mb-1">
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sup_foot %}
+{% endblock sup_foot %}
