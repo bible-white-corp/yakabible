@@ -26,7 +26,7 @@ class MailTestCase(TestCase):
         assert send_approval_mail(event, adm, "Test")
 
     def test_send_registration(self):
-        assert send_registration("TestCase", "yakabible+test@gmail.com")
+        assert send_registration("TestCase", "yakabible+test@gmail.com", "")
 
     def test_send_validation_mail(self):
         [event] = MyEvent.objects.all()[:1]
