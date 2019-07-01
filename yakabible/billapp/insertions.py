@@ -59,7 +59,7 @@ def insert_ticket(user, e, ionis=False):
         event=e,
         category=False,
         ionis=ionis,
-        state=0
+        state=1
     )
     t.save()
     return t
