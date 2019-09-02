@@ -1,4 +1,4 @@
-application_yakabible/* linguist-vendored
-documentation/* linguist-vendored
-livrables/* linguist-vendored
-yakabible/yakabible/billapp/static/billapp/* linguist-vendored
+* linguist-vendored
+*.py linguist-vendored=false
+*.html linguist-vendored=false
+*.css linguist-vendored=false
