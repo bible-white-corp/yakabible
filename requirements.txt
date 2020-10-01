@@ -1,23 +1,23 @@
-Django==2.2
-Pillow==6.0.0
+Django==3.1.2
+Pillow==7.2.0
 qrcode==6.1
-reportlab==3.5.13
+reportlab==3.5.51
 
-python-jose==3.0.1
-social-auth-app-django==3.1.0
-social-auth-backend-epita==0.0.4
+python-jose==3.2.0
+social-auth-app-django==4.0.0
+social-auth-backend-epita==1.0.2
 
-docutils==0.14
+docutils==0.16
 pyyaml
 
-pytest==4.4.2
-pytest-django==3.4.8
-coverage==4.5.3
-pytest-cov==2.7.1
-flake8==3.7.7
+pytest==6.1.0
+pytest-django==3.10.0
+coverage==5.3
+pytest-cov==2.10.1
+flake8==3.8.3
 
-django-paypal==0.5.0
-django-braces==1.13.0
-icalendar==4.0.3
+django-paypal==1.0.0
+django-braces==1.14.0
+icalendar==4.0.7
 
-whitenoise==4.1.2
+whitenoise==5.2.0
